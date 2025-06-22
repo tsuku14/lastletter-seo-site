@@ -1,0 +1,16 @@
+name: 自動記事生成
+
+on:
+  schedule:
+    # 毎日朝9時（日本時間）に実行
+    - cron: '0 0 * * *'
+  workflow_dispatch: # 手動実行も可能
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: テスト実行
+        run: echo "自動化の準備ができました！"
+        
