@@ -9,32 +9,45 @@ if (!apiKey) {
   process.exit(1);
 }
 
-// キーワードリスト（より具体的に）
+console.log('APIキー確認: OK');
+
+// キーワードリスト
 const keywords = [
-  { main: '終活 始め方', sub: ['終活とは', '終活 年齢', '終活 チェックリスト'] },
-  { main: 'エンディングノート 書き方', sub: ['エンディングノート テンプレート', 'エンディングノート 項目', 'エンディングノート 無料'] },
-  { main: '相続手続き 流れ', sub: ['相続手続き 期限', '相続手続き 必要書類', '相続手続き 費用'] },
-  { main: '訃報連絡 文例', sub: ['訃報連絡 マナー', '訃報連絡 LINE', '訃報連絡 メール'] },
-  { main: '遺言書 書き方', sub: ['遺言書 種類', '遺言書 費用', '遺言書 保管方法'] }
+  '終活の始め方',
+  'エンディングノートの書き方',
+  '相続手続きの流れ',
+  '訃報連絡の文例',
+  '遺言書の種類と特徴'
 ];
 
-// OpenAI API呼び出し関数
-async function callOpenAI(prompt) {
+// OpenAI API呼び出し（シンプル版）
+async function callOpenAI(keyword) {
   return new Promise((resolve, reject) => {
-    const data = JSON.stringify({
+    const prompt = `「${keyword}」について、日本語で1500文字程度の詳しい解説記事を書いてください。
+
+以下の構成で書いてください：
+1. はじめに（なぜこのテーマが重要か）
+2. 基本知識の解説
+3. 具体的な手順や方法
+4. 注意点
+5. まとめ
+
+読みやすく、初心者にも分かりやすい文章でお願いします。`;
+
+    const requestData = JSON.stringify({
       model: 'gpt-3.5-turbo',
       messages: [
         {
           role: 'system',
-          content: 'あなたは終活・相続の専門家です。SEOに最適化された、読者に価値のある記事を書いてください。'
+          content: 'あなたは日本の終活・相続の専門家です。分かりやすく丁寧な日本語で記事を書いてください。'
         },
         {
           role: 'user',
           content: prompt
         }
       ],
-      max_tokens: 2500,
-      temperature: 0.7
+      temperature: 0.7,
+      max_tokens: 2000
     });
 
     const options = {
@@ -45,57 +58,48 @@ async function callOpenAI(prompt) {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`,
-        'Content-Length': data.length
+        'Content-Length': Buffer.byteLength(requestData)
       }
     };
 
     const req = https.request(options, (res) => {
-      let responseData = '';
+      let responseBody = '';
       
       res.on('data', (chunk) => {
-        responseData += chunk;
+        responseBody += chunk;
       });
       
       res.on('end', () => {
         try {
-          const response = JSON.parse(responseData);
-          if (response.choices && response.choices[0]) {
-            resolve(response.choices[0].message.content);
+          console.log('APIレスポンスステータス:', res.statusCode);
+          const parsed = JSON.parse(responseBody);
+          
+          if (res.statusCode !== 200) {
+            console.error('APIエラー:', responseBody);
+            reject(new Error(`API Error: ${res.statusCode}`));
+            return;
+          }
+          
+          if (parsed.choices && parsed.choices[0] && parsed.choices[0].message) {
+            resolve(parsed.choices[0].message.content);
           } else {
-            reject(new Error('Invalid response from OpenAI'));
+            reject(new Error('予期しないレスポンス形式'));
           }
         } catch (error) {
+          console.error('パースエラー:', error);
           reject(error);
         }
       });
     });
 
-    req.on('error', reject);
-    req.write(data);
+    req.on('error', (error) => {
+      console.error('リクエストエラー:', error);
+      reject(error);
+    });
+
+    req.write(requestData);
     req.end();
   });
-}
-
-// 記事生成プロンプト
-function createPrompt(keyword) {
-  return `
-「${keyword.main}」について、以下の構成で2000文字以上の詳細な記事を書いてください。
-
-【記事構成】
-1. 導入（読者の悩みに共感）- 200文字
-2. ${keyword.main}の基本知識 - 400文字
-3. 具体的な方法・手順（箇条書きを含む）- 600文字
-4. 注意点やポイント - 400文字
-5. よくある質問（3つ）- 300文字
-6. まとめ - 100文字
-
-【重要な指示】
-- 関連キーワード「${keyword.sub.join('、')}」を自然に含める
-- 読者の感情に寄り添う温かい文体
-- 具体例を豊富に含める
-- 専門用語は分かりやすく解説
-- マークダウン形式で出力（見出しは##を使用）
-`;
 }
 
 // メイン処理
@@ -104,38 +108,43 @@ async function generateArticle() {
   const dayIndex = today.getDate() % keywords.length;
   const todayKeyword = keywords[dayIndex];
   
-  console.log(`本日のキーワード: ${todayKeyword.main}`);
-  console.log('OpenAI APIで記事を生成中...');
+  console.log(`本日のキーワード: ${todayKeyword}`);
+  console.log('OpenAI APIを呼び出し中...');
   
   try {
     // OpenAI APIで記事生成
-    const content = await callOpenAI(createPrompt(todayKeyword));
+    const articleContent = await callOpenAI(todayKeyword);
+    console.log('記事生成成功！文字数:', articleContent.length);
     
     // articlesフォルダを作成
     const dir = path.join(process.cwd(), 'articles');
     await fs.mkdir(dir, { recursive: true });
     
-    // ファイル名を生成
-    const filename = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}-${todayKeyword.main.replace(/\s+/g, '-')}.md`;
+    // ファイル名を生成（日付とキーワード）
+    const dateStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    const filename = `${dateStr}-${todayKeyword.replace(/\s+/g, '-')}.md`;
     const filepath = path.join(dir, filename);
     
-    // フロントマターを追加
-    const fullContent = `---
-title: "${todayKeyword.main}について知っておくべきこと"
-date: "${today.toISOString()}"
-keywords: ["${todayKeyword.main}", "${todayKeyword.sub.join('", "')}"]
-description: "${todayKeyword.main}について詳しく解説。初心者にも分かりやすく、実践的な情報をお届けします。"
----
+    // マークダウン形式で保存
+    const fullContent = `# ${todayKeyword}
 
-${content}`;
+*作成日: ${today.toLocaleDateString('ja-JP')}*
+
+${articleContent}
+
+---
+*この記事は自動生成されました。*`;
     
-    // ファイルに保存
-    await fs.writeFile(filepath, fullContent);
+    await fs.writeFile(filepath, fullContent, 'utf8');
     
-    console.log(`✅ 記事を生成しました: ${filename}`);
-    console.log(`文字数: ${content.length}文字`);
+    console.log(`✅ 記事を保存しました: ${filename}`);
   } catch (error) {
     console.error('❌ エラーが発生しました:', error.message);
+    // エラーでも空のファイルを作成（デバッグ用）
+    const dir = path.join(process.cwd(), 'articles');
+    await fs.mkdir(dir, { recursive: true });
+    const errorFile = path.join(dir, `error-${Date.now()}.txt`);
+    await fs.writeFile(errorFile, `Error: ${error.message}\n${error.stack}`, 'utf8');
     process.exit(1);
   }
 }
@@ -143,4 +152,7 @@ ${content}`;
 // 実行
 generateArticle()
   .then(() => console.log('🎉 完了！'))
-  .catch(err => console.error('エラー:', err));
+  .catch(err => {
+    console.error('最終エラー:', err);
+    process.exit(1);
+  });
