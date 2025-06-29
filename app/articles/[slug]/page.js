@@ -35,12 +35,53 @@ export async function generateStaticParams() {
   return slugs.map(slug => ({ slug }))
 }
 
+// SEO用のメタデータを生成
+export async function generateMetadata({ params }) {
+  const article = getArticle(params.slug)
+  
+  if (!article) {
+    return {}
+  }
+  
+  // タイトルを抽出
+  const titleMatch = article.content.match(/^# (.+)$/m)
+  const title = titleMatch ? titleMatch[1] : params.slug
+  
+  // 最初の段落を説明文として使用
+  const paragraphs = article.content.split('\n').filter(line => line.trim() && !line.startsWith('#') && !line.startsWith('*'))
+  const description = paragraphs[0] ? paragraphs[0].substring(0, 160) : `${title}について詳しく解説します。`
+  
+  return {
+    title: `${title} | 終活・相続の総合情報サイト`,
+    description: description,
+    keywords: `${title},終活,相続,エンディングノート,遺言書,訃報連絡`,
+    openGraph: {
+      title: title,
+      description: description,
+      type: 'article',
+      url: `https://lastletter-seo-site.vercel.app/articles/${params.slug}/`,
+    },
+    twitter: {
+      card: 'summary',
+      title: title,
+      description: description,
+    },
+    alternates: {
+      canonical: `https://lastletter-seo-site.vercel.app/articles/${params.slug}/`,
+    },
+  }
+}
+
 export default function ArticlePage({ params }) {
   const article = getArticle(params.slug)
   
   if (!article) {
     notFound()
   }
+  
+  // 構造化データ用のタイトル抽出
+  const titleMatch = article.content.match(/^# (.+)$/m)
+  const title = titleMatch ? titleMatch[1] : params.slug
   
   // 簡易的なMarkdownパーサー
   const htmlContent = article.content
@@ -62,8 +103,35 @@ export default function ArticlePage({ params }) {
     })
     .join('\n')
   
+  // 構造化データ（JSON-LD）
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": title,
+    "author": {
+      "@type": "Organization",
+      "name": "LAST LETTER Info"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "LAST LETTER Info",
+      "url": "https://lastletter-seo-site.vercel.app"
+    },
+    "datePublished": new Date().toISOString(),
+    "dateModified": new Date().toISOString(),
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://lastletter-seo-site.vercel.app/articles/${params.slug}/`
+    }
+  }
+  
   return (
     <article>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      
       <div 
         dangerouslySetInnerHTML={{ __html: htmlContent }}
         style={{ lineHeight: '1.8', fontSize: '1.1rem' }}
