@@ -13,6 +13,7 @@ function getArticle(slug) {
       content: fileContents
     }
   } catch (error) {
+    console.error('Article not found:', slug, error)
     return null
   }
 }
@@ -26,12 +27,14 @@ function getAllArticleSlugs() {
       .filter(filename => filename.endsWith('.md'))
       .map(filename => filename.replace('.md', ''))
   } catch (error) {
+    console.error('Error reading articles directory:', error)
     return []
   }
 }
 
 export async function generateStaticParams() {
   const slugs = getAllArticleSlugs()
+  console.log('Generated slugs:', slugs) // デバッグ用
   return slugs.map(slug => ({ slug }))
 }
 
@@ -97,6 +100,8 @@ export default function ArticlePage({ params }) {
         return `<p><em>${line.slice(1, -1)}</em></p>`
       } else if (line.trim() === '') {
         return '<br>'
+      } else if (line.trim() === '---') {
+        return '<hr>'
       } else {
         return `<p>${line}</p>`
       }
