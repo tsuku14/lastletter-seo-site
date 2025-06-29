@@ -2,14 +2,36 @@ name: 自動記事生成
 
 on:
   schedule:
-    # 毎日朝9時（日本時間）に実行
     - cron: '0 0 * * *'
-  workflow_dispatch: # 手動実行も可能
+  workflow_dispatch:
 
 jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: テスト実行
-        run: echo "自動化の準備ができました！"
+      
+      - name: Node.js セットアップ
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: パッケージインストール
+        run: npm install
+      
+      - name: 記事生成
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: npm run generate
+      
+      - name: 変更をコミット
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git diff --quiet && git diff --staged --quiet || git commit -m "🤖 自動生成: $(date +'%Y-%m-%d %H:%M')"
+      
+      - name: プッシュ
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
