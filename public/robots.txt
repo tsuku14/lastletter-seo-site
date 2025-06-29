@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Sitemap: https://lastletter-seo-site.vercel.app/sitemap.xml
+
+# クロール速度の制御
+Crawl-delay: 1
