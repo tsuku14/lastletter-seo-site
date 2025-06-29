@@ -2,56 +2,40 @@ import fs from 'fs'
 import path from 'path'
 import { notFound } from 'next/navigation'
 
-// キャッシュを無効化
 export const dynamic = 'force-dynamic'
 
 function getArticle(slug) {
   const articlesDirectory = path.join(process.cwd(), 'articles')
   
   try {
-    // URLデコードされたslugも試す
-    const possibleFilenames = [
-      `${slug}.md`,
-      `${decodeURIComponent(slug)}.md`
-    ]
+    console.log('Requested slug:', slug)
     
-    console.log('Looking for file with slug:', slug)
-    console.log('Possible filenames:', possibleFilenames)
-    
-    for (let filename of possibleFilenames) {
-      const filePath = path.join(articlesDirectory, filename)
-      try {
-        const fileContents = fs.readFileSync(filePath, 'utf8')
-        console.log('Found file:', filename)
-        return {
-          slug,
-          content: fileContents
-        }
-      } catch (error) {
-        console.log('File not found:', filename)
-      }
-    }
-    
-    // 全ファイルを検索してマッチするものを探す
+    // すべてのファイルを取得
     const allFiles = fs.readdirSync(articlesDirectory)
-    console.log('All files in directory:', allFiles)
+    const mdFiles = allFiles.filter(file => file.endsWith('.md'))
     
-    for (let filename of allFiles) {
-      if (filename.endsWith('.md')) {
-        const fileSlug = filename.replace('.md', '')
-        if (fileSlug === slug || encodeURIComponent(fileSlug) === slug || decodeURIComponent(slug) === fileSlug) {
-          const filePath = path.join(articlesDirectory, filename)
-          const fileContents = fs.readFileSync(filePath, 'utf8')
-          console.log('Matched file:', filename)
-          return {
-            slug,
-            content: fileContents
-          }
-        }
-      }
+    console.log('Available md files:', mdFiles)
+    
+    // 完全一致を探す
+    const exactMatch = mdFiles.find(file => file.replace('.md', '') === slug)
+    if (exactMatch) {
+      const filePath = path.join(articlesDirectory, exactMatch)
+      const content = fs.readFileSync(filePath, 'utf8')
+      console.log('Found exact match:', exactMatch)
+      return { slug, content }
     }
     
-    console.error('Article not found for slug:', slug)
+    // URLデコードして再試行
+    const decodedSlug = decodeURIComponent(slug)
+    const decodedMatch = mdFiles.find(file => file.replace('.md', '') === decodedSlug)
+    if (decodedMatch) {
+      const filePath = path.join(articlesDirectory, decodedMatch)
+      const content = fs.readFileSync(filePath, 'utf8')
+      console.log('Found decoded match:', decodedMatch)
+      return { slug, content }
+    }
+    
+    console.log('No match found for slug:', slug)
     return null
   } catch (error) {
     console.error('Error in getArticle:', error)
@@ -59,80 +43,42 @@ function getArticle(slug) {
   }
 }
 
-function getAllArticleSlugs() {
-  const articlesDirectory = path.join(process.cwd(), 'articles')
-  
+export async function generateStaticParams() {
   try {
+    const articlesDirectory = path.join(process.cwd(), 'articles')
     const filenames = fs.readdirSync(articlesDirectory)
     const slugs = filenames
       .filter(filename => filename.endsWith('.md'))
       .map(filename => filename.replace('.md', ''))
     
-    console.log('Generated slugs for static params:', slugs)
-    return slugs
+    console.log('Generating static params for slugs:', slugs)
+    return slugs.map(slug => ({ slug }))
   } catch (error) {
-    console.error('Error reading articles directory:', error)
+    console.error('Error generating static params:', error)
     return []
   }
 }
 
-export async function generateStaticParams() {
-  const slugs = getAllArticleSlugs()
-  return slugs.map(slug => ({ slug: encodeURIComponent(slug) }))
-}
-
-// SEO用のメタデータを生成
-export async function generateMetadata({ params }) {
-  const decodedSlug = decodeURIComponent(params.slug)
-  const article = getArticle(decodedSlug)
-  
-  if (!article) {
-    return {}
-  }
-  
-  // タイトルを抽出
-  const titleMatch = article.content.match(/^# (.+)$/m)
-  const title = titleMatch ? titleMatch[1] : decodedSlug
-  
-  // 最初の段落を説明文として使用
-  const paragraphs = article.content.split('\n').filter(line => line.trim() && !line.startsWith('#') && !line.startsWith('*'))
-  const description = paragraphs[0] ? paragraphs[0].substring(0, 160) : `${title}について詳しく解説します。`
-  
-  return {
-    title: `${title} | 終活・相続の総合情報サイト`,
-    description: description,
-    keywords: `${title},終活,相続,エンディングノート,遺言書,訃報連絡`,
-  }
-}
-
 export default function ArticlePage({ params }) {
-  const decodedSlug = decodeURIComponent(params.slug)
-  const article = getArticle(decodedSlug)
+  console.log('ArticlePage called with params:', params)
+  
+  const article = getArticle(params.slug)
   
   if (!article) {
-    console.error('Article not found, calling notFound()')
+    console.log('Article not found, returning 404')
     notFound()
   }
   
-  // 簡易的なMarkdownパーサー
+  // 簡易Markdownパーサー
   const htmlContent = article.content
     .split('\n')
     .map(line => {
-      if (line.startsWith('# ')) {
-        return `<h1>${line.substring(2)}</h1>`
-      } else if (line.startsWith('## ')) {
-        return `<h2>${line.substring(3)}</h2>`
-      } else if (line.startsWith('### ')) {
-        return `<h3>${line.substring(4)}</h3>`
-      } else if (line.startsWith('*') && line.endsWith('*')) {
-        return `<p><em>${line.slice(1, -1)}</em></p>`
-      } else if (line.trim() === '') {
-        return '<br>'
-      } else if (line.trim() === '---') {
-        return '<hr>'
-      } else {
-        return `<p>${line}</p>`
-      }
+      if (line.startsWith('# ')) return `<h1>${line.substring(2)}</h1>`
+      if (line.startsWith('## ')) return `<h2>${line.substring(3)}</h2>`
+      if (line.startsWith('### ')) return `<h3>${line.substring(4)}</h3>`
+      if (line.trim() === '') return '<br>'
+      if (line.trim() === '---') return '<hr>'
+      return `<p>${line}</p>`
     })
     .join('\n')
   
@@ -142,9 +88,7 @@ export default function ArticlePage({ params }) {
         dangerouslySetInnerHTML={{ __html: htmlContent }}
         style={{ lineHeight: '1.8', fontSize: '1.1rem' }}
       />
-      
       <hr style={{ margin: '3rem 0' }} />
-      
       <p>
         <a href="/" style={{ color: '#0066cc' }}>← トップページに戻る</a>
       </p>
