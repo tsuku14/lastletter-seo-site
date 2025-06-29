@@ -7,24 +7,37 @@ function getArticles() {
   
   try {
     const filenames = fs.readdirSync(articlesDirectory)
+    console.log('Found files:', filenames) // デバッグ用
     
     const articles = filenames
       .filter(filename => filename.endsWith('.md'))
       .map(filename => {
         const filePath = path.join(articlesDirectory, filename)
         const fileContents = fs.readFileSync(filePath, 'utf8')
-        const title = fileContents.split('\n')[0].replace('# ', '')
+        
+        // # で始まる最初の行をタイトルとして抽出
+        const lines = fileContents.split('\n')
+        let title = filename.replace('.md', '')
+        
+        for (let line of lines) {
+          if (line.startsWith('# ')) {
+            title = line.replace('# ', '').trim()
+            break
+          }
+        }
         
         return {
           slug: filename.replace('.md', ''),
-          title: title || filename.replace('.md', ''),
+          title: title,
           filename: filename
         }
       })
-      .reverse() // 新しい記事を上に
+      .sort((a, b) => b.filename.localeCompare(a.filename)) // 新しい順にソート
     
+    console.log('Processed articles:', articles) // デバッグ用
     return articles
   } catch (error) {
+    console.error('Error reading articles:', error)
     return []
   }
 }
