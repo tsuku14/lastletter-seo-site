@@ -2,23 +2,29 @@ import fs from 'fs'
 import path from 'path'
 import Link from 'next/link'
 
+export const dynamic = 'force-dynamic'
+
 function getArticles() {
   const articlesDirectory = path.join(process.cwd(), 'articles')
   
   try {
+    console.log('=== DEBUG: Reading articles directory ===')
     const filenames = fs.readdirSync(articlesDirectory)
-    console.log('Found files:', filenames) // デバッグ用
+    console.log('All files found:', filenames)
     
-    const articles = filenames
-      .filter(filename => filename.endsWith('.md'))
-      .map(filename => {
-        const filePath = path.join(articlesDirectory, filename)
+    const markdownFiles = filenames.filter(filename => filename.endsWith('.md'))
+    console.log('Markdown files:', markdownFiles)
+    
+    const articles = markdownFiles.map(filename => {
+      console.log('Processing file:', filename)
+      const filePath = path.join(articlesDirectory, filename)
+      
+      try {
         const fileContents = fs.readFileSync(filePath, 'utf8')
-        
-        // # で始まる最初の行をタイトルとして抽出
         const lines = fileContents.split('\n')
         let title = filename.replace('.md', '')
         
+        // タイトル抽出
         for (let line of lines) {
           if (line.startsWith('# ')) {
             title = line.replace('# ', '').trim()
@@ -26,18 +32,24 @@ function getArticles() {
           }
         }
         
+        const slug = filename.replace('.md', '')
+        console.log('Generated slug:', slug)
+        
         return {
-          slug: filename.replace('.md', ''),
+          slug: slug,
           title: title,
           filename: filename
         }
-      })
-      .sort((a, b) => b.filename.localeCompare(a.filename)) // 新しい順にソート
+      } catch (error) {
+        console.error('Error reading file:', filename, error)
+        return null
+      }
+    }).filter(article => article !== null)
     
-    console.log('Processed articles:', articles) // デバッグ用
-    return articles
+    console.log('Final articles array:', articles.map(a => a.slug))
+    return articles.sort((a, b) => b.filename.localeCompare(a.filename))
   } catch (error) {
-    console.error('Error reading articles:', error)
+    console.error('Error in getArticles:', error)
     return []
   }
 }
@@ -56,13 +68,15 @@ export default function HomePage() {
         大切な人のために知っておくべき情報を分かりやすく解説します。
       </p>
       
-      <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>最新記事</h2>
+      <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>
+        最新記事 (デバッグ: {articles.length}記事検出)
+      </h2>
       
       {articles.length === 0 ? (
         <p>記事がまだありません。</p>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {articles.map(article => (
+          {articles.slice(0, 5).map(article => (
             <div 
               key={article.slug}
               style={{
@@ -81,7 +95,8 @@ export default function HomePage() {
                 </Link>
               </h3>
               <p style={{ margin: 0, color: '#666', fontSize: '0.9rem' }}>
-                {article.filename}
+                ファイル名: {article.filename}<br/>
+                Slug: {article.slug}
               </p>
             </div>
           ))}
