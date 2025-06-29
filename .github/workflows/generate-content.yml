@@ -28,9 +28,9 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          git pull origin main
           git add -A
           git diff --quiet && git diff --staged --quiet || git commit -m "🤖 自動生成: $(date +'%Y-%m-%d %H:%M')"
-      
       - name: プッシュ
         uses: ad-m/github-push-action@master
         with:
