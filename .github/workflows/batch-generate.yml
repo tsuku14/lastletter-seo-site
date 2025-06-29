@@ -1,0 +1,38 @@
+name: バッチ記事生成（30記事）
+
+on:
+  workflow_dispatch:  # 手動実行のみ
+
+jobs:
+  batch-generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60  # 最大60分
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Node.js セットアップ
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: 30記事をバッチ生成
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node scripts/generate-batch.js
+      
+      - name: サイトマップ生成
+        run: node scripts/generate-sitemap.js
+      
+      - name: 変更をコミット
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git pull origin main
+          git add -A
+          git diff --quiet && git diff --staged --quiet || git commit -m "🚀 バッチ生成: 30記事を追加"
+      
+      - name: プッシュ
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
