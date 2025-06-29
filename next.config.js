@@ -5,6 +5,9 @@ const nextConfig = {
     unoptimized: true,
   },
   trailingSlash: true,
+  experimental: {
+    isrMemoryCacheSize: 0, // ISRキャッシュを無効化
+  },
 }
 
 module.exports = nextConfig
