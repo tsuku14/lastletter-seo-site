@@ -47,7 +47,7 @@ async function callOpenAI(keyword) {
         }
       ],
       temperature: 0.7,
-      max_tokens: 2000
+      max_tokens: 3500
     });
 
     const options = {
