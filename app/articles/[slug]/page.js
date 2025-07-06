@@ -15,7 +15,6 @@ function getArticle(slug) {
     
     let targetFile = null
     
-    // 複数の方法でマッチング
     targetFile = mdFiles.find(file => file.replace('.md', '') === slug)
     
     if (!targetFile) {
@@ -88,7 +87,7 @@ function generateTableOfContents(content) {
 }
 
 function estimateReadingTime(content) {
-  const wordsPerMinute = 400 // 日本語の平均読書速度
+  const wordsPerMinute = 400
   const wordCount = content.length
   const minutes = Math.ceil(wordCount / wordsPerMinute)
   return minutes
@@ -176,7 +175,6 @@ export default function ArticlePage({ params }) {
   const titleMatch = article.content.match(/^# (.+)$/m)
   const title = titleMatch ? titleMatch[1] : article.slug
   
-  // 改良版Markdownパーサー
   const htmlContent = article.content
     .split('\n')
     .map((line, index) => {
@@ -245,13 +243,13 @@ export default function ArticlePage({ params }) {
           color: '#64748b'
         }}>
           <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-            ⏱️ 読了時間: 約{readingTime}分
+            読了時間: 約{readingTime}分
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-            📝 更新日: {new Date().toLocaleDateString('ja-JP')}
+            更新日: {new Date().toLocaleDateString('ja-JP')}
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-            🏷️ カテゴリ: 終活・相続
+            カテゴリ: 終活・相続
           </span>
         </div>
       </div>
@@ -270,7 +268,7 @@ export default function ArticlePage({ params }) {
             color: '#0369a1',
             fontSize: '1.1rem',
             fontWeight: '600'
-          }}>📋 この記事の内容</h3>
+          }}>この記事の内容</h3>
           <ul style={{
             listStyle: 'none',
             padding: 0,
@@ -320,7 +318,7 @@ export default function ArticlePage({ params }) {
           fontSize: '1.5rem',
           fontWeight: '600'
         }}>
-          📮 LAST LETTER - 大切な人への最後の手紙
+          LAST LETTER - 大切な人への最後の手紙
         </h3>
         <p style={{
           margin: '0 0 1.5rem 0',
@@ -337,7 +335,7 @@ export default function ArticlePage({ params }) {
           borderRadius: '8px',
           fontSize: '0.9rem'
         }}>
-          💡 生前に登録した連絡先に、自動で訃報をお知らせするサービスです
+          生前に登録した連絡先に、自動で訃報をお知らせするサービスです
         </div>
       </div>
 
@@ -350,7 +348,7 @@ export default function ArticlePage({ params }) {
             marginBottom: '1.5rem',
             fontWeight: '600'
           }}>
-            📖 関連記事
+            関連記事
           </h3>
           <div style={{
             display: 'grid',
