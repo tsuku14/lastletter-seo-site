@@ -1,24 +1,31 @@
 {
   "name": "lastletter-seo-site",
   "version": "1.0.0",
-  "description": "終活・相続の自動SEOサイト",
+  "description": "終活・相続の総合情報サイト",
+  "main": "index.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "generate": "node scripts/generate-article.js"
+    "lint": "next lint",
+    "generate": "node scripts/generate-batch.js"
   },
   "dependencies": {
     "next": "14.0.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "gray-matter": "^4.0.3",
-    "remark": "^15.0.1",
-    "remark-html": "^16.0.1"
+    "react": "^18",
+    "react-dom": "^18",
+    "openai": "^4.20.1"
   },
   "devDependencies": {
-    "@types/node": "20.9.0",
-    "@types/react": "18.2.37",
-    "typescript": "5.2.2"
-  }
+    "eslint": "^8",
+    "eslint-config-next": "14.0.0"
+  },
+  "keywords": [
+    "終活",
+    "相続",
+    "エンディングノート",
+    "LAST LETTER"
+  ],
+  "author": "LAST LETTER",
+  "license": "MIT"
 }
