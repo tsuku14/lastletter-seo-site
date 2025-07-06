@@ -178,18 +178,7 @@ export default function HomePage() {
                   boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
                   position: 'relative',
                   overflow: 'hidden'
-                }}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-4px)'
-                  e.currentTarget.style.boxShadow = '0 10px 30px rgba(30, 58, 138, 0.15)'
-                  e.currentTarget.style.borderColor = '#3730a3'
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.05)'
-                  e.currentTarget.style.borderColor = '#e2e8f0'
-                }}
-                >
+                }}>
                   {/* カテゴリバッジ */}
                   <div style={{
                     position: 'absolute',
@@ -237,7 +226,7 @@ export default function HomePage() {
                     gap: '0.5rem'
                   }}>
                     <span>続きを読む</span>
-                    <span style={{ transition: 'transform 0.3s ease' }}>→</span>
+                    <span>→</span>
                   </div>
                 </article>
               </Link>
