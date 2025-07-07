@@ -1,17 +1,16 @@
-import Link from 'next/link'
-
 export const metadata = {
   title: '終活・相続の総合情報サイト',
   description: '終活、エンディングノート、相続手続きなど、大切な人のための情報を分かりやすく解説',
+  charset: 'utf-8'
 }
 
 export default function RootLayout({ children }) {
   return (
     <html lang="ja">
       <head>
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body style={{ 
         margin: 0, 
@@ -26,10 +25,7 @@ export default function RootLayout({ children }) {
           background: 'linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%)',
           color: 'white', 
           padding: '0',
-          boxShadow: '0 4px 20px rgba(30, 58, 138, 0.15)',
-          position: 'sticky',
-          top: 0,
-          zIndex: 1000
+          boxShadow: '0 4px 20px rgba(30, 58, 138, 0.15)'
         }}>
           <div style={{
             maxWidth: '1200px',
@@ -40,7 +36,7 @@ export default function RootLayout({ children }) {
             alignItems: 'center'
           }}>
             <div>
-              <Link href="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <a href="/" style={{ textDecoration: 'none', color: 'inherit' }}>
                 <h1 style={{ 
                   margin: 0, 
                   fontSize: '1.8rem', 
@@ -58,7 +54,7 @@ export default function RootLayout({ children }) {
                 }}>
                   専門家監修による信頼できる情報をお届け
                 </p>
-              </Link>
+              </a>
             </div>
             <div style={{
               display: 'flex',
