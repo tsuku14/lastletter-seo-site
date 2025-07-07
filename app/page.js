@@ -84,17 +84,14 @@ export default function HomePage() {
             marginTop: '3rem'
           }}>
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>📚</div>
               <div style={{ fontSize: '1.8rem', fontWeight: '600', color: '#1e3a8a' }}>{articles.length}+</div>
               <div style={{ color: '#64748b', fontSize: '0.9rem' }}>専門記事</div>
             </div>
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🔄</div>
               <div style={{ fontSize: '1.8rem', fontWeight: '600', color: '#1e3a8a' }}>毎日</div>
               <div style={{ color: '#64748b', fontSize: '0.9rem' }}>新規更新</div>
             </div>
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>✅</div>
               <div style={{ fontSize: '1.8rem', fontWeight: '600', color: '#1e3a8a' }}>信頼性</div>
               <div style={{ color: '#64748b', fontSize: '0.9rem' }}>専門家監修</div>
             </div>
@@ -119,7 +116,7 @@ export default function HomePage() {
             color: '#1e3a8a',
             fontWeight: '600'
           }}>
-            📖 最新記事一覧
+            記事一覧 ({articles.length}件)
           </h2>
           
           <div style={{
@@ -195,12 +192,11 @@ export default function HomePage() {
                   </div>
 
                   <h3 style={{ 
-                    margin: '0 0 1rem 0', 
+                    margin: '0 5rem 1rem 0', 
                     fontSize: '1.3rem',
                     color: '#1e3a8a',
                     fontWeight: '600',
-                    lineHeight: '1.4',
-                    paddingRight: '5rem'
+                    lineHeight: '1.4'
                   }}>
                     {article.title}
                   </h3>
@@ -213,8 +209,7 @@ export default function HomePage() {
                     alignItems: 'center',
                     gap: '0.5rem'
                   }}>
-                    <span>📄</span>
-                    <span>{article.filename}</span>
+                    <span>ファイル名: {article.filename}</span>
                   </div>
                   
                   <div style={{ 
@@ -234,7 +229,7 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* CTA セクション */}
+        {/* LAST LETTER CTA */}
         <section style={{
           marginTop: '5rem',
           background: 'linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%)',
@@ -248,7 +243,7 @@ export default function HomePage() {
             marginBottom: '1rem',
             fontWeight: '600'
           }}>
-            📧 重要な情報を見逃さないために
+            LAST LETTER - 大切な人への最後の手紙
           </h2>
           <p style={{
             fontSize: '1.1rem',
@@ -256,17 +251,16 @@ export default function HomePage() {
             opacity: '0.9',
             lineHeight: '1.6'
           }}>
-            終活・相続に関する最新情報や重要な法改正について、<br/>
-            専門家による信頼できる情報をお届けします。
+            もしもの時に、大切な人への連絡を自動化。<br/>
+            終活の一環として、今から準備しませんか？
           </p>
           <div style={{
             background: 'rgba(255,255,255,0.1)',
             padding: '1rem',
             borderRadius: '8px',
-            fontSize: '0.9rem',
-            opacity: '0.8'
+            fontSize: '0.9rem'
           }}>
-            ※ このサイトは毎日自動更新されます
+            生前に登録した連絡先に、自動で訃報をお知らせするサービスです
           </div>
         </section>
       </section>
