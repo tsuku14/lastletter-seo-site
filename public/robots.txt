@@ -1,6 +1,10 @@
+# Allow all user agents
 User-agent: *
 Allow: /
-Sitemap: https://lastletter-seo-site.vercel.app/sitemap.xml
 
-# クロール速度の制御
-Crawl-delay: 1
+# Disallow crawling of Next.js build artifacts and node_modules
+Disallow: /_next/
+Disallow: /node_modules/
+
+# Point to the sitemap
+Sitemap: https://lastletter.jp/sitemap.xml

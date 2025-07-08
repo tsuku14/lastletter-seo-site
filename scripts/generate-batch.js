@@ -72,6 +72,7 @@ const topics = [
 
 // 超高品質記事生成プロンプト
 function generateEnhancedPrompt(topic) {
+  // プロンプトに要約生成の指示を追加
   return `あなたは終活・相続分野の専門家として、以下の条件で高品質な記事を作成してください。
 
 【記事テーマ】
@@ -112,6 +113,7 @@ function generateEnhancedPrompt(topic) {
 - 各見出しに関連キーワードを自然に配置
 - ロングテールキーワードを意識した文章
 - 読者の検索意図に完全に応える内容
+- **記事の冒頭で、この記事を読むことで読者が何を得られるかを簡潔にまとめた120文字程度の要約（description）を生成してください。**
 
 ■ LAST LETTERサービスとの自然な連携
 - 記事内容に関連する場面で、以下のような自然な紹介を1-2箇所に含める：
@@ -125,6 +127,7 @@ function generateEnhancedPrompt(topic) {
 - 最新情報の確認を促す文言を含む
 
 【出力形式】
+- **重要：生成する記事の本文のみを出力してください。Frontmatterはこちらで追加するため、絶対に含めないでください。**
 - Markdown形式で出力
 - # で始まるメインタイトル
 - ## と ### を使った階層的な見出し構造
@@ -154,7 +157,7 @@ async function generateArticle(topic, dateStr) {
       messages: [
         {
           role: "system",
-          content: "あなたは終活・相続分野の専門家です。正確で実用的な情報を、読者に分かりやすく伝える高品質な記事を作成します。法的な正確性と実用性を重視し、読者の不安を解消する内容を心がけてください。"
+          content: "あなたは終活・相続分野の専門家です。正確で実用的な情報を、読者に分かりやすく伝える高品質な記事を作成します。法的な正確性と実用性を重視し、読者の不安を解消する内容を心がけてください."
         },
         {
           role: "user",
@@ -165,7 +168,23 @@ async function generateArticle(topic, dateStr) {
       temperature: 0.7,
     });
 
-    const content = completion.choices[0].message.content;
+    const articleBody = completion.choices[0].message.content;
+    
+    // 記事の冒頭から要約を抽出（最初の200文字から探すなど、簡易的な方法）
+    const description = articleBody.substring(0, 200).replace(/\n/g, ' ').trim();
+
+    // Frontmatterを生成
+    const frontmatter = `---
+title: "${topic.title}"
+date: "${dateStr}"
+category: "${topic.category}"
+keywords: [${topic.keywords.map(k => `"${k}"`).join(', ')}]
+description: "${description.substring(0, 120)}"
+---
+
+`;
+
+    const content = frontmatter + articleBody;
     const filename = `${dateStr}-${topic.title.replace(/[^\w\s]/gi, '').replace(/\s+/g, '-')}.md`;
     const filepath = path.join(process.cwd(), 'articles', filename);
     
