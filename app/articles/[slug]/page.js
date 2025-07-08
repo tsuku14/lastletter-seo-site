@@ -9,27 +9,29 @@ const articlesDirectory = path.join(process.cwd(), 'articles')
 // 記事データを取得する関数
 async function getArticleData(slug) {
   const fullPath = path.join(articlesDirectory, `${slug}.md`)
-  const fileContents = fs.readFileSync(fullPath, 'utf8')
-
-  // Frontmatterをパース
-  const matterResult = matter(fileContents)
-
-  // MarkdownをHTMLに変換
-  const processedContent = await remark()
-    .use(html)
-    .process(matterResult.content)
-  const contentHtml = processedContent.toString()
-
-  return {
-    slug,
-    contentHtml,
-    ...matterResult.data
+  try {
+    const fileContents = fs.readFileSync(fullPath, 'utf8')
+    const matterResult = matter(fileContents)
+    const processedContent = await remark().use(html).process(matterResult.content)
+    const contentHtml = processedContent.toString()
+    return {
+      slug,
+      contentHtml,
+      ...matterResult.data
+    }
+  } catch (error) {
+    console.error(`Error reading article data for slug: ${slug}`, error)
+    // エラーが発生した場合、ページが見つからないという状態にする
+    return null
   }
 }
 
 // 動的なメタデータを生成
 export async function generateMetadata({ params }) {
   const article = await getArticleData(params.slug)
+  if (!article) {
+    return { title: '記事が見つかりません', description: '' }
+  }
   return {
     title: article.title,
     description: article.description,
@@ -39,22 +41,34 @@ export async function generateMetadata({ params }) {
 
 // 静的なパスを生成
 export async function generateStaticParams() {
-  const filenames = fs.readdirSync(articlesDirectory)
-  return filenames.map(filename => ({
-    slug: filename.replace(/\.md$/, ''),
-  }))
+  try {
+    const filenames = fs.readdirSync(articlesDirectory)
+    console.log('Found article files:', filenames) // デバッグログを追加
+    return filenames.map(filename => ({
+      slug: filename.replace(/\.md$/, ''),
+    }))
+  } catch (error) {
+    console.error('Could not read articles directory:', error)
+    return []
+  }
 }
 
 // 記事ページコンポーネント
 export default async function ArticlePage({ params }) {
   const article = await getArticleData(params.slug)
 
+  if (!article) {
+    // notFound() を呼び出すと、Next.jsの404ページが表示される
+    const { notFound } = require('next/navigation');
+    notFound();
+  }
+
   // JSON-LD構造化データ
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: article.title,
-    keywords: article.keywords.join(', '),
+    keywords: Array.isArray(article.keywords) ? article.keywords.join(', ') : '',
     datePublished: article.date,
     description: article.description,
     author: {
