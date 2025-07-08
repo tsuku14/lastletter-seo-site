@@ -1,24 +1,32 @@
 const fs = require('fs');
 const path = require('path');
+const articlesData = require('../.cache/articles.json'); // キャッシュされたデータを読み込む
 
 function generateSitemap() {
-  const articlesDirectory = path.join(process.cwd(), 'articles');
   const siteUrl = 'https://lastletter.jp'; // ご自身のサイトURLに変更してください
 
   try {
-    const filenames = fs.readdirSync(articlesDirectory);
-    const urls = filenames
-      .filter(filename => filename.endsWith('.md'))
-      .map(filename => {
-        const slug = filename.replace(/\.md$/, '');
-        return `
+    const urls = articlesData.map(article => {
+      return `
   <url>
-    <loc>${siteUrl}/articles/${slug}</loc>
-    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
+    <loc>${siteUrl}/articles/${article.slug}</loc>
+    <lastmod>${article.frontmatter.date}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>`;
-      });
+    });
+
+    // トップページとカテゴリページのURLも追加
+    const categories = [...new Set(articlesData.map(article => article.frontmatter.category))];
+    categories.forEach(category => {
+      urls.push(`
+  <url>
+    <loc>${siteUrl}/category/${encodeURIComponent(category)}</loc>
+    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>`);
+    });
 
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
