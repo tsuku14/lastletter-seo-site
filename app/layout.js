@@ -4,6 +4,7 @@ import Footer from './components/Footer';
 export const metadata = {
   title: 'LAST LETTER | 終活・相続の総合情報サイト',
   description: '終活、相続、エンディングノートに関する正確で最新の情報を提供する専門サイトです。あなたの「もしも」に備えるお手伝いをします。',
+  charset: 'utf-8',
 };
 
 export default function RootLayout({ children }) {
