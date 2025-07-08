@@ -1,269 +1,78 @@
-import fs from 'fs'
-import path from 'path'
-import Link from 'next/link'
+import fs from 'fs';
+import path from 'path';
+import Link from 'next/link';
+import matter from 'gray-matter';
 
-function getArticles() {
-  const articlesDirectory = path.join(process.cwd(), 'articles')
-  
+// 全記事のメタデータを取得する関数
+function getArticlesMetadata() {
+  const articlesDirectory = path.join(process.cwd(), 'articles');
   try {
-    const filenames = fs.readdirSync(articlesDirectory)
+    const filenames = fs.readdirSync(articlesDirectory);
     const articles = filenames
       .filter(filename => filename.endsWith('.md'))
       .map(filename => {
-        const filePath = path.join(articlesDirectory, filename)
-        const fileContents = fs.readFileSync(filePath, 'utf8')
-        const title = fileContents.split('\n')[0].replace('# ', '') || filename.replace('.md', '')
-        
-        // 記事のカテゴリを推定
-        let category = '一般'
-        if (title.includes('終活')) category = '終活'
-        else if (title.includes('相続') || title.includes('遺産')) category = '相続'
-        else if (title.includes('エンディング') || title.includes('ノート')) category = 'エンディングノート'
-        else if (title.includes('遺言')) category = '遺言書'
-        else if (title.includes('保険') || title.includes('税金')) category = '税務・保険'
-        
+        const filePath = path.join(articlesDirectory, filename);
+        const fileContents = fs.readFileSync(filePath, 'utf8');
+        const { data } = matter(fileContents); // Frontmatterのみをパース
         return {
-          slug: filename.replace('.md', ''),
-          title: title,
-          filename: filename,
-          category: category
-        }
+          slug: filename.replace(/\.md$/, ''),
+          ...data, // title, date, category, descriptionなど
+        };
       })
-      .sort((a, b) => b.filename.localeCompare(a.filename))
-    
-    return articles
+      .sort((a, b) => new Date(b.date) - new Date(a.date)); // 日付で降順ソート
+    return articles;
   } catch (error) {
-    return []
+    console.error("Error reading articles metadata:", error);
+    return [];
   }
 }
 
 export default function HomePage() {
-  const articles = getArticles()
-  const categories = [...new Set(articles.map(a => a.category))]
+  const articles = getArticlesMetadata();
+  const latestArticles = articles.slice(0, 6); // 最新記事を6件表示
 
   return (
     <div>
       {/* ヒーローセクション */}
-      <section style={{
-        background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
-        padding: '4rem 2rem',
-        borderBottom: '1px solid #e2e8f0'
-      }}>
-        <div style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          textAlign: 'center'
-        }}>
-          <h1 style={{ 
-            fontSize: '3rem', 
-            marginBottom: '1.5rem',
-            color: '#1e3a8a',
-            fontWeight: '700',
-            lineHeight: '1.2'
-          }}>
-            終活・相続の総合情報センター
-          </h1>
-          
-          <p style={{ 
-            fontSize: '1.3rem', 
-            marginBottom: '2rem', 
-            lineHeight: '1.7',
-            color: '#475569',
-            maxWidth: '800px',
-            margin: '0 auto 2rem auto'
-          }}>
-            人生の重要な準備について、専門家による信頼できる情報を分かりやすくお届けします。<br/>
-            大切な人のために、今できることから始めませんか。
-          </p>
-
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '3rem',
-            flexWrap: 'wrap',
-            marginTop: '3rem'
-          }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '1.8rem', fontWeight: '600', color: '#1e3a8a' }}>{articles.length}+</div>
-              <div style={{ color: '#64748b', fontSize: '0.9rem' }}>専門記事</div>
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '1.8rem', fontWeight: '600', color: '#1e3a8a' }}>毎日</div>
-              <div style={{ color: '#64748b', fontSize: '0.9rem' }}>新規更新</div>
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '1.8rem', fontWeight: '600', color: '#1e3a8a' }}>信頼性</div>
-              <div style={{ color: '#64748b', fontSize: '0.9rem' }}>専門家監修</div>
-            </div>
-          </div>
-        </div>
+      <section style={{ textAlign: 'center', padding: '4rem 1rem', marginBottom: '4rem', background: '#f9fafb', borderRadius: '12px' }}>
+        <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>もしもに備える、信頼の知識を</h1>
+        <p style={{ fontSize: '1.1rem', color: '#4b5563', maxWidth: '600px', margin: '0 auto' }}>
+          終活・相続からエンディングノートまで。専門家が監修した正確で実用的な情報で、あなたの「今」と「未来」をサポートします。
+        </p>
       </section>
 
-      {/* メインコンテンツ */}
-      <section style={{
-        maxWidth: '1200px',
-        margin: '0 auto',
-        padding: '4rem 2rem'
-      }}>
-        {/* カテゴリフィルター */}
-        <div style={{
-          marginBottom: '3rem',
-          textAlign: 'center'
-        }}>
-          <h2 style={{ 
-            fontSize: '2rem', 
-            marginBottom: '2rem',
-            color: '#1e3a8a',
-            fontWeight: '600'
-          }}>
-            記事一覧 ({articles.length}件)
-          </h2>
-          
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-            gap: '1rem',
-            marginBottom: '2rem'
-          }}>
-            {categories.map(category => (
-              <span key={category} style={{
-                background: '#e0e7ff',
-                color: '#3730a3',
-                padding: '0.5rem 1rem',
-                borderRadius: '25px',
-                fontSize: '0.9rem',
-                fontWeight: '500'
-              }}>
-                {category}
-              </span>
-            ))}
-          </div>
+      {/* 最新記事セクション */}
+      {/* カテゴリセクション */}
+      <section style={{ marginTop: '4rem' }}>
+        <h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '2rem', borderBottom: '2px solid #e5e7eb', paddingBottom: '0.5rem' }}>カテゴリから探す</h2>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+          {categories.map(category => (
+            <Link key={category} href={`/category/${encodeURIComponent(category)}`} style={{ textDecoration: 'none', color: '#374151', background: '#f3f4f6', padding: '0.75rem 1.5rem', borderRadius: '9999px', fontWeight: '500', transition: 'background-color 0.3s' }}>
+              {category}
+            </Link>
+          ))}
         </div>
-
-        {/* 記事グリッド */}
-        {articles.length === 0 ? (
-          <div style={{
-            textAlign: 'center',
-            padding: '4rem',
-            background: '#f8fafc',
-            borderRadius: '12px',
-            border: '1px solid #e2e8f0'
-          }}>
-            <p style={{ color: '#64748b', fontSize: '1.1rem' }}>記事を準備中です...</p>
-          </div>
-        ) : (
-          <div style={{ 
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-            gap: '2rem'
-          }}>
-            {articles.map((article, index) => (
-              <Link 
-                key={article.slug}
-                href={`/articles/${article.slug}`}
-                style={{ textDecoration: 'none' }}
-              >
-                <article style={{
-                  backgroundColor: '#ffffff',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '16px',
-                  padding: '2rem',
-                  height: 'auto',
-                  transition: 'all 0.3s ease',
-                  cursor: 'pointer',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
-                  position: 'relative',
-                  overflow: 'hidden'
-                }}>
-                  {/* カテゴリバッジ */}
-                  <div style={{
-                    position: 'absolute',
-                    top: '1rem',
-                    right: '1rem',
-                    background: '#1e3a8a',
-                    color: 'white',
-                    padding: '0.3rem 0.8rem',
-                    borderRadius: '15px',
-                    fontSize: '0.8rem',
-                    fontWeight: '500'
-                  }}>
-                    {article.category}
-                  </div>
-
-                  <h3 style={{ 
-                    margin: '0 5rem 1rem 0', 
-                    fontSize: '1.3rem',
-                    color: '#1e3a8a',
-                    fontWeight: '600',
-                    lineHeight: '1.4'
-                  }}>
-                    {article.title}
-                  </h3>
-                  
-                  <div style={{ 
-                    color: '#64748b', 
-                    fontSize: '0.9rem',
-                    marginBottom: '1.5rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem'
-                  }}>
-                    <span>ファイル名: {article.filename}</span>
-                  </div>
-                  
-                  <div style={{ 
-                    color: '#3730a3',
-                    fontSize: '0.9rem',
-                    fontWeight: '600',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem'
-                  }}>
-                    <span>続きを読む</span>
-                    <span>→</span>
+      </section>
+        {latestArticles.length > 0 ? (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem' }}>
+            {latestArticles.map(article => (
+              <Link key={article.slug} href={`/articles/${article.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <article style={{ border: '1px solid #e5e7eb', borderRadius: '8px', overflow: 'hidden', transition: 'box-shadow 0.3s' }}>
+                  <div style={{ padding: '1.5rem' }}>
+                    <p style={{ color: '#4f46e5', fontWeight: '600', marginBottom: '0.5rem' }}>{article.category}</p>
+                    <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '0.75rem', minHeight: '50px' }}>{article.title}</h3>
+                    <p style={{ color: '#6b7280', fontSize: '0.9rem', marginBottom: '1rem', minHeight: '70px' }}>{article.description}</p>
+                    <time style={{ color: '#6b7280', fontSize: '0.8rem' }}>{article.date}</time>
                   </div>
                 </article>
               </Link>
             ))}
           </div>
+        ) : (
+          <p>現在、記事を準備中です。</p>
         )}
-
-        {/* LAST LETTER CTA */}
-        <section style={{
-          marginTop: '5rem',
-          background: 'linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%)',
-          color: 'white',
-          padding: '3rem 2rem',
-          borderRadius: '16px',
-          textAlign: 'center'
-        }}>
-          <h2 style={{
-            fontSize: '1.8rem',
-            marginBottom: '1rem',
-            fontWeight: '600'
-          }}>
-            LAST LETTER - 大切な人への最後の手紙
-          </h2>
-          <p style={{
-            fontSize: '1.1rem',
-            marginBottom: '2rem',
-            opacity: '0.9',
-            lineHeight: '1.6'
-          }}>
-            もしもの時に、大切な人への連絡を自動化。<br/>
-            終活の一環として、今から準備しませんか？
-          </p>
-          <div style={{
-            background: 'rgba(255,255,255,0.1)',
-            padding: '1rem',
-            borderRadius: '8px',
-            fontSize: '0.9rem'
-          }}>
-            生前に登録した連絡先に、自動で訃報をお知らせするサービスです
-          </div>
-        </section>
       </section>
     </div>
-  )
+  );
 }
+
