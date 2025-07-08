@@ -1,25 +1,12 @@
-import fs from 'fs';
-import path from 'path';
 import Link from 'next/link';
-import matter from 'gray-matter';
-
-const articlesDirectory = path.join(process.cwd(), 'articles');
+import articlesData from '../../../.cache/articles.json';
 
 // 全記事のメタデータを取得するヘルパー関数
 function getAllArticlesMetadata() {
-  const filenames = fs.readdirSync(articlesDirectory);
-  return filenames
-    .filter(filename => filename.endsWith('.md'))
-    .map(filename => {
-      const filePath = path.join(articlesDirectory, filename);
-      const fileContents = fs.readFileSync(filePath, 'utf8');
-      const { data } = matter(fileContents);
-      return {
-        slug: filename.replace(/\.md$/, ''),
-        ...data,
-      };
-    })
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
+  return articlesData.map(article => ({
+    slug: article.slug,
+    ...article.frontmatter,
+  }));
 }
 
 // 動的なメタデータを生成
