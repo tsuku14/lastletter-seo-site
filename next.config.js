@@ -5,9 +5,7 @@ const nextConfig = {
     unoptimized: true,
   },
   // trailingSlash: true を削除
-  experimental: {
-    appDir: true,
-  },
+  
 }
 
 module.exports = nextConfig
