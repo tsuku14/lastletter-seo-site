@@ -42,7 +42,8 @@ async function processArticleData(slug) {
 
 // 動的なメタデータを生成
 export async function generateMetadata({ params }) {
-  const article = await processArticleData(params.slug);
+  const decodedSlug = decodeURIComponent(params.slug);
+  const article = await processArticleData(decodedSlug);
   if (!article) {
     return { title: '記事が見つかりません', description: '' };
   }
@@ -83,7 +84,9 @@ export async function generateStaticParams() {
 
 // 記事ページコンポーネント
 export default async function ArticlePage({ params }) {
-  const article = await processArticleData(params.slug);
+  // URLエンコーディングをデコード
+  const decodedSlug = decodeURIComponent(params.slug);
+  const article = await processArticleData(decodedSlug);
 
   if (!article) {
     notFound();

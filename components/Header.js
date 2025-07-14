@@ -6,7 +6,7 @@ export default function Header() {
       <div className="container">
         <div className="header-inner">
           <Link href="/" className="logo">
-            LAST LETTER
+            終活・相続情報センター
           </Link>
           <nav className="nav">
             <Link href="/" className="nav-link">

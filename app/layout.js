@@ -4,8 +4,8 @@ import Footer from '../components/Footer';
 
 export const metadata = {
   title: {
-    default: 'LAST LETTER - 終活・相続の総合情報サイト',
-    template: '%s | LAST LETTER'
+    default: '終活・相続情報センター',
+    template: '%s | 終活・相続情報センター'
   },
   description: '終活・相続・エンディングノートに関する専門情報を提供。信頼できる知識で、あなたの「今」と「未来」をサポートします。',
   keywords: ['終活', '相続', 'エンディングノート', '遺言書', '相続税', '生前整理', 'LAST LETTER'],
@@ -18,16 +18,16 @@ export const metadata = {
     telephone: false,
   },
   openGraph: {
-    title: 'LAST LETTER - 終活・相続の総合情報サイト',
+    title: '終活・相続情報センター',
     description: '終活・相続・エンディングノートに関する専門情報を提供',
     url: 'https://lastletter.jp',
-    siteName: 'LAST LETTER',
+    siteName: '終活・相続情報センター',
     locale: 'ja_JP',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'LAST LETTER - 終活・相続の総合情報サイト',
+    title: '終活・相続情報センター',
     description: '終活・相続・エンディングノートに関する専門情報を提供',
   },
   robots: {
