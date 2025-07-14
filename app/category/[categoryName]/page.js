@@ -1,12 +1,24 @@
 import Link from 'next/link';
-import articlesData from '../../../.cache/articles.json';
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
 
 // 全記事のメタデータを取得するヘルパー関数
 function getAllArticlesMetadata() {
-  return articlesData.map(article => ({
-    slug: article.slug,
-    ...article.frontmatter,
-  }));
+  const articlesDirectory = path.join(process.cwd(), 'articles');
+  const filenames = fs.readdirSync(articlesDirectory).filter(file => file.endsWith('.md'));
+  
+  return filenames.map(filename => {
+    const slug = filename.replace(/\.md$/, '');
+    const filePath = path.join(articlesDirectory, filename);
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const { data } = matter(fileContents);
+    
+    return {
+      slug,
+      ...data
+    };
+  });
 }
 
 // 動的なメタデータを生成

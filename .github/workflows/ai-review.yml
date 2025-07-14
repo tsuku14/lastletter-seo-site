@@ -8,6 +8,9 @@ on:
 jobs:
   review:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
 
     steps:
       - name: Checkout repository
@@ -19,23 +22,56 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install openai
+        run: |
+          npm ci || npm install
+        timeout-minutes: 5
 
       - name: Get changed markdown files
         id: changed-files
         run: |
           FILES=$(git diff --name-only HEAD~1 HEAD | grep '^articles/.*\.md$' || echo "")
           echo "files=$FILES" >> $GITHUB_OUTPUT
+          if [ -z "$FILES" ]; then
+            echo "No markdown files changed in articles/"
+          else
+            echo "Changed files: $FILES"
+          fi
+
+      - name: OpenAI API Key Check
+        if: steps.changed-files.outputs.files != ''
+        run: |
+          if [ -z "${{ secrets.OPENAI_API_KEY }}" ]; then
+            echo "Warning: OPENAI_API_KEY is not set. AI review will be skipped."
+            echo "skip_review=true" >> $GITHUB_ENV
+          fi
 
       - name: Run AI review for each changed file
-        if: steps.changed-files.outputs.files != ''
+        if: steps.changed-files.outputs.files != '' && env.skip_review != 'true'
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
-          for file in ${{ steps.changed-files.outputs.files }}; do
-            node scripts/ai-review.js "$file"
+          set -e
+          FILES="${{ steps.changed-files.outputs.files }}"
+          for file in $FILES; do
+            echo "Reviewing: $file"
+            node scripts/ai-review.js "$file" || {
+              echo "AI review failed for $file, continuing with next file..."
+              continue
+            }
           done
+      
+      - name: Review summary
+        if: always()
+        run: |
+          if [ "${{ steps.changed-files.outputs.files }}" = "" ]; then
+            echo "::notice::No article files were changed in this push"
+          elif [ "${{ env.skip_review }}" = "true" ]; then
+            echo "::warning::AI review was skipped due to missing OPENAI_API_KEY"
+          else
+            echo "::notice::AI review completed for changed files"
+          fi

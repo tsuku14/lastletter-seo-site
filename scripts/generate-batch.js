@@ -146,7 +146,8 @@ function generateEnhancedPrompt(topic) {
 }
 
 // 記事生成とファイル保存
-async function generateArticle(topic, dateStr) {
+async function generateArticle(topic, dateStr, retryCount = 0) {
+  const maxRetries = 3;
   try {
     console.log(`📝 記事生成開始: ${topic.title}`);
     
@@ -213,6 +214,29 @@ description: "${description.substring(0, 120)}"
     
   } catch (error) {
     console.error(`❌ 記事生成エラー: ${topic.title}`, error.message);
+    
+    // APIエラーの種類を判別
+    if (error.response?.status === 429) {
+      console.log(`⚠️  APIレート制限に達しました。待機してリトライします...`);
+      const waitTime = Math.min(30000, 5000 * (retryCount + 1));
+      await new Promise(resolve => setTimeout(resolve, waitTime));
+      
+      if (retryCount < maxRetries) {
+        return generateArticle(topic, dateStr, retryCount + 1);
+      }
+    } else if (error.response?.status === 401) {
+      console.error(`🔐 認証エラー: OpenAI APIキーが無効または設定されていません`);
+      process.exit(1);
+    } else if (error.code === 'ECONNRESET' || error.code === 'ETIMEDOUT') {
+      console.log(`🌐 ネットワークエラーが発生しました。リトライします...`);
+      
+      if (retryCount < maxRetries) {
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        return generateArticle(topic, dateStr, retryCount + 1);
+      }
+    }
+    
+    console.error(`リトライ回数の上限に達しました。この記事はスキップされます。`);
     return null;
   }
 }
@@ -221,6 +245,19 @@ description: "${description.substring(0, 120)}"
 async function generateBatch() {
   const batchSize = parseInt(process.argv[2]) || 10;
   const startDate = new Date(process.argv[3]) || new Date();
+  
+  // OpenAI APIキーの確認
+  if (!process.env.OPENAI_API_KEY) {
+    console.error(`❌ エラー: OPENAI_API_KEYが設定されていません`);
+    process.exit(1);
+  }
+  
+  // articlesディレクトリの存在確認
+  const articlesDir = path.join(process.cwd(), 'articles');
+  if (!fs.existsSync(articlesDir)) {
+    console.log(`📝 articlesディレクトリを作成します`);
+    fs.mkdirSync(articlesDir, { recursive: true });
+  }
   
   console.log(`🚀 高品質記事バッチ生成開始`);
   console.log(`📊 生成数: ${batchSize}記事`);
@@ -269,7 +306,10 @@ async function generateBatch() {
 
 // 実行
 if (require.main === module) {
-  generateBatch().catch(console.error);
+  generateBatch().catch(error => {
+    console.error(`❌ バッチ生成中に致命的なエラーが発生しました:`, error);
+    process.exit(1);
+  });
 }
 
 module.exports = { generateBatch, generateArticle, topics };

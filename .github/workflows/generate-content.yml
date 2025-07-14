@@ -8,32 +8,86 @@ on:
 jobs:
   generate:
     runs-on: ubuntu-latest
+    concurrency:
+      group: article-generation
+      cancel-in-progress: false
+    
     steps:
       - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
       
       - name: Node.js セットアップ
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+          cache: 'npm'
       
       - name: パッケージインストール
-        run: npm install
+        run: |
+          npm ci || npm install
+        timeout-minutes: 5
+      
+      - name: OpenAI API Key チェック
+        run: |
+          if [ -z "${{ secrets.OPENAI_API_KEY }}" ]; then
+            echo "Error: OPENAI_API_KEY is not set"
+            exit 1
+          fi
       
       - name: 記事生成
+        id: generate
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: npm run generate
+        run: |
+          set -e
+          npm run generate || {
+            echo "記事生成に失敗しました。リトライします..."
+            sleep 10
+            npm run generate
+          }
+        timeout-minutes: 30
+        
       - name: サイトマップ生成
-        run: node scripts/generate-sitemap.js
+        if: success()
+        run: |
+          node scripts/generate-sitemap.js || echo "サイトマップ生成に失敗しましたが続行します"
         
       - name: 変更をコミット
+        if: success()
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git pull origin main
+          
+          # 最新の変更を取得
+          git fetch origin main
+          git pull origin main --rebase || {
+            echo "Pull failed, trying to merge"
+            git rebase --abort 2>/dev/null || true
+            git pull origin main --no-rebase
+          }
+          
+          # 変更を追加
           git add -A
-          git diff --quiet && git diff --staged --quiet || git commit -m "🤖 自動生成: $(date +'%Y-%m-%d %H:%M')"
+          
+          # 変更がある場合のみコミット
+          if ! git diff --quiet || ! git diff --staged --quiet; then
+            git commit -m "🤖 自動生成: $(date +'%Y-%m-%d %H:%M')"
+          else
+            echo "変更がないためコミットをスキップします"
+          fi
+          
       - name: プッシュ
+        if: success()
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          force: false
+      
+      - name: ワークフロー失敗時の通知
+        if: failure()
+        run: |
+          echo "::error::記事生成ワークフローが失敗しました"
+          echo "失敗したステップ: ${{ steps.generate.outcome }}"

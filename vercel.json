@@ -1,0 +1,16 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "regions": ["hnd1"],
+  "functions": {
+    "app/articles/[slug]/page.js": {
+      "maxDuration": 10
+    },
+    "app/category/[categoryName]/page.js": {
+      "maxDuration": 10
+    }
+  }
+}

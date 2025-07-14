@@ -2,37 +2,100 @@ name: バッチ記事生成（30記事）
 
 on:
   workflow_dispatch:  # 手動実行のみ
+    inputs:
+      article_count:
+        description: '生成する記事数'
+        required: false
+        default: '30'
+        type: string
 
 jobs:
   batch-generate:
     runs-on: ubuntu-latest
     timeout-minutes: 60  # 最大60分
+    concurrency:
+      group: batch-generation
+      cancel-in-progress: false
     
     steps:
       - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
       
       - name: Node.js セットアップ
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+          cache: 'npm'
       
-      - name: 30記事をバッチ生成
+      - name: パッケージインストール
+        run: |
+          npm ci || npm install
+        timeout-minutes: 5
+      
+      - name: OpenAI API Key チェック
+        run: |
+          if [ -z "${{ secrets.OPENAI_API_KEY }}" ]; then
+            echo "Error: OPENAI_API_KEY is not set"
+            exit 1
+          fi
+      
+      - name: 記事をバッチ生成
+        id: batch_generate
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: node scripts/generate-batch.js
+        run: |
+          set -e
+          ARTICLE_COUNT=${{ github.event.inputs.article_count || '30' }}
+          echo "生成する記事数: $ARTICLE_COUNT"
+          
+          node scripts/generate-batch.js $ARTICLE_COUNT || {
+            echo "バッチ生成に失敗しました。リトライします..."
+            sleep 30
+            node scripts/generate-batch.js $ARTICLE_COUNT
+          }
       
       - name: サイトマップ生成
-        run: node scripts/generate-sitemap.js
+        if: success()
+        run: |
+          node scripts/generate-sitemap.js || echo "サイトマップ生成に失敗しましたが続行します"
       
       - name: 変更をコミット
+        if: success()
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git pull origin main
+          
+          # 最新の変更を取得
+          git fetch origin main
+          git pull origin main --rebase || {
+            echo "Pull failed, trying to merge"
+            git rebase --abort 2>/dev/null || true
+            git pull origin main --no-rebase
+          }
+          
+          # 変更を追加
           git add -A
-          git diff --quiet && git diff --staged --quiet || git commit -m "🚀 バッチ生成: 30記事を追加"
+          
+          # 変更がある場合のみコミット
+          if ! git diff --quiet || ! git diff --staged --quiet; then
+            ARTICLE_COUNT=${{ github.event.inputs.article_count || '30' }}
+            git commit -m "🚀 バッチ生成: ${ARTICLE_COUNT}記事を追加"
+          else
+            echo "変更がないためコミットをスキップします"
+          fi
       
       - name: プッシュ
+        if: success()
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          force: false
+      
+      - name: ワークフロー失敗時の通知
+        if: failure()
+        run: |
+          echo "::error::バッチ記事生成ワークフローが失敗しました"
+          echo "失敗したステップ: ${{ steps.batch_generate.outcome }}"

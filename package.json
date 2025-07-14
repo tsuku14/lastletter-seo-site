@@ -5,16 +5,19 @@
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
-    "build": "npm install && node scripts/cache-articles.js && node scripts/delete-duplicates.js && node scripts/generate-sitemap.js && next build",
+    "build": "npm install && node scripts/generate-sitemap.js && next build",
     "start": "next start",
     "lint": "next lint",
     "generate": "node scripts/generate-batch.js"
   },
   "dependencies": {
+    "gray-matter": "^4.0.3",
     "next": "14.0.0",
+    "openai": "^4.20.1",
     "react": "^18",
     "react-dom": "^18",
-    "openai": "^4.20.1"
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1"
   },
   "devDependencies": {
     "eslint": "^8",

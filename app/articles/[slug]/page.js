@@ -1,15 +1,54 @@
 import Link from 'next/link';
-import articlesData from '../../../.cache/articles.json';
 import { remark } from 'remark';
 import html from 'remark-html';
 import { notFound } from 'next/navigation';
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
 
 // 記事データを取得する関数
-async function getArticleData(slug) {
-  const article = articlesData.find(a => a.slug === slug);
+function getArticleData(slug) {
+  const filePath = path.join(process.cwd(), 'articles', `${slug}.md`);
+  
+  try {
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const { data, content } = matter(fileContents);
+    
+    return {
+      slug,
+      frontmatter: data,
+      content
+    };
+  } catch (error) {
+    return null;
+  }
+}
+
+// すべての記事データを取得する関数
+function getAllArticles() {
+  const articlesDirectory = path.join(process.cwd(), 'articles');
+  const filenames = fs.readdirSync(articlesDirectory).filter(file => file.endsWith('.md'));
+  
+  return filenames.map(filename => {
+    const slug = filename.replace(/\.md$/, '');
+    const filePath = path.join(articlesDirectory, filename);
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const { data } = matter(fileContents);
+    
+    return {
+      slug,
+      frontmatter: data
+    };
+  });
+}
+
+// 記事データを処理する関数
+async function processArticleData(slug) {
+  const article = getArticleData(slug);
   if (!article) {
     return null;
   }
+  
   const processedContent = await remark().use(html).process(article.content);
   const contentHtml = processedContent.toString();
 
@@ -34,7 +73,7 @@ async function getArticleData(slug) {
 
 // 動的なメタデータを生成
 export async function generateMetadata({ params }) {
-  const article = await getArticleData(params.slug);
+  const article = await processArticleData(params.slug);
   if (!article) {
     return { title: '記事が見つかりません', description: '' };
   }
@@ -67,21 +106,23 @@ export async function generateMetadata({ params }) {
 
 // 静的なパスを生成
 export async function generateStaticParams() {
-  return articlesData.map(article => ({
+  const articles = getAllArticles();
+  return articles.map(article => ({
     slug: article.slug,
   }));
 }
 
 // 記事ページコンポーネント
 export default async function ArticlePage({ params }) {
-  const article = await getArticleData(params.slug);
+  const article = await processArticleData(params.slug);
 
   if (!article) {
     notFound();
   }
 
   // 同じカテゴリの関連記事を抽出
-  const relatedArticles = articlesData
+  const allArticles = getAllArticles();
+  const relatedArticles = allArticles
     .filter(a => a.frontmatter.category === article.category && a.slug !== article.slug)
     .sort(() => 0.5 - Math.random()) // ランダムソート
     .slice(0, 3); // 最大3件

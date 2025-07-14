@@ -63,6 +63,18 @@ async function createGithubIssue(title, body) {
 // メインの実行関数
 async function main() {
   console.log(`Starting review for: ${articlePath}`);
+  
+  // APIキーの確認
+  if (!OPENAI_API_KEY) {
+    console.error('❌ Error: OPENAI_API_KEY is not set');
+    process.exit(1);
+  }
+  
+  if (!GITHUB_TOKEN) {
+    console.error('❌ Error: GITHUB_TOKEN is not set');
+    process.exit(1);
+  }
+  
   const absolutePath = path.join(process.cwd(), articlePath);
 
   // 1. ファイル内容の読み込みと文字化けチェック
@@ -80,16 +92,36 @@ async function main() {
 
   // 2. AIによるレビューの実行
   let aiReviewResult;
-  try {
-    const prompt = createReviewPrompt(content);
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4',
-      messages: [{ role: 'user', content: prompt }],
-    });
-    aiReviewResult = completion.choices[0].message.content;
-  } catch (error) {
-    console.error('Error getting AI review:', error);
-    aiReviewResult = 'AIによるレビュー中にエラーが発生しました。';
+  let retryCount = 0;
+  const maxRetries = 3;
+  
+  while (retryCount < maxRetries) {
+    try {
+      const prompt = createReviewPrompt(content);
+      const completion = await openai.chat.completions.create({
+        model: 'gpt-4',
+        messages: [{ role: 'user', content: prompt }],
+        max_tokens: 2000,
+        temperature: 0.7,
+      });
+      aiReviewResult = completion.choices[0].message.content;
+      break;
+    } catch (error) {
+      console.error(`AI review error (attempt ${retryCount + 1}/${maxRetries}):`, error.message);
+      
+      if (error.response?.status === 429) {
+        console.log('⚠️  Rate limit reached. Waiting before retry...');
+        await new Promise(resolve => setTimeout(resolve, 10000));
+      } else if (error.response?.status === 401) {
+        console.error('🔐 Authentication error: Invalid OpenAI API key');
+        process.exit(1);
+      }
+      
+      retryCount++;
+      if (retryCount >= maxRetries) {
+        aiReviewResult = `AIによるレビュー中にエラーが発生しました。\n\nエラー詳細: ${error.message}`;
+      }
+    }
   }
 
   // 3. GitHub Issueの作成
@@ -114,4 +146,7 @@ ${aiReviewResult}
   await createGithubIssue(issueTitle, issueBody);
 }
 
-main();
+main().catch(error => {
+  console.error('❌ Fatal error:', error);
+  process.exit(1);
+});
