@@ -1,16 +1,17 @@
 import Link from 'next/link';
 import { getAllArticles, getAllCategories } from '../../../lib/articles';
+import { getCategoryName, getCategorySlug } from '../../../lib/categorySlugMap';
 
 // 動的なメタデータを生成
 export async function generateMetadata({ params }) {
-  const categoryName = decodeURIComponent(params.categoryName);
+  const categoryName = getCategoryName(params.categoryName);
   return {
     title: `${categoryName}の記事一覧`,
     description: `「${categoryName}」に関する専門記事の一覧です。終活・相続に関する実用的な情報をお届けします。`,
     openGraph: {
-      title: `${categoryName}の記事一覧 | LAST LETTER`,
+      title: `${categoryName}の記事一覧 | 終活・相続情報センター`,
       description: `「${categoryName}」に関する専門記事の一覧`,
-      url: `https://lastletter.jp/category/${encodeURIComponent(categoryName)}`,
+      url: `https://lastletter.jp/category/${params.categoryName}`,
       type: 'website',
     },
   };
@@ -20,12 +21,12 @@ export async function generateMetadata({ params }) {
 export async function generateStaticParams() {
   const categories = getAllCategories();
   return categories.map(category => ({
-    categoryName: encodeURIComponent(category),
+    categoryName: getCategorySlug(category),
   }));
 }
 
 export default function CategoryPage({ params }) {
-  const categoryName = decodeURIComponent(params.categoryName);
+  const categoryName = getCategoryName(params.categoryName);
   const allArticles = getAllArticles();
   const articles = allArticles.filter(article => article.frontmatter.category === categoryName);
 
@@ -72,7 +73,7 @@ export default function CategoryPage({ params }) {
             .map(category => (
               <Link 
                 key={category} 
-                href={`/category/${encodeURIComponent(category)}`}
+                href={`/category/${getCategorySlug(category)}`}
                 className="category-tag"
               >
                 {category}

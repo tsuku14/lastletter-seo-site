@@ -227,6 +227,16 @@ a {
   gap: 0.5rem;
 }
 
+.article-category-link {
+  color: #2563eb;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.article-category-link:hover {
+  opacity: 0.8;
+}
+
 /* Table of Contents */
 .toc {
   background: #f8fafc;

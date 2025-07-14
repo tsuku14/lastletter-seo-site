@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getAllArticles, getAllCategories } from '../lib/articles';
+import { getCategorySlug } from '../lib/categorySlugMap';
 
 export default function HomePage() {
   const articles = getAllArticles();
@@ -50,7 +51,7 @@ export default function HomePage() {
             {categories.map(category => (
               <Link 
                 key={category} 
-                href={`/category/${encodeURIComponent(category)}`}
+                href={`/category/${getCategorySlug(category)}`}
                 className="category-tag"
               >
                 {category}

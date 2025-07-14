@@ -3,6 +3,7 @@ import { remark } from 'remark';
 import html from 'remark-html';
 import { notFound } from 'next/navigation';
 import { getArticleData, getAllArticles } from '../../../lib/articles';
+import { getCategorySlug } from '../../../lib/categorySlugMap';
 
 // 記事データを処理する関数
 async function processArticleData(slug) {
@@ -144,12 +145,16 @@ export default async function ArticlePage({ params }) {
             </svg>
             <time>{article.date}</time>
           </div>
-          <div className="article-meta-item">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2 5.5H14M10 2V5.5M6 2V5.5M5 14H11C12.1046 14 13 13.1046 13 12V5.5C13 4.39543 12.1046 3.5 11 3.5H5C3.89543 3.5 3 4.39543 3 5.5V12C3 13.1046 3.89543 14 5 14Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <span>{article.category}</span>
-          </div>
+          {article.category && (
+            <div className="article-meta-item">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 5.5H14M10 2V5.5M6 2V5.5M5 14H11C12.1046 14 13 13.1046 13 12V5.5C13 4.39543 12.1046 3.5 11 3.5H5C3.89543 3.5 3 4.39543 3 5.5V12C3 13.1046 3.89543 14 5 14Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <Link href={`/category/${getCategorySlug(article.category)}`} className="article-category-link">
+                {article.category}
+              </Link>
+            </div>
+          )}
         </div>
       </div>
 
