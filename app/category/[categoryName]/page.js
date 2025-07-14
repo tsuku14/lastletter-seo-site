@@ -1,39 +1,24 @@
 import Link from 'next/link';
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-
-// 全記事のメタデータを取得するヘルパー関数
-function getAllArticlesMetadata() {
-  const articlesDirectory = path.join(process.cwd(), 'articles');
-  const filenames = fs.readdirSync(articlesDirectory).filter(file => file.endsWith('.md'));
-  
-  return filenames.map(filename => {
-    const slug = filename.replace(/\.md$/, '');
-    const filePath = path.join(articlesDirectory, filename);
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    const { data } = matter(fileContents);
-    
-    return {
-      slug,
-      ...data
-    };
-  });
-}
+import { getAllArticles, getAllCategories } from '../../../lib/articles';
 
 // 動的なメタデータを生成
 export async function generateMetadata({ params }) {
   const categoryName = decodeURIComponent(params.categoryName);
   return {
-    title: `${categoryName}の記事一覧 | LAST LETTER`,
-    description: `「${categoryName}」に関する専門記事の一覧です。`,
+    title: `${categoryName}の記事一覧`,
+    description: `「${categoryName}」に関する専門記事の一覧です。終活・相続に関する実用的な情報をお届けします。`,
+    openGraph: {
+      title: `${categoryName}の記事一覧 | LAST LETTER`,
+      description: `「${categoryName}」に関する専門記事の一覧`,
+      url: `https://lastletter.jp/category/${encodeURIComponent(categoryName)}`,
+      type: 'website',
+    },
   };
 }
 
 // 静的なパス（カテゴリ）を生成
 export async function generateStaticParams() {
-  const articles = getAllArticlesMetadata();
-  const categories = [...new Set(articles.map(article => article.category))];
+  const categories = getAllCategories();
   return categories.map(category => ({
     categoryName: encodeURIComponent(category),
   }));
@@ -41,27 +26,60 @@ export async function generateStaticParams() {
 
 export default function CategoryPage({ params }) {
   const categoryName = decodeURIComponent(params.categoryName);
-  const allArticles = getAllArticlesMetadata();
-  const articles = allArticles.filter(article => article.category === categoryName);
+  const allArticles = getAllArticles();
+  const articles = allArticles.filter(article => article.frontmatter.category === categoryName);
 
   return (
-    <div>
-      <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '2rem' }}>
-        カテゴリ: {categoryName}
-      </h1>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem' }}>
-        {articles.map(article => (
-          <Link key={article.slug} href={`/articles/${article.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-            <article style={{ border: '1px solid #e5e7eb', borderRadius: '8px', overflow: 'hidden', height: '100%' }}>
-              <div style={{ padding: '1.5rem' }}>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '0.75rem' }}>{article.title}</h3>
-                <p style={{ color: '#6b7280', fontSize: '0.9rem', marginBottom: '1rem' }}>{article.description}</p>
-                <time style={{ color: '#6b7280', fontSize: '0.8rem' }}>{article.date}</time>
-              </div>
-            </article>
-          </Link>
-        ))}
+    <div className="container">
+      <div className="category-header" style={{ marginBottom: '3rem' }}>
+        <h1 className="section-title" style={{ fontSize: '2.5rem' }}>
+          {categoryName}
+        </h1>
+        <p style={{ fontSize: '1.125rem', color: '#64748b', marginTop: '1rem' }}>
+          {categoryName}に関する記事が{articles.length}件あります
+        </p>
       </div>
+      
+      {articles.length > 0 ? (
+        <div className="article-grid">
+          {articles.map(article => (
+            <Link key={article.slug} href={`/articles/${article.slug}`}>
+              <article className="article-card">
+                <div className="article-card-content">
+                  <span className="article-category">{article.frontmatter.category}</span>
+                  <h3 className="article-title">{article.frontmatter.title}</h3>
+                  <p className="article-description">{article.frontmatter.description}</p>
+                  <time className="article-date">{article.frontmatter.date}</time>
+                </div>
+              </article>
+            </Link>
+          ))}
+        </div>
+      ) : (
+        <p style={{ textAlign: 'center', color: '#64748b', fontSize: '1.125rem' }}>
+          このカテゴリの記事はまだありません。
+        </p>
+      )}
+
+      {/* 他のカテゴリへのリンク */}
+      <section style={{ marginTop: '5rem' }}>
+        <h2 style={{ fontSize: '1.75rem', fontWeight: '700', marginBottom: '2rem' }}>
+          他のカテゴリも見る
+        </h2>
+        <div className="category-list">
+          {getAllCategories()
+            .filter(cat => cat !== categoryName)
+            .map(category => (
+              <Link 
+                key={category} 
+                href={`/category/${encodeURIComponent(category)}`}
+                className="category-tag"
+              >
+                {category}
+              </Link>
+            ))}
+        </div>
+      </section>
     </div>
   );
 }

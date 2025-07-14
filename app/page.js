@@ -1,75 +1,89 @@
 import Link from 'next/link';
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-
-// 全記事のメタデータを取得する関数
-function getArticlesMetadata() {
-  const articlesDirectory = path.join(process.cwd(), 'articles');
-  const filenames = fs.readdirSync(articlesDirectory).filter(file => file.endsWith('.md'));
-  
-  return filenames.map(filename => {
-    const slug = filename.replace(/\.md$/, '');
-    const filePath = path.join(articlesDirectory, filename);
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    const { data } = matter(fileContents);
-    
-    return {
-      slug,
-      ...data
-    };
-  }).sort((a, b) => new Date(b.date) - new Date(a.date)); // 日付順にソート
-}
+import { getAllArticles, getAllCategories } from '../lib/articles';
 
 export default function HomePage() {
-  const articles = getArticlesMetadata();
-  const latestArticles = articles.slice(0, 6); // 最新記事を6件表示
-  const categories = [...new Set(articles.map(a => a.category))];
+  const articles = getAllArticles();
+  const latestArticles = articles.slice(0, 6);
+  const categories = getAllCategories();
 
   return (
     <div>
       {/* ヒーローセクション */}
-      <section style={{ textAlign: 'center', padding: '4rem 1rem', marginBottom: '4rem', background: '#f9fafb', borderRadius: '12px' }}>
-        <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>もしもに備える、信頼の知識を</h1>
-        <p style={{ fontSize: '1.1rem', color: '#4b5563', maxWidth: '600px', margin: '0 auto' }}>
-          終活・相続からエンディングノートまで。専門家が監修した正確で実用的な情報で、あなたの「今」と「未来」をサポートします。
-        </p>
+      <section className="hero">
+        <div className="container">
+          <h1 className="hero-title">もしもに備える、信頼の知識を</h1>
+          <p className="hero-subtitle">
+            終活・相続からエンディングノートまで。専門家が監修した正確で実用的な情報で、
+            あなたの「今」と「未来」をサポートします。
+          </p>
+        </div>
       </section>
 
-      {/* 最新記事セクション */}
-      <section>
-        <h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '2rem', borderBottom: '2px solid #e5e7eb', paddingBottom: '0.5rem' }}>新着記事</h2>
-        {latestArticles.length > 0 ? (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem' }}>
-            {latestArticles.map(article => (
-              <Link key={article.slug} href={`/articles/${article.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <article style={{ border: '1px solid #e5e7eb', borderRadius: '8px', overflow: 'hidden', transition: 'box-shadow 0.3s' }}>
-                  <div style={{ padding: '1.5rem' }}>
-                    <p style={{ color: '#4f46e5', fontWeight: '600', marginBottom: '0.5rem' }}>{article.category}</p>
-                    <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '0.75rem', minHeight: '50px' }}>{article.title}</h3>
-                    <p style={{ color: '#6b7280', fontSize: '0.9rem', marginBottom: '1rem', minHeight: '70px' }}>{article.description}</p>
-                    <time style={{ color: '#6b7280', fontSize: '0.8rem' }}>{article.date}</time>
-                  </div>
-                </article>
+      <div className="container">
+        {/* 最新記事セクション */}
+        <section>
+          <h2 className="section-title">新着記事</h2>
+          {latestArticles.length > 0 ? (
+            <div className="article-grid">
+              {latestArticles.map(article => (
+                <Link key={article.slug} href={`/articles/${article.slug}`}>
+                  <article className="article-card">
+                    <div className="article-card-content">
+                      <span className="article-category">{article.frontmatter.category}</span>
+                      <h3 className="article-title">{article.frontmatter.title}</h3>
+                      <p className="article-description">{article.frontmatter.description}</p>
+                      <time className="article-date">{article.frontmatter.date}</time>
+                    </div>
+                  </article>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <p>現在、記事を準備中です。</p>
+          )}
+        </section>
+
+        {/* カテゴリセクション */}
+        <section style={{ marginTop: '4rem' }}>
+          <h2 className="section-title">カテゴリから探す</h2>
+          <div className="category-list">
+            {categories.map(category => (
+              <Link 
+                key={category} 
+                href={`/category/${encodeURIComponent(category)}`}
+                className="category-tag"
+              >
+                {category}
               </Link>
             ))}
           </div>
-        ) : (
-          <p>現在、記事を準備中です。</p>
-        )}
-      </section>
+        </section>
 
-      {/* カテゴリセクション */}
-      <section style={{ marginTop: '4rem' }}>
-        <h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '2rem', borderBottom: '2px solid #e5e7eb', paddingBottom: '0.5rem' }}>カテゴリから探す</h2>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
-          {categories.map(category => (
-            <Link key={category} href={`/category/${encodeURIComponent(category)}`} style={{ textDecoration: 'none', color: '#374151', background: '#f3f4f6', padding: '0.75rem 1.5rem', borderRadius: '9999px', fontWeight: '500', transition: 'background-color 0.3s' }}>
-              {category}
-            </Link>
-          ))}
-        </div>
-      </section>
+        {/* CTAセクション */}
+        <section className="cta-section" style={{ 
+          marginTop: '5rem', 
+          padding: '3rem', 
+          background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
+          borderRadius: '16px',
+          textAlign: 'center',
+          color: '#ffffff'
+        }}>
+          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>
+            大切な人へ、あなたの想いを届けませんか？
+          </h2>
+          <p style={{ fontSize: '1.125rem', marginBottom: '2rem', opacity: 0.9 }}>
+            LAST LETTERは、もしもの時に大切な人へメッセージを届けるサービスです。
+          </p>
+          <a 
+            href="https://lastletter.jp" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="cta-button"
+          >
+            LAST LETTERを詳しく見る
+          </a>
+        </section>
+      </div>
     </div>
   );
 }

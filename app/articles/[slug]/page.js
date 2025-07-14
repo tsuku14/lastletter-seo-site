@@ -2,45 +2,7 @@ import Link from 'next/link';
 import { remark } from 'remark';
 import html from 'remark-html';
 import { notFound } from 'next/navigation';
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-
-// 記事データを取得する関数
-function getArticleData(slug) {
-  const filePath = path.join(process.cwd(), 'articles', `${slug}.md`);
-  
-  try {
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    const { data, content } = matter(fileContents);
-    
-    return {
-      slug,
-      frontmatter: data,
-      content
-    };
-  } catch (error) {
-    return null;
-  }
-}
-
-// すべての記事データを取得する関数
-function getAllArticles() {
-  const articlesDirectory = path.join(process.cwd(), 'articles');
-  const filenames = fs.readdirSync(articlesDirectory).filter(file => file.endsWith('.md'));
-  
-  return filenames.map(filename => {
-    const slug = filename.replace(/\.md$/, '');
-    const filePath = path.join(articlesDirectory, filename);
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    const { data } = matter(fileContents);
-    
-    return {
-      slug,
-      frontmatter: data
-    };
-  });
-}
+import { getArticleData, getAllArticles } from '../../../lib/articles';
 
 // 記事データを処理する関数
 async function processArticleData(slug) {
@@ -59,13 +21,20 @@ async function processArticleData(slug) {
   while ((match = headingRegex.exec(contentHtml)) !== null) {
     const level = parseInt(match[1]);
     const text = match[2];
-    const id = text.replace(/\s+/g, '-').toLowerCase(); // シンプルなID生成
+    const id = text.replace(/[^\w\s]/gi, '').replace(/\s+/g, '-').toLowerCase();
     headings.push({ level, text, id });
   }
 
+  // contentHtmlにIDを追加
+  let updatedContent = contentHtml;
+  headings.forEach(heading => {
+    const regex = new RegExp(`<h${heading.level}>${heading.text}</h${heading.level}>`, 'g');
+    updatedContent = updatedContent.replace(regex, `<h${heading.level} id="${heading.id}">${heading.text}</h${heading.level}>`);
+  });
+
   return {
     slug,
-    contentHtml,
+    contentHtml: updatedContent,
     headings,
     ...article.frontmatter,
   };
@@ -88,7 +57,7 @@ export async function generateMetadata({ params }) {
       type: 'article',
       images: [
         {
-          url: 'https://lastletter.jp/ogp-default.png', // デフォルトOGP画像
+          url: 'https://lastletter.jp/ogp-default.png',
           width: 1200,
           height: 630,
           alt: article.title,
@@ -124,8 +93,8 @@ export default async function ArticlePage({ params }) {
   const allArticles = getAllArticles();
   const relatedArticles = allArticles
     .filter(a => a.frontmatter.category === article.category && a.slug !== article.slug)
-    .sort(() => 0.5 - Math.random()) // ランダムソート
-    .slice(0, 3); // 最大3件
+    .sort(() => 0.5 - Math.random())
+    .slice(0, 3);
 
   // JSON-LD構造化データ
   const jsonLd = {
@@ -134,42 +103,62 @@ export default async function ArticlePage({ params }) {
     headline: article.title,
     keywords: Array.isArray(article.keywords) ? article.keywords.join(', ') : '',
     datePublished: article.date,
+    dateModified: article.date,
     description: article.description,
     author: {
       '@type': 'Organization',
       name: 'LAST LETTER',
+      url: 'https://lastletter.jp'
     },
     publisher: {
         '@type': 'Organization',
         name: 'LAST LETTER',
         logo: {
             '@type': 'ImageObject',
-            url: 'https://lastletter.jp/logo.png', // 仮のロゴURL
+            url: 'https://lastletter.jp/logo.png',
         },
     },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://lastletter.jp/articles/${article.slug}`
+    }
   };
 
   return (
-    <article>
+    <article className="article-container">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <h1>{article.title}</h1>
-      <div>
-        <span>公開日: {article.date}</span>
-        <span>カテゴリ: {article.category}</span>
+      
+      <div className="article-header">
+        <h1 className="article-page-title">{article.title}</h1>
+        <div className="article-meta">
+          <div className="article-meta-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 2V8L11 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5"/>
+            </svg>
+            <time>{article.date}</time>
+          </div>
+          <div className="article-meta-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 5.5H14M10 2V5.5M6 2V5.5M5 14H11C12.1046 14 13 13.1046 13 12V5.5C13 4.39543 12.1046 3.5 11 3.5H5C3.89543 3.5 3 4.39543 3 5.5V12C3 13.1046 3.89543 14 5 14Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span>{article.category}</span>
+          </div>
+        </div>
       </div>
 
       {/* 目次 */}
       {article.headings && article.headings.length > 0 && (
-        <nav style={{ border: '1px solid #e5e7eb', borderRadius: '8px', padding: '1rem', marginBottom: '2rem', background: '#f9fafb' }}>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '1rem' }}>目次</h2>
-          <ul style={{ listStyle: 'none', padding: 0 }}>
+        <nav className="toc">
+          <h2 className="toc-title">目次</h2>
+          <ul className="toc-list">
             {article.headings.map(heading => (
-              <li key={heading.id} style={{ marginLeft: heading.level === 3 ? '1.5rem' : '0' }}>
-                <a href={`#${heading.id}`} style={{ textDecoration: 'none', color: '#4f46e5', display: 'block', padding: '0.25rem 0' }}>
-                  {heading.level === 3 ? '・' : ''}{heading.text}
+              <li key={heading.id} className={`toc-item level-${heading.level}`}>
+                <a href={`#${heading.id}`} className="toc-link">
+                  {heading.text}
                 </a>
               </li>
             ))}
@@ -177,20 +166,21 @@ export default async function ArticlePage({ params }) {
         </nav>
       )}
 
-      <div dangerouslySetInnerHTML={{ __html: article.contentHtml }} />
+      <div className="article-content" dangerouslySetInnerHTML={{ __html: article.contentHtml }} />
 
       {/* 関連記事 */}
       {relatedArticles.length > 0 && (
-        <section style={{ marginTop: '4rem', borderTop: '1px solid #e5e7eb', paddingTop: '2rem' }}>
-          <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', marginBottom: '2rem' }}>関連記事</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
+        <section className="related-section">
+          <h2 className="related-title">関連記事</h2>
+          <div className="article-grid">
             {relatedArticles.map(related => (
-              <Link key={related.slug} href={`/articles/${related.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <article style={{ border: '1px solid #e5e7eb', borderRadius: '8px', overflow: 'hidden', transition: 'box-shadow 0.3s' }}>
-                  <div style={{ padding: '1rem' }}>
-                    <p style={{ color: '#4f46e5', fontWeight: '600', marginBottom: '0.5rem', fontSize: '0.9rem' }}>{related.frontmatter.category}</p>
-                    <h3 style={{ fontSize: '1.1rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>{related.frontmatter.title}</h3>
-                    <p style={{ color: '#6b7280', fontSize: '0.8rem' }}>{related.frontmatter.description.substring(0, 80)}...</p>
+              <Link key={related.slug} href={`/articles/${related.slug}`}>
+                <article className="article-card">
+                  <div className="article-card-content">
+                    <span className="article-category">{related.frontmatter.category}</span>
+                    <h3 className="article-title">{related.frontmatter.title}</h3>
+                    <p className="article-description">{related.frontmatter.description}</p>
+                    <time className="article-date">{related.frontmatter.date}</time>
                   </div>
                 </article>
               </Link>
