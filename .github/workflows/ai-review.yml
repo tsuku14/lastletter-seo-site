@@ -3,7 +3,7 @@ name: AI Article Review
 on:
   push:
     branches:
-      - main
+      - main_disabled  # 一時的に無効化
 
 jobs:
   review:
