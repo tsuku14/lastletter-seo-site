@@ -43,15 +43,6 @@ jobs:
             echo "Changed files: $FILES"
           fi
 
-      - name: Check file count limit
-        if: steps.changed-files.outputs.files != ''
-        run: |
-          FILE_COUNT=${{ steps.changed-files.outputs.count }}
-          if [ "$FILE_COUNT" -gt 5 ]; then
-            echo "::warning::Too many files changed ($FILE_COUNT). AI review will be limited to first 5 files to prevent API rate limits."
-            echo "limit_review=true" >> $GITHUB_ENV
-          fi
-
       - name: OpenAI API Key Check
         if: steps.changed-files.outputs.files != ''
         run: |
@@ -70,24 +61,44 @@ jobs:
           set -e
           FILES="${{ steps.changed-files.outputs.files }}"
           COUNTER=0
-          MAX_FILES=5
+          TOTAL_COUNT=${{ steps.changed-files.outputs.count }}
           
           for file in $FILES; do
-            if [ "$COUNTER" -ge "$MAX_FILES" ]; then
-              echo "::notice::Reached review limit of $MAX_FILES files. Skipping remaining files."
-              break
-            fi
-            
-            echo "Reviewing: $file ($(($COUNTER + 1))/$MAX_FILES)"
-            node scripts/ai-review.js "$file" || {
-              echo "AI review failed for $file, continuing with next file..."
-              continue
-            }
-            
             COUNTER=$((COUNTER + 1))
-            # API レート制限を避けるため、各レビュー間に少し待機
-            sleep 2
+            echo "Reviewing: $file ($COUNTER/$TOTAL_COUNT)"
+            
+            # リトライロジックを追加
+            RETRY_COUNT=0
+            MAX_RETRIES=3
+            SUCCESS=false
+            
+            while [ $RETRY_COUNT -lt $MAX_RETRIES ] && [ "$SUCCESS" = "false" ]; do
+              if node scripts/ai-review.js "$file"; then
+                SUCCESS=true
+                echo "✅ Successfully reviewed: $file"
+              else
+                RETRY_COUNT=$((RETRY_COUNT + 1))
+                if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
+                  echo "⚠️ Review failed for $file, retrying ($RETRY_COUNT/$MAX_RETRIES)..."
+                  sleep 5  # リトライ前に5秒待機
+                else
+                  echo "❌ Failed to review $file after $MAX_RETRIES attempts"
+                fi
+              fi
+            done
+            
+            # API レート制限を避けるため、各レビュー間に待機
+            # 多数のファイルの場合は待機時間を長くする
+            if [ "$TOTAL_COUNT" -gt 10 ]; then
+              echo "Waiting 10 seconds before next review (large batch)..."
+              sleep 10
+            else
+              echo "Waiting 3 seconds before next review..."
+              sleep 3
+            fi
           done
+          
+          echo "✅ Completed reviewing $COUNTER files"
       
       - name: Review summary
         if: always()
@@ -96,8 +107,6 @@ jobs:
             echo "::notice::No article files were changed in this push"
           elif [ "${{ env.skip_review }}" = "true" ]; then
             echo "::warning::AI review was skipped due to missing OPENAI_API_KEY"
-          elif [ "${{ env.limit_review }}" = "true" ]; then
-            echo "::warning::AI review was limited to 5 files due to large number of changes"
           else
-            echo "::notice::AI review completed for changed files"
+            echo "::notice::AI review completed for ${{ steps.changed-files.outputs.count }} files"
           fi

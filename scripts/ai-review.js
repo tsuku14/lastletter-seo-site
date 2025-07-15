@@ -99,7 +99,7 @@ async function main() {
     try {
       const prompt = createReviewPrompt(content);
       const completion = await openai.chat.completions.create({
-        model: 'gpt-4',
+        model: 'gpt-4o-mini',  // より高速で安価なモデルに変更
         messages: [{ role: 'user', content: prompt }],
         max_tokens: 2000,
         temperature: 0.7,
@@ -110,8 +110,8 @@ async function main() {
       console.error(`AI review error (attempt ${retryCount + 1}/${maxRetries}):`, error.message);
       
       if (error.response?.status === 429) {
-        console.log('⚠️  Rate limit reached. Waiting before retry...');
-        await new Promise(resolve => setTimeout(resolve, 10000));
+        console.log('⚠️  Rate limit reached. Waiting 30 seconds before retry...');
+        await new Promise(resolve => setTimeout(resolve, 30000));  // 30秒待機に延長
       } else if (error.response?.status === 401) {
         console.error('🔐 Authentication error: Invalid OpenAI API key');
         process.exit(1);
