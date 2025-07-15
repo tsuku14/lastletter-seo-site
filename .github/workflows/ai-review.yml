@@ -34,10 +34,22 @@ jobs:
         run: |
           FILES=$(git diff --name-only HEAD~1 HEAD | grep '^articles/.*\.md$' || echo "")
           echo "files=$FILES" >> $GITHUB_OUTPUT
+          FILE_COUNT=$(echo "$FILES" | grep -c . || echo 0)
+          echo "count=$FILE_COUNT" >> $GITHUB_OUTPUT
           if [ -z "$FILES" ]; then
             echo "No markdown files changed in articles/"
           else
+            echo "Changed files count: $FILE_COUNT"
             echo "Changed files: $FILES"
+          fi
+
+      - name: Check file count limit
+        if: steps.changed-files.outputs.files != ''
+        run: |
+          FILE_COUNT=${{ steps.changed-files.outputs.count }}
+          if [ "$FILE_COUNT" -gt 5 ]; then
+            echo "::warning::Too many files changed ($FILE_COUNT). AI review will be limited to first 5 files to prevent API rate limits."
+            echo "limit_review=true" >> $GITHUB_ENV
           fi
 
       - name: OpenAI API Key Check
@@ -57,12 +69,24 @@ jobs:
         run: |
           set -e
           FILES="${{ steps.changed-files.outputs.files }}"
+          COUNTER=0
+          MAX_FILES=5
+          
           for file in $FILES; do
-            echo "Reviewing: $file"
+            if [ "$COUNTER" -ge "$MAX_FILES" ]; then
+              echo "::notice::Reached review limit of $MAX_FILES files. Skipping remaining files."
+              break
+            fi
+            
+            echo "Reviewing: $file ($(($COUNTER + 1))/$MAX_FILES)"
             node scripts/ai-review.js "$file" || {
               echo "AI review failed for $file, continuing with next file..."
               continue
             }
+            
+            COUNTER=$((COUNTER + 1))
+            # API レート制限を避けるため、各レビュー間に少し待機
+            sleep 2
           done
       
       - name: Review summary
@@ -72,6 +96,8 @@ jobs:
             echo "::notice::No article files were changed in this push"
           elif [ "${{ env.skip_review }}" = "true" ]; then
             echo "::warning::AI review was skipped due to missing OPENAI_API_KEY"
+          elif [ "${{ env.limit_review }}" = "true" ]; then
+            echo "::warning::AI review was limited to 5 files due to large number of changes"
           else
             echo "::notice::AI review completed for changed files"
           fi
