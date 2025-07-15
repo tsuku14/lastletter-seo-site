@@ -12,6 +12,12 @@ export default function Header() {
             <Link href="/" className="nav-link">
               ホーム
             </Link>
+            <Link href="/glossary" className="nav-link">
+              用語集
+            </Link>
+            <Link href="/faq" className="nav-link">
+              よくある質問
+            </Link>
             <Link href="/about" className="nav-link">
               私たちについて
             </Link>

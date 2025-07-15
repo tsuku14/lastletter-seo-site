@@ -1,0 +1,146 @@
+.glossary-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.glossary-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.glossary-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #1a202c;
+}
+
+.glossary-description {
+  font-size: 1.1rem;
+  color: #4a5568;
+  line-height: 1.8;
+}
+
+.kana-index {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 3rem;
+  padding: 1.5rem;
+  background: #f7fafc;
+  border-radius: 8px;
+}
+
+.kana-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  color: #2d3748;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.kana-link:hover:not(.disabled) {
+  background: #3182ce;
+  color: white;
+  border-color: #3182ce;
+}
+
+.kana-link.disabled {
+  color: #cbd5e0;
+  cursor: not-allowed;
+}
+
+.disabled {
+  color: #cbd5e0;
+  cursor: not-allowed;
+}
+
+.glossary-content {
+  /* Container for all glossary sections */
+}
+
+.kana-section {
+  margin-bottom: 3rem;
+}
+
+.kana-heading {
+  font-size: 1.8rem;
+  color: #2d3748;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid #3182ce;
+  margin-bottom: 1.5rem;
+}
+
+.term-list {
+  margin: 0;
+}
+
+.term-item {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #f7fafc;
+  border-radius: 8px;
+}
+
+.term-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
+}
+
+.term {
+  margin-right: 0.5rem;
+}
+
+.reading {
+  font-size: 0.9rem;
+  font-weight: normal;
+  color: #718096;
+}
+
+.term-description {
+  margin: 0;
+  line-height: 1.8;
+  color: #4a5568;
+}
+
+.related-links {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.related-label {
+  color: #718096;
+  margin-right: 0.5rem;
+}
+
+.related-link {
+  color: #3182ce;
+  text-decoration: none;
+  margin-right: 1rem;
+}
+
+.related-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .glossary-header h1 {
+    font-size: 2rem;
+  }
+
+  .kana-link {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .term-item {
+    padding: 1rem;
+  }
+}
