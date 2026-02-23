@@ -42,7 +42,7 @@ export const metadata = {
     },
   },
   verification: {
-    google: 'google-site-verification-code',
+    google: 'wahZFVbgadhACN5uV3CwJgekD3n_cIP7QzpxAFd3cMs',
   },
   metadataBase: new URL('https://lastletter.jp'),
 };
