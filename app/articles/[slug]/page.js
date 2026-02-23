@@ -198,6 +198,21 @@ export default async function ArticlePage({ params }) {
         />
       )}
       
+      {/* AI生成・免責事項バナー */}
+      <div style={{
+        backgroundColor: '#f0f9ff',
+        border: '1px solid #bae6fd',
+        borderRadius: '0.5rem',
+        padding: '0.75rem 1rem',
+        marginBottom: '1.5rem',
+        fontSize: '0.85rem',
+        color: '#0369a1'
+      }}>
+        🤖 本記事はAI（GPT-4）を活用して生成された情報を含みます。法律・税務等の専門的アドバイスではありません。
+        実際の手続きには専門家（弁護士・税理士等）にご相談ください。
+        詳しくは<Link href="/disclaimer" style={{ color: '#0369a1', fontWeight: 'bold' }}>免責事項</Link>をご確認ください。
+      </div>
+
       <div className="article-header">
         <h1 className="article-page-title">{article.title}</h1>
         <div className="article-meta">

@@ -28,23 +28,33 @@ function generateSitemap() {
       console.log('⚠️  articlesディレクトリが存在しません。空のサイトマップを生成します');
     }
 
+    const today = new Date().toISOString().split('T')[0];
+
     const urls = articlesData.map(article => {
+      // dateがundefinedや不正な値の場合はtodayを使用
+      const lastmod = article.frontmatter.date && /^\d{4}-\d{2}-\d{2}$/.test(article.frontmatter.date)
+        ? article.frontmatter.date
+        : today;
       return `
   <url>
     <loc>${siteUrl}/articles/${article.slug}</loc>
-    <lastmod>${article.frontmatter.date}</lastmod>
+    <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>`;
     });
 
-    // トップページとカテゴリページのURLも追加
-    const categories = [...new Set(articlesData.map(article => article.frontmatter.category))];
+    // トップページとカテゴリページのURLも追加（undefinedカテゴリを除外）
+    const categories = [...new Set(
+      articlesData
+        .map(article => article.frontmatter.category)
+        .filter(cat => cat && cat !== 'undefined')
+    )];
     categories.forEach(category => {
       urls.push(`
   <url>
     <loc>${siteUrl}/category/${encodeURIComponent(category)}</loc>
-    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
+    <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>`);
