@@ -3,7 +3,7 @@ const path = require('path');
 const matter = require('gray-matter');
 
 function generateSitemap() {
-  const siteUrl = 'https://lastletter.jp'; // ご自身のサイトURLに変更してください
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lastletter-seo-site.vercel.app';
   let articlesData = [];
 
   try {

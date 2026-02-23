@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import SearchBox from './SearchBox';
 
 export default function Header() {
   return (
@@ -21,10 +22,8 @@ export default function Header() {
             <Link href="/about" className="nav-link">
               私たちについて
             </Link>
-            <Link href="/privacy-policy" className="nav-link">
-              プライバシーポリシー
-            </Link>
           </nav>
+          <SearchBox />
         </div>
       </div>
     </header>

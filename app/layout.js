@@ -1,6 +1,16 @@
 import './globals.css';
+import { Noto_Sans_JP } from 'next/font/google';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+
+const notoSansJP = Noto_Sans_JP({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-noto-sans-jp',
+  display: 'swap',
+});
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lastletter-seo-site.vercel.app';
 
 export const metadata = {
   title: {
@@ -20,7 +30,7 @@ export const metadata = {
   openGraph: {
     title: '終活・相続情報センター',
     description: '終活・相続・エンディングノートに関する専門情報を提供',
-    url: 'https://lastletter.jp',
+    url: siteUrl,
     siteName: '終活・相続情報センター',
     locale: 'ja_JP',
     type: 'website',
@@ -44,7 +54,7 @@ export const metadata = {
   verification: {
     google: 'wahZFVbgadhACN5uV3CwJgekD3n_cIP7QzpxAFd3cMs',
   },
-  metadataBase: new URL('https://lastletter.jp'),
+  metadataBase: new URL(siteUrl),
 };
 
 export default function RootLayout({ children }) {
@@ -52,19 +62,19 @@ export default function RootLayout({ children }) {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "終活・相続情報センター",
-    "url": "https://lastletter.jp",
+    "url": siteUrl,
     "description": "終活・相続・エンディングノートに関する専門情報を提供。信頼できる知識で、あなたの「今」と「未来」をサポートします。",
     "publisher": {
       "@type": "Organization",
       "name": "LAST LETTER",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://lastletter.jp/logo.png"
+        "url": `${siteUrl}/logo.png`
       }
     },
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://lastletter.jp/search?q={search_term_string}",
+      "target": `${siteUrl}/search?q={search_term_string}`,
       "query-input": "required name=search_term_string"
     }
   };
@@ -76,14 +86,14 @@ export default function RootLayout({ children }) {
       "@type": "ListItem",
       "position": 1,
       "name": "ホーム",
-      "item": "https://lastletter.jp"
+      "item": siteUrl
     }]
   };
 
   return (
-    <html lang="ja">
+    <html lang="ja" className={notoSansJP.variable}>
       <head>
-        <link rel="canonical" href="https://lastletter.jp" />
+        <link rel="canonical" href={siteUrl} />
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
@@ -96,6 +106,14 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}
         />
+        {/* Google AdSense - Publisher IDを環境変数 NEXT_PUBLIC_ADSENSE_ID に設定してください */}
+        {process.env.NEXT_PUBLIC_ADSENSE_ID && (
+          <script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
+            crossOrigin="anonymous"
+          />
+        )}
         {/* Google Analytics 4 - 測定IDを環境変数 NEXT_PUBLIC_GA_MEASUREMENT_ID に設定してください */}
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
           <>

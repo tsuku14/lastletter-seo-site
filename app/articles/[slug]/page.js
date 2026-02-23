@@ -4,6 +4,12 @@ import html from 'remark-html';
 import { notFound } from 'next/navigation';
 import { getArticleData, getAllArticles } from '../../../lib/articles';
 import { getCategorySlug } from '../../../lib/categorySlugMap';
+import AdSenseAd from '../../../components/AdSenseAd';
+import AffiliateCard from '../../../components/AffiliateCard';
+import ArticleCTA from '../../../components/ArticleCTA';
+import AuthorBox from '../../../components/AuthorBox';
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lastletter-seo-site.vercel.app';
 
 // 記事データを処理する関数
 async function processArticleData(slug) {
@@ -11,7 +17,7 @@ async function processArticleData(slug) {
   if (!article) {
     return null;
   }
-  
+
   const processedContent = await remark().use(html).process(article.content);
   const contentHtml = processedContent.toString();
 
@@ -55,11 +61,11 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: article.title,
       description: article.description,
-      url: `https://lastletter.jp/articles/${article.slug}`,
+      url: `${siteUrl}/articles/${article.slug}`,
       type: 'article',
       images: [
         {
-          url: 'https://lastletter.jp/ogp-default.png',
+          url: `${siteUrl}/ogp-default.png`,
           width: 1200,
           height: 630,
           alt: article.title,
@@ -70,7 +76,7 @@ export async function generateMetadata({ params }) {
       card: 'summary_large_image',
       title: article.title,
       description: article.description,
-      images: ['https://lastletter.jp/ogp-default.png'],
+      images: [`${siteUrl}/ogp-default.png`],
     },
   };
 }
@@ -85,7 +91,6 @@ export async function generateStaticParams() {
 
 // 記事ページコンポーネント
 export default async function ArticlePage({ params }) {
-  // URLエンコーディングをデコード
   const decodedSlug = decodeURIComponent(params.slug);
   const article = await processArticleData(decodedSlug);
 
@@ -93,12 +98,18 @@ export default async function ArticlePage({ params }) {
     notFound();
   }
 
-  // 同じカテゴリの関連記事を抽出
+  // 関連記事：キーワード共通数でスコアリング（ランダムから改善）
   const allArticles = getAllArticles();
+  const articleKeywords = Array.isArray(article.keywords) ? article.keywords : [];
   const relatedArticles = allArticles
     .filter(a => a.frontmatter.category === article.category && a.slug !== article.slug)
-    .sort(() => 0.5 - Math.random())
-    .slice(0, 3);
+    .map(a => {
+      const aKeywords = Array.isArray(a.frontmatter.keywords) ? a.frontmatter.keywords : [];
+      const commonCount = aKeywords.filter(k => articleKeywords.includes(k)).length;
+      return { ...a, _score: commonCount };
+    })
+    .sort((a, b) => b._score - a._score)
+    .slice(0, 4);
 
   // JSON-LD構造化データ
   const jsonLd = {
@@ -109,26 +120,33 @@ export default async function ArticlePage({ params }) {
     datePublished: article.date,
     dateModified: article.date,
     description: article.description,
-    author: {
-      '@type': 'Organization',
-      name: 'LAST LETTER',
-      url: 'https://lastletter.jp'
-    },
-    publisher: {
+    author: [
+      {
+        '@type': 'Organization',
+        name: '終活・相続情報センター 編集部',
+        url: siteUrl
+      },
+      {
         '@type': 'Organization',
         name: 'LAST LETTER',
-        logo: {
-            '@type': 'ImageObject',
-            url: 'https://lastletter.jp/logo.png',
-        },
+        url: 'https://lastletter.jp'
+      }
+    ],
+    publisher: {
+      '@type': 'Organization',
+      name: 'LAST LETTER',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}/logo.png`,
+      },
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://lastletter.jp/articles/${article.slug}`
+      '@id': `${siteUrl}/articles/${article.slug}`
     },
     image: {
       '@type': 'ImageObject',
-      url: 'https://lastletter.jp/ogp-default.png',
+      url: `${siteUrl}/ogp-default.png`,
       width: 1200,
       height: 630
     }
@@ -143,24 +161,24 @@ export default async function ArticlePage({ params }) {
         '@type': 'ListItem',
         position: 1,
         name: 'ホーム',
-        item: 'https://lastletter.jp'
+        item: siteUrl
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: article.category,
-        item: `https://lastletter.jp/category/${getCategorySlug(article.category)}`
+        item: `${siteUrl}/category/${getCategorySlug(article.category)}`
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: article.title,
-        item: `https://lastletter.jp/articles/${article.slug}`
+        item: `${siteUrl}/articles/${article.slug}`
       }
     ]
   };
 
-  // FAQ構造化データ（FAQセクションがある場合）
+  // FAQ構造化データ
   const faqItems = [];
   const faqRegex = /<h3[^>]*>Q\d+:\s*(.*?)<\/h3>\s*<p><strong>A\d+:<\/strong>\s*(.*?)<\/p>/g;
   let faqMatch;
@@ -197,7 +215,7 @@ export default async function ArticlePage({ params }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
         />
       )}
-      
+
       {/* AI生成・免責事項バナー */}
       <div style={{
         backgroundColor: '#f0f9ff',
@@ -236,6 +254,9 @@ export default async function ArticlePage({ params }) {
         </div>
       </div>
 
+      {/* 著者ボックス（記事上部） */}
+      <AuthorBox />
+
       {/* 目次 */}
       {article.headings && article.headings.length > 0 && (
         <nav className="toc">
@@ -252,7 +273,20 @@ export default async function ArticlePage({ params }) {
         </nav>
       )}
 
+      {/* 広告①：目次直下 */}
+      <AdSenseAd slot="1234567890" />
+
+      {/* 本文 */}
       <div className="article-content" dangerouslySetInnerHTML={{ __html: article.contentHtml }} />
+
+      {/* 広告②：本文末尾 */}
+      <AdSenseAd slot="0987654321" />
+
+      {/* アフィリエイトCTA（カテゴリ別） */}
+      <AffiliateCard category={article.category} />
+
+      {/* LAST LETTER 自社CTA */}
+      <ArticleCTA />
 
       {/* 関連記事 */}
       {relatedArticles.length > 0 && (
@@ -274,6 +308,9 @@ export default async function ArticlePage({ params }) {
           </div>
         </section>
       )}
+
+      {/* 広告③：関連記事後 */}
+      <AdSenseAd slot="1122334455" />
     </article>
   );
 }
