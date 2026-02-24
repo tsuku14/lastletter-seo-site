@@ -124,6 +124,192 @@ const topics = [
   { title: "死亡届の提出方法と期限", keywords: ["死亡届", "提出方法", "期限", "7日以内", "必要書類"], category: "訃報・連絡", difficulty: "初級" },
   { title: "年金受給者が亡くなったときの手続き", keywords: ["年金 死亡", "受給停止", "手続き", "未支給年金", "期限"], category: "訃報・連絡", difficulty: "初級" },
   { title: "死亡後の公共料金・各種契約の解約手続き", keywords: ["死亡後 解約", "公共料金", "携帯", "クレジットカード", "手続き"], category: "訃報・連絡", difficulty: "初級" },
+
+  // ── 介護・福祉（追加30件）──
+  { title: "特別養護老人ホームの入居条件と待機期間の短縮法", keywords: ["特別養護老人ホーム", "入居条件", "待機期間", "要介護3", "申込方法"], category: "介護・福祉", difficulty: "初級" },
+  { title: "有料老人ホームの費用・月額の内訳と節約法", keywords: ["有料老人ホーム 費用", "月額", "内訳", "節約", "入居一時金"], category: "介護・福祉", difficulty: "初級" },
+  { title: "グループホームとは？認知症の人が入居できる施設", keywords: ["グループホーム", "認知症", "入居条件", "費用", "特徴"], category: "介護・福祉", difficulty: "初級" },
+  { title: "サービス付き高齢者向け住宅（サ高住）の選び方", keywords: ["サービス付き高齢者向け住宅", "サ高住", "選び方", "費用", "特徴"], category: "介護・福祉", difficulty: "初級" },
+  { title: "デイサービスとデイケアの違いと選び方", keywords: ["デイサービス", "デイケア", "違い", "選び方", "介護保険"], category: "介護・福祉", difficulty: "初級" },
+  { title: "ショートステイの利用方法と費用・泊まれる日数", keywords: ["ショートステイ", "利用方法", "費用", "日数", "介護保険"], category: "介護・福祉", difficulty: "初級" },
+  { title: "訪問介護（ホームヘルプ）の利用方法と費用", keywords: ["訪問介護", "ホームヘルプ", "利用方法", "費用", "サービス内容"], category: "介護・福祉", difficulty: "初級" },
+  { title: "訪問看護の利用方法と医療保険・介護保険の違い", keywords: ["訪問看護", "利用方法", "医療保険", "介護保険", "違い"], category: "介護・福祉", difficulty: "中級" },
+  { title: "認知症の種類と症状・早期発見のサイン", keywords: ["認知症 種類", "症状", "早期発見", "アルツハイマー", "血管性認知症"], category: "介護・福祉", difficulty: "初級" },
+  { title: "認知症の人との接し方・コミュニケーション術", keywords: ["認知症 接し方", "コミュニケーション", "介護", "怒らない", "対応方法"], category: "介護・福祉", difficulty: "初級" },
+  { title: "認知症の進行を遅らせる生活習慣と予防法", keywords: ["認知症 予防", "進行を遅らせる", "生活習慣", "運動", "食事"], category: "介護・福祉", difficulty: "初級" },
+  { title: "MCI（軽度認知障害）の症状と対処法", keywords: ["MCI", "軽度認知障害", "症状", "対処法", "認知症予防"], category: "介護・福祉", difficulty: "中級" },
+  { title: "ケアマネジャーの選び方と上手な付き合い方", keywords: ["ケアマネジャー", "選び方", "付き合い方", "担当変更", "ケアプラン"], category: "介護・福祉", difficulty: "初級" },
+  { title: "介護保険の自己負担割合と高額介護サービス費", keywords: ["介護保険 自己負担", "1割", "2割", "高額介護サービス費", "上限額"], category: "介護・福祉", difficulty: "中級" },
+  { title: "在宅介護と施設介護どちらが向いている？判断基準", keywords: ["在宅介護", "施設介護", "比較", "判断基準", "メリット デメリット"], category: "介護・福祉", difficulty: "初級" },
+  { title: "介護ストレスの解消法と燃え尽きない介護術", keywords: ["介護ストレス", "解消法", "燃え尽き", "介護疲れ", "レスパイトケア"], category: "介護・福祉", difficulty: "初級" },
+  { title: "老人ホーム入居の契約前に必ず確認すること", keywords: ["老人ホーム 契約", "確認事項", "重要事項説明書", "注意点", "入居前"], category: "介護・福祉", difficulty: "中級" },
+  { title: "介護施設での虐待を防ぐためのチェックポイント", keywords: ["介護施設 虐待", "防ぐ", "チェックポイント", "相談窓口", "サイン"], category: "介護・福祉", difficulty: "中級" },
+  { title: "高齢者の転倒予防と住宅改修のポイント", keywords: ["高齢者 転倒予防", "住宅改修", "介護保険", "手すり", "バリアフリー"], category: "介護・福祉", difficulty: "初級" },
+  { title: "介護食・嚥下食の作り方と市販品の選び方", keywords: ["介護食", "嚥下食", "作り方", "市販品", "とろみ"], category: "介護・福祉", difficulty: "初級" },
+  { title: "おむつ交換・排泄介助の正しい方法とポイント", keywords: ["おむつ交換", "排泄介助", "方法", "負担軽減", "介護技術"], category: "介護・福祉", difficulty: "初級" },
+  { title: "介護ベッド・車椅子など福祉用具のレンタルと購入", keywords: ["福祉用具", "レンタル", "購入", "介護保険", "介護ベッド"], category: "介護・福祉", difficulty: "初級" },
+  { title: "老老介護・認認介護の実態と支援策", keywords: ["老老介護", "認認介護", "実態", "支援策", "社会問題"], category: "介護・福祉", difficulty: "中級" },
+  { title: "遠距離介護の課題と上手な対処法", keywords: ["遠距離介護", "課題", "対処法", "見守り", "支援サービス"], category: "介護・福祉", difficulty: "中級" },
+  { title: "介護休業・介護休暇の申請方法と給付金", keywords: ["介護休業", "介護休暇", "申請方法", "給付金", "雇用保険"], category: "介護・福祉", difficulty: "中級" },
+  { title: "高齢者の薬管理と薬の飲み間違いを防ぐ方法", keywords: ["高齢者 薬管理", "飲み間違い", "防ぐ方法", "お薬手帳", "副作用"], category: "介護・福祉", difficulty: "初級" },
+  { title: "高齢者向け住宅改修の費用と介護保険適用", keywords: ["高齢者 住宅改修", "費用", "介護保険", "補助金", "バリアフリー"], category: "介護・福祉", difficulty: "中級" },
+  { title: "障害者手帳の取得方法と受けられるサービス", keywords: ["障害者手帳", "取得方法", "サービス", "割引", "支援"], category: "介護・福祉", difficulty: "初級" },
+  { title: "生活保護と介護保険の関係と申請方法", keywords: ["生活保護", "介護保険", "関係", "申請方法", "受給条件"], category: "介護・福祉", difficulty: "中級" },
+  { title: "高齢者施設の見学チェックリストと見るべきポイント", keywords: ["老人ホーム 見学", "チェックリスト", "ポイント", "雰囲気", "スタッフ"], category: "介護・福祉", difficulty: "初級" },
+
+  // ── 葬儀・お墓（追加25件）──
+  { title: "直葬（火葬式）のメリット・デメリットと費用", keywords: ["直葬", "火葬式", "メリット", "デメリット", "費用"], category: "葬儀・お墓", difficulty: "初級" },
+  { title: "一日葬の流れと費用・メリット", keywords: ["一日葬", "流れ", "費用", "メリット", "家族葬との違い"], category: "葬儀・お墓", difficulty: "初級" },
+  { title: "社葬の手続きと費用・会社負担の範囲", keywords: ["社葬", "手続き", "費用", "会社負担", "流れ"], category: "葬儀・お墓", difficulty: "中級" },
+  { title: "葬儀の生前予約・生前契約のメリットと注意点", keywords: ["葬儀 生前予約", "生前契約", "メリット", "注意点", "費用"], category: "葬儀・お墓", difficulty: "初級" },
+  { title: "永代供養墓の種類・費用と選び方", keywords: ["永代供養墓", "種類", "費用", "選び方", "合祀"], category: "葬儀・お墓", difficulty: "初級" },
+  { title: "散骨（海洋散骨・山林散骨）の法律と手続き", keywords: ["散骨", "海洋散骨", "山林散骨", "法律", "手続き"], category: "葬儀・お墓", difficulty: "中級" },
+  { title: "樹木葬の種類・費用と後悔しない選び方", keywords: ["樹木葬", "種類", "費用", "後悔しない", "選び方"], category: "葬儀・お墓", difficulty: "初級" },
+  { title: "納骨堂の種類と費用・メリット・デメリット", keywords: ["納骨堂", "種類", "費用", "メリット", "デメリット"], category: "葬儀・お墓", difficulty: "初級" },
+  { title: "お墓の継承問題と解決策・墓じまいの判断基準", keywords: ["お墓 継承", "解決策", "墓じまい", "判断基準", "後継者"], category: "葬儀・お墓", difficulty: "中級" },
+  { title: "改葬（お墓の引越し）の手続きと費用", keywords: ["改葬", "お墓 引越し", "手続き", "費用", "改葬許可証"], category: "葬儀・お墓", difficulty: "中級" },
+  { title: "無縁墓・無縁仏にならないための対策", keywords: ["無縁墓", "無縁仏", "ならない", "対策", "永代供養"], category: "葬儀・お墓", difficulty: "初級" },
+  { title: "葬儀費用を安くする方法と節約のコツ", keywords: ["葬儀費用 安くする", "節約", "コツ", "比較", "相見積もり"], category: "葬儀・お墓", difficulty: "初級" },
+  { title: "お布施の金額相場と渡し方・マナー", keywords: ["お布施", "金額相場", "渡し方", "マナー", "封筒"], category: "葬儀・お墓", difficulty: "初級" },
+  { title: "葬儀の参列マナー・弔電・供花の贈り方", keywords: ["葬儀 参列マナー", "弔電", "供花", "贈り方", "服装"], category: "葬儀・お墓", difficulty: "初級" },
+  { title: "喪主の役割と葬儀の挨拶文例・スピーチ", keywords: ["喪主", "役割", "挨拶文例", "スピーチ", "葬儀"], category: "葬儀・お墓", difficulty: "初級" },
+  { title: "法要の種類と時期・準備するもの一覧", keywords: ["法要 種類", "時期", "準備", "一覧", "七回忌"], category: "葬儀・お墓", difficulty: "初級" },
+  { title: "お盆・お彼岸の迎え方とお墓参りの正しいマナー", keywords: ["お盆", "お彼岸", "お墓参り", "マナー", "迎え方"], category: "葬儀・お墓", difficulty: "初級" },
+  { title: "位牌の種類・選び方と開眼供養の流れ", keywords: ["位牌", "種類", "選び方", "開眼供養", "流れ"], category: "葬儀・お墓", difficulty: "初級" },
+  { title: "仏壇の選び方・置き場所と飾り方", keywords: ["仏壇 選び方", "置き場所", "飾り方", "種類", "費用"], category: "葬儀・お墓", difficulty: "初級" },
+  { title: "遺骨の自宅保管は違法？手元供養の方法", keywords: ["遺骨 自宅保管", "違法", "手元供養", "方法", "法律"], category: "葬儀・お墓", difficulty: "中級" },
+  { title: "葬儀社の見積もりトラブル事例と対策", keywords: ["葬儀社 見積もり", "トラブル", "事例", "対策", "追加費用"], category: "葬儀・お墓", difficulty: "中級" },
+  { title: "死後1週間以内にすべき手続きチェックリスト", keywords: ["死後 手続き", "1週間以内", "チェックリスト", "優先順位", "流れ"], category: "葬儀・お墓", difficulty: "初級" },
+  { title: "クレマチオン（海外火葬）の実態と日本との違い", keywords: ["海外葬儀", "クレマチオン", "火葬", "日本との違い", "海外で亡くなった"], category: "葬儀・お墓", difficulty: "中級" },
+  { title: "ペットの葬儀・お墓の選び方と費用", keywords: ["ペット 葬儀", "お墓", "選び方", "費用", "ペット葬"], category: "葬儀・お墓", difficulty: "初級" },
+  { title: "神式・キリスト教式葬儀のマナーと流れ", keywords: ["神式 葬儀", "キリスト教式", "マナー", "流れ", "仏式との違い"], category: "葬儀・お墓", difficulty: "中級" },
+
+  // ── 相続税（追加20件）──
+  { title: "相続税の申告書の書き方と提出方法", keywords: ["相続税 申告書", "書き方", "提出方法", "税務署", "様式"], category: "相続税", difficulty: "中級" },
+  { title: "相続財産の評価方法（土地・建物・株式）", keywords: ["相続財産 評価", "土地", "建物", "株式", "路線価"], category: "相続税", difficulty: "中級" },
+  { title: "路線価とは？相続税の土地評価をわかりやすく解説", keywords: ["路線価", "相続税 土地評価", "倍率方式", "計算方法", "わかりやすく"], category: "相続税", difficulty: "中級" },
+  { title: "相続税の障害者控除・未成年者控除の計算方法", keywords: ["相続税 障害者控除", "未成年者控除", "計算方法", "控除額", "適用条件"], category: "相続税", difficulty: "中級" },
+  { title: "相続税の申告が不要な場合の判断基準", keywords: ["相続税 申告不要", "判断基準", "基礎控除以下", "小規模宅地", "確認方法"], category: "相続税", difficulty: "初級" },
+  { title: "名義預金とは？相続税調査で問題になるケース", keywords: ["名義預金", "相続税", "調査", "問題", "対策"], category: "相続税", difficulty: "中級" },
+  { title: "相続時精算課税制度の改正と2024年以降の活用法", keywords: ["相続時精算課税", "改正", "2024年", "活用法", "110万円非課税"], category: "相続税", difficulty: "中級" },
+  { title: "アパート・収益物件を相続した場合の税金対策", keywords: ["アパート 相続", "収益物件", "税金対策", "貸家建付地", "節税"], category: "相続税", difficulty: "上級" },
+  { title: "海外資産・外国人の相続税の扱い", keywords: ["海外資産 相続税", "外国人", "二重課税", "条約", "申告"], category: "相続税", difficulty: "上級" },
+  { title: "会社経営者の事業承継と相続税の特例", keywords: ["事業承継", "相続税 特例", "経営承継円滑化法", "猶予", "免除"], category: "相続税", difficulty: "上級" },
+  { title: "相続税の連帯納付義務とは？注意点と対策", keywords: ["相続税 連帯納付", "義務", "注意点", "対策", "未払い"], category: "相続税", difficulty: "上級" },
+  { title: "生命保険の死亡保険金と相続税の計算方法", keywords: ["生命保険 死亡保険金", "相続税 計算", "非課税枠", "受取人", "申告"], category: "相続税", difficulty: "中級" },
+  { title: "相続税の更正の請求（払いすぎた相続税の還付）", keywords: ["相続税 更正の請求", "払いすぎ", "還付", "期限", "手続き"], category: "相続税", difficulty: "上級" },
+  { title: "相続財産の中に借金・債務がある場合の対処法", keywords: ["相続 借金", "債務", "相続税 控除", "債務控除", "対処法"], category: "相続税", difficulty: "中級" },
+  { title: "教育資金贈与の一括非課税と2026年以降の動向", keywords: ["教育資金 贈与", "一括非課税", "1500万円", "2026年", "延長"], category: "相続税", difficulty: "中級" },
+  { title: "自社株の相続税評価額を下げる方法", keywords: ["自社株 相続税", "評価額", "下げる", "非上場株式", "純資産価額"], category: "相続税", difficulty: "上級" },
+  { title: "相続税の還付申告で払いすぎを取り戻す方法", keywords: ["相続税 還付申告", "払いすぎ", "取り戻す", "減額更正", "手続き"], category: "相続税", difficulty: "上級" },
+  { title: "孫への生前贈与で相続税を節税する戦略", keywords: ["孫 生前贈与", "相続税 節税", "暦年贈与", "3年以内", "持ち戻し"], category: "相続税", difficulty: "中級" },
+  { title: "農地の相続税の納税猶予と申請方法", keywords: ["農地 相続税", "納税猶予", "申請方法", "農業継続", "要件"], category: "相続税", difficulty: "上級" },
+  { title: "相続税がかかる人の割合と課税対象になるボーダーライン", keywords: ["相続税 割合", "課税対象", "ボーダーライン", "基礎控除", "統計"], category: "相続税", difficulty: "初級" },
+
+  // ── 地域別相続情報（20件）──
+  { title: "東京都の相続税・相続手続きの特徴と注意点", keywords: ["東京 相続税", "相続手続き", "特徴", "注意点", "路線価"], category: "相続手続き", difficulty: "中級" },
+  { title: "大阪府の相続手続きの流れと地域の専門家活用法", keywords: ["大阪 相続", "手続き", "流れ", "専門家", "税理士"], category: "相続手続き", difficulty: "中級" },
+  { title: "愛知県（名古屋）の相続税と不動産評価の特徴", keywords: ["愛知 相続税", "名古屋", "不動産評価", "路線価", "特徴"], category: "相続税", difficulty: "中級" },
+  { title: "神奈川県の相続登記と不動産相続の注意点", keywords: ["神奈川 相続登記", "不動産相続", "注意点", "横浜", "川崎"], category: "相続手続き", difficulty: "中級" },
+  { title: "埼玉県の相続手続きと農地・山林の承継", keywords: ["埼玉 相続", "農地", "山林", "承継", "手続き"], category: "相続手続き", difficulty: "中級" },
+  { title: "千葉県の相続と田舎の土地・空き家問題の対処法", keywords: ["千葉 相続", "田舎 土地", "空き家", "問題", "対処法"], category: "相続手続き", difficulty: "中級" },
+  { title: "北海道の相続と広大な土地・農地の評価方法", keywords: ["北海道 相続", "広大な土地", "農地 評価", "路線価", "特殊"], category: "相続税", difficulty: "上級" },
+  { title: "福岡県の相続手続きとよくある相談事例", keywords: ["福岡 相続", "手続き", "相談事例", "専門家", "費用"], category: "相続手続き", difficulty: "中級" },
+  { title: "兵庫県の相続と不動産の現状・評価のポイント", keywords: ["兵庫 相続", "不動産", "評価", "神戸", "阪神"], category: "相続手続き", difficulty: "中級" },
+  { title: "京都府の相続と町家・古民家の評価と活用", keywords: ["京都 相続", "町家", "古民家", "評価", "活用法"], category: "相続手続き", difficulty: "上級" },
+  { title: "沖縄県の相続の特徴と門中（ムンチュー）制度", keywords: ["沖縄 相続", "門中", "ムンチュー", "特徴", "慣習"], category: "相続手続き", difficulty: "中級" },
+  { title: "地方の空き家相続の対処法と活用・売却戦略", keywords: ["空き家 相続", "地方", "対処法", "活用", "売却"], category: "相続手続き", difficulty: "中級" },
+  { title: "農村部の相続と農地法の許可手続き", keywords: ["農村 相続", "農地法", "許可", "手続き", "農業委員会"], category: "相続手続き", difficulty: "中級" },
+  { title: "山林の相続と固定資産税・活用方法", keywords: ["山林 相続", "固定資産税", "活用方法", "売却", "管理"], category: "相続手続き", difficulty: "中級" },
+  { title: "相続した空き家を売るか貸すか活用するかの判断基準", keywords: ["空き家 売る", "貸す", "活用", "判断基準", "相続不動産"], category: "相続手続き", difficulty: "初級" },
+  { title: "相続した不動産の名義変更を放置するリスク", keywords: ["相続不動産 名義変更", "放置", "リスク", "義務化", "ペナルティ"], category: "相続手続き", difficulty: "初級" },
+  { title: "共有不動産の相続トラブルと解決策", keywords: ["共有不動産 相続", "トラブル", "解決策", "共有持分", "裁判"], category: "相続手続き", difficulty: "中級" },
+  { title: "相続した土地の分筆・合筆の手続きと費用", keywords: ["土地 分筆", "合筆", "手続き", "費用", "法務局"], category: "相続手続き", difficulty: "中級" },
+  { title: "タワーマンションの相続税評価と2024年改正の影響", keywords: ["タワーマンション 相続税", "評価", "2024年改正", "影響", "節税"], category: "相続税", difficulty: "上級" },
+  { title: "相続した借地権・底地の処理方法と注意点", keywords: ["借地権 相続", "底地", "処理方法", "注意点", "評価"], category: "相続手続き", difficulty: "上級" },
+
+  // ── 生前準備（追加20件）──
+  { title: "終活とは何か？始めるタイミングとやること", keywords: ["終活 とは", "始めるタイミング", "やること", "意味", "目的"], category: "生前準備", difficulty: "初級" },
+  { title: "終活ノートの書き方と項目一覧", keywords: ["終活ノート", "書き方", "項目", "一覧", "何を書く"], category: "生前準備", difficulty: "初級" },
+  { title: "介護が必要になる前に準備すること10選", keywords: ["介護 準備", "前に", "やること", "10選", "生前準備"], category: "生前準備", difficulty: "初級" },
+  { title: "老後の生活費はいくら必要？シミュレーション", keywords: ["老後 生活費", "いくら", "シミュレーション", "2000万円問題", "計算"], category: "生前準備", difficulty: "初級" },
+  { title: "終活セミナー・相談会の活用法と探し方", keywords: ["終活セミナー", "相談会", "活用法", "探し方", "無料"], category: "生前準備", difficulty: "初級" },
+  { title: "生前整理の業者選びと不用品の処分方法", keywords: ["生前整理 業者", "選び方", "不用品", "処分方法", "費用"], category: "生前準備", difficulty: "初級" },
+  { title: "断捨離のコツと思い出品・写真の整理法", keywords: ["断捨離 コツ", "思い出品", "写真", "整理法", "終活"], category: "生前準備", difficulty: "初級" },
+  { title: "デジタル終活でやること・アカウント整理", keywords: ["デジタル終活", "やること", "アカウント整理", "SNS", "パスワード"], category: "生前準備", difficulty: "初級" },
+  { title: "高齢者向け見守りサービスの種類と費用比較", keywords: ["高齢者 見守りサービス", "種類", "費用比較", "GPS", "センサー"], category: "生前準備", difficulty: "初級" },
+  { title: "老後に住む場所の選択肢とそれぞれのメリット", keywords: ["老後 住む場所", "選択肢", "メリット", "施設", "自宅リフォーム"], category: "生前準備", difficulty: "初級" },
+  { title: "老後の医療費を抑える健康保険の活用法", keywords: ["老後 医療費", "健康保険", "活用法", "高額療養費", "節約"], category: "生前準備", difficulty: "中級" },
+  { title: "高額療養費制度の申請方法と自己負担限度額", keywords: ["高額療養費制度", "申請方法", "自己負担限度額", "計算方法", "払い戻し"], category: "生前準備", difficulty: "中級" },
+  { title: "持病があっても入れる医療保険・生命保険の選び方", keywords: ["持病 保険", "医療保険", "生命保険", "引受緩和型", "選び方"], category: "生前準備", difficulty: "初級" },
+  { title: "iDeCo（個人型確定拠出年金）で老後に備える方法", keywords: ["iDeCo", "個人型確定拠出年金", "老後", "節税", "運用"], category: "生前準備", difficulty: "中級" },
+  { title: "NISAで老後資産を作る方法と引き出しタイミング", keywords: ["NISA", "老後資産", "作る方法", "引き出し", "タイミング"], category: "生前準備", difficulty: "中級" },
+  { title: "公証役場での手続き一覧と事前準備のポイント", keywords: ["公証役場", "手続き", "一覧", "事前準備", "費用"], category: "生前準備", difficulty: "中級" },
+  { title: "老人性うつと認知症の違い・家族ができること", keywords: ["老人性うつ", "認知症 違い", "家族", "できること", "対処法"], category: "生前準備", difficulty: "初級" },
+  { title: "高齢ドライバーの運転免許返納と代替交通手段", keywords: ["高齢ドライバー", "免許返納", "代替交通手段", "サポート", "特典"], category: "生前準備", difficulty: "初級" },
+  { title: "終末期医療の選択と家族への意思表示方法", keywords: ["終末期医療", "選択", "意思表示", "家族", "事前指示書"], category: "生前準備", difficulty: "中級" },
+  { title: "入院・手術に備えた保険請求と手続きの流れ", keywords: ["入院 手術", "保険請求", "手続き", "流れ", "必要書類"], category: "生前準備", difficulty: "初級" },
+
+  // ── 遺言書（追加15件）──
+  { title: "遺言書の訂正・修正の正しい方法", keywords: ["遺言書 訂正", "修正", "正しい方法", "ルール", "無効にならない"], category: "遺言書", difficulty: "中級" },
+  { title: "共同遺言が禁止されている理由と夫婦の対処法", keywords: ["共同遺言 禁止", "理由", "夫婦", "対処法", "それぞれ作成"], category: "遺言書", difficulty: "中級" },
+  { title: "遺言書で相続廃除をする方法と条件", keywords: ["相続廃除", "遺言書", "方法", "条件", "不正行為"], category: "遺言書", difficulty: "上級" },
+  { title: "遺言書の偽造・変造を防ぐための対策", keywords: ["遺言書 偽造", "変造", "防ぐ", "対策", "公正証書"], category: "遺言書", difficulty: "中級" },
+  { title: "遺言書に書けないこと・書いても効力がないこと", keywords: ["遺言書 書けないこと", "効力がない", "付言事項", "限界", "内容"], category: "遺言書", difficulty: "中級" },
+  { title: "遺言書の発見後の対応・隠したらどうなる？", keywords: ["遺言書 発見", "対応", "隠す", "罰則", "開封禁止"], category: "遺言書", difficulty: "初級" },
+  { title: "条件付き遺言（停止条件・解除条件）の活用法", keywords: ["条件付き遺言", "停止条件", "解除条件", "活用法", "設定方法"], category: "遺言書", difficulty: "上級" },
+  { title: "遺言書で相続人に付言事項を残す書き方", keywords: ["遺言書 付言事項", "書き方", "メッセージ", "家族へ", "感謝"], category: "遺言書", difficulty: "初級" },
+  { title: "認知症発症前に遺言書を作成すべき理由と手順", keywords: ["認知症 遺言書", "発症前", "作成", "理由", "手順"], category: "遺言書", difficulty: "初級" },
+  { title: "遺言書の内容と遺産分割協議どちらが優先されるか", keywords: ["遺言書", "遺産分割協議", "優先", "どちら", "法的効力"], category: "遺言書", difficulty: "中級" },
+  { title: "外国人が日本で遺言書を作成する際の注意点", keywords: ["外国人 遺言書", "日本", "作成", "注意点", "準拠法"], category: "遺言書", difficulty: "上級" },
+  { title: "遺言書の相続割合の決め方と兄弟間の公平な配分", keywords: ["遺言書 相続割合", "決め方", "兄弟", "公平", "配分"], category: "遺言書", difficulty: "初級" },
+  { title: "胎児への遺贈は可能？生まれる前の相続の扱い", keywords: ["胎児 遺贈", "生まれる前", "相続", "扱い", "法律"], category: "遺言書", difficulty: "上級" },
+  { title: "遺言書の証人の条件と証人になれない人", keywords: ["遺言書 証人", "条件", "なれない人", "相続人", "受遺者"], category: "遺言書", difficulty: "中級" },
+  { title: "相続人のいない人の遺産はどこへ行く？対策方法", keywords: ["相続人なし", "遺産", "どこへ", "国庫", "対策方法"], category: "遺言書", difficulty: "中級" },
+
+  // ── デジタル終活（追加15件）──
+  { title: "Google・Appleアカウントの死後の手続き方法", keywords: ["Google アカウント 死後", "Apple アカウント", "手続き", "継承", "削除"], category: "デジタル終活", difficulty: "初級" },
+  { title: "Facebookの追悼アカウント設定と管理者の指定方法", keywords: ["Facebook 追悼アカウント", "設定", "管理者", "指定方法", "死後"], category: "デジタル終活", difficulty: "初級" },
+  { title: "LINE・メールアカウントの死後の対応と注意点", keywords: ["LINE 死後", "メール", "対応", "注意点", "アカウント削除"], category: "デジタル終活", difficulty: "初級" },
+  { title: "ネット銀行・ネット証券の相続で困らない準備", keywords: ["ネット銀行 相続", "ネット証券", "困らない", "準備", "パスワード"], category: "デジタル終活", difficulty: "中級" },
+  { title: "クレジットカードの死後の解約手続きと未払い処理", keywords: ["クレジットカード 死後", "解約", "手続き", "未払い", "相続"], category: "デジタル終活", difficulty: "初級" },
+  { title: "サブスクリプションの解約方法と死後の対応", keywords: ["サブスクリプション 解約", "死後", "対応", "Netflix", "Amazonプライム"], category: "デジタル終活", difficulty: "初級" },
+  { title: "デジタル写真・動画の整理と家族への引き継ぎ方", keywords: ["デジタル写真", "動画", "整理", "引き継ぎ", "クラウド"], category: "デジタル終活", difficulty: "初級" },
+  { title: "パスワードマネージャーの活用と終活での管理", keywords: ["パスワードマネージャー", "活用", "終活", "管理", "おすすめ"], category: "デジタル終活", difficulty: "初級" },
+  { title: "ビットコイン・仮想通貨を相続させるための準備", keywords: ["ビットコイン 相続", "仮想通貨", "準備", "秘密鍵", "ウォレット"], category: "デジタル終活", difficulty: "上級" },
+  { title: "ブログ・YouTubeチャンネルの死後の扱いと収益", keywords: ["ブログ 死後", "YouTubeチャンネル", "収益", "相続", "引き継ぎ"], category: "デジタル終活", difficulty: "中級" },
+  { title: "個人情報の死後の取り扱いと遺族の権利", keywords: ["個人情報 死後", "取り扱い", "遺族", "権利", "GDPR"], category: "デジタル終活", difficulty: "中級" },
+  { title: "スマートホームデバイスの相続と引き継ぎ", keywords: ["スマートホーム", "相続", "引き継ぎ", "Alexa", "Google Home"], category: "デジタル終活", difficulty: "初級" },
+  { title: "オンラインゲームアカウントの相続と引き継ぎの可否", keywords: ["オンラインゲーム 相続", "アカウント", "引き継ぎ", "可否", "規約"], category: "デジタル終活", difficulty: "中級" },
+  { title: "電子書籍・デジタルコンテンツは相続できるか？", keywords: ["電子書籍 相続", "デジタルコンテンツ", "相続できるか", "Kindle", "ライセンス"], category: "デジタル終活", difficulty: "中級" },
+  { title: "デジタル終活チェックリスト：今すぐできる10のこと", keywords: ["デジタル終活 チェックリスト", "今すぐ", "10のこと", "準備", "手順"], category: "デジタル終活", difficulty: "初級" },
+
+  // ── 法的制度（追加7件）──
+  { title: "遺産分割調停の申立て方法と流れ", keywords: ["遺産分割調停", "申立て", "方法", "流れ", "家庭裁判所"], category: "法的制度", difficulty: "中級" },
+  { title: "相続財産管理人の選任と費用", keywords: ["相続財産管理人", "選任", "費用", "手続き", "相続人不存在"], category: "法的制度", difficulty: "上級" },
+  { title: "配偶者居住権の活用と登記手続き", keywords: ["配偶者居住権", "活用", "登記", "手続き", "2020年改正"], category: "法的制度", difficulty: "中級" },
+  { title: "特別縁故者として財産を受け取る方法", keywords: ["特別縁故者", "財産", "受け取る", "手続き", "申立て"], category: "法的制度", difficulty: "上級" },
+  { title: "相続人全員の同意なしに遺産分割できるケース", keywords: ["相続人 同意なし", "遺産分割", "できるケース", "特例", "単独申請"], category: "法的制度", difficulty: "上級" },
+  { title: "民法改正で変わった相続ルール（2024年最新版）", keywords: ["民法改正 相続", "変わったルール", "2024年", "最新", "改正点"], category: "法的制度", difficulty: "中級" },
+  { title: "相続税の申告期限後に遺言書が見つかった場合の対処法", keywords: ["申告期限後 遺言書", "発見", "対処法", "更正請求", "修正申告"], category: "法的制度", difficulty: "上級" },
+
+  // ── エンディングノート（追加4件）──
+  { title: "エンディングノートに書く緊急連絡先と医療情報", keywords: ["エンディングノート 緊急連絡先", "医療情報", "書き方", "病院", "薬"], category: "エンディングノート", difficulty: "初級" },
+  { title: "エンディングノートのデジタル版アプリ比較2026", keywords: ["エンディングノート アプリ", "デジタル版", "比較", "2026", "おすすめ"], category: "エンディングノート", difficulty: "初級" },
+  { title: "エンディングノートを夫婦で一緒に書くメリット", keywords: ["エンディングノート 夫婦", "一緒に書く", "メリット", "コミュニケーション", "共有"], category: "エンディングノート", difficulty: "初級" },
+  { title: "子どもに残すエンディングノートの書き方と渡し方", keywords: ["エンディングノート 子ども", "残す", "書き方", "渡し方", "メッセージ"], category: "エンディングノート", difficulty: "初級" },
+
+  // ── 保険・税務（追加10件）──
+  { title: "終身保険と定期保険の違い・老後に残すべき保険", keywords: ["終身保険", "定期保険", "違い", "老後", "選び方"], category: "保険・税務", difficulty: "初級" },
+  { title: "個人年金保険の相続税と解約返戻金の扱い", keywords: ["個人年金保険 相続税", "解約返戻金", "扱い", "受取人", "課税"], category: "保険・税務", difficulty: "中級" },
+  { title: "相続した不動産の固定資産税と相続後の維持費", keywords: ["相続 固定資産税", "不動産", "維持費", "空き家", "節税"], category: "保険・税務", difficulty: "初級" },
+  { title: "確定申告が必要な相続財産とその申告方法", keywords: ["確定申告 相続財産", "申告方法", "譲渡所得", "配当", "必要なケース"], category: "保険・税務", difficulty: "中級" },
+  { title: "相続と贈与の税率比較・どちらが有利かシミュレーション", keywords: ["相続税 贈与税 比較", "税率", "有利", "シミュレーション", "節税戦略"], category: "保険・税務", difficulty: "中級" },
+  { title: "住宅取得資金贈与の非課税制度と申告方法", keywords: ["住宅取得資金贈与", "非課税", "申告方法", "上限額", "条件"], category: "保険・税務", difficulty: "中級" },
+  { title: "民事信託（家族信託）の税務上の取り扱い", keywords: ["民事信託", "家族信託", "税務", "取り扱い", "課税関係"], category: "保険・税務", difficulty: "上級" },
+  { title: "相続した株式の取得費と売却時の税金計算", keywords: ["相続 株式", "取得費", "売却", "税金計算", "譲渡所得"], category: "保険・税務", difficulty: "中級" },
+  { title: "老後の確定申告：年金・医療費・ふるさと納税", keywords: ["老後 確定申告", "年金", "医療費控除", "ふるさと納税", "シニア"], category: "保険・税務", difficulty: "初級" },
+  { title: "相続財産の調査方法と隠し財産の発見法", keywords: ["相続財産 調査", "隠し財産", "発見", "名寄せ", "金融機関"], category: "保険・税務", difficulty: "中級" },
 ];
 
 // 超高品質記事生成プロンプト
@@ -197,6 +383,24 @@ function generateEnhancedPrompt(topic) {
 4. 具体的な手順・方法
 5. 注意点・よくある失敗例
 6. 専門家のアドバイス・まとめ
+7. よくある質問（FAQ）
+
+■ FAQ（よくある質問）セクションの必須フォーマット
+記事の末尾、まとめの後に、以下の形式で**必ず3〜5問のFAQを追加してください**。
+このフォーマットは構造化データ（FAQPage）に使用されるため、厳密に従ってください。
+
+\`\`\`
+## よくある質問（FAQ）
+
+### Q1: [読者がよく抱く疑問を質問形式で記載]
+**A1:** [具体的で実用的な回答。100文字程度で簡潔に]
+
+### Q2: [別の重要な疑問]
+**A2:** [具体的な回答]
+
+### Q3: [手続き・費用・期限など実務的な疑問]
+**A3:** [具体的な回答]
+\`\`\`
 
 それでは、上記の条件を満たす高品質な記事を作成してください。`;
 }
@@ -319,9 +523,31 @@ async function generateBatch() {
   console.log(`📊 生成数: ${batchSize}記事`);
   console.log(`📅 開始日: ${startDate.toISOString().split('T')[0]}`);
   console.log(`🎯 品質レベル: 専門家監修相当`);
-  
+  console.log(`📚 利用可能トピック数: ${topics.length}件`);
+
+  // 既存記事のタイトルを取得して重複を防ぐ
+  const existingTitles = new Set();
+  if (fs.existsSync(articlesDir)) {
+    fs.readdirSync(articlesDir).forEach(file => {
+      if (file.endsWith('.md')) {
+        // ファイル名からタイトルを推定（完全一致ではなくキーワードマッチ）
+        const nameWithoutDate = file.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace('.md', '').replace(/-/g, ' ');
+        existingTitles.add(nameWithoutDate.toLowerCase());
+      }
+    });
+  }
+  console.log(`📂 既存記事数: ${existingTitles.size}件`);
+
+  // 未生成のトピックを優先してランダムに選択
+  const shuffled = [...topics].sort(() => Math.random() - 0.5);
+  const ungenerated = shuffled.filter(t => {
+    const titleKey = t.title.replace(/[^\w\s]/gi, '').replace(/\s+/g, ' ').toLowerCase();
+    return ![...existingTitles].some(existing => existing.includes(titleKey.substring(0, 15)));
+  });
+  const pool = ungenerated.length >= batchSize ? ungenerated : shuffled;
+
   const results = [];
-  const selectedTopics = topics.slice(0, batchSize);
+  const selectedTopics = pool.slice(0, batchSize);
   
   for (let i = 0; i < selectedTopics.length; i++) {
     const currentDate = new Date(startDate);
