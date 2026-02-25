@@ -382,7 +382,8 @@ ${internalLinkSection}
 - 最新情報の確認を促す文言を含む
 
 【出力形式】
-- **重要：生成する記事の本文のみを出力してください。Frontmatterはこちらで追加するため、絶対に含めないでください。**
+- **重要：必ず最初の1行目に `SLUG: your-english-slug` を出力してください（例: `SLUG: ending-note-basic-guide`）。スラッグは英数字とハイフンのみ使用。**
+- **2行目以降に記事本文を出力。Frontmatterは絶対に含めないでください。**
 - Markdown形式で出力
 - # で始まるメインタイトル
 - ## と ### を使った階層的な見出し構造
@@ -448,15 +449,34 @@ async function generateArticle(topic, dateStr, retryCount = 0, existingArticles 
       temperature: 0.7,
     });
 
-    const articleBody = completion.choices[0].message.content;
-    
+    const rawResponse = completion.choices[0].message.content;
+
+    // 1行目から英語スラッグを抽出（プロンプトで要求）
+    const slugMatch = rawResponse.match(/^SLUG:\s*([a-z0-9][a-z0-9-]{2,60}[a-z0-9])\s*\n/m);
+    const extractedSlug = slugMatch ? slugMatch[1] : null;
+
+    // SLUG行を記事本文から除去
+    const articleBody = rawResponse.replace(/^SLUG:\s*[^\n]+\n?/m, '').trimStart();
+
     // 記事の冒頭から要約を抽出（最初の200文字から探すなど、簡易的な方法）
     const description = articleBody.substring(0, 200).replace(/\n/g, ' ').trim();
+
+    // ファイル名生成: AI提供のスラッグ → カテゴリ略称+タイムスタンプのフォールバック
+    const categorySlugMap = {
+      '終活・エンディング': 'shukatsu', 'エンディングノート': 'ending-note',
+      '相続手続き': 'souzoku', '遺言書': 'yuigon', '葬儀・お墓': 'sougi',
+      '介護・福祉': 'kaigo', '相続税': 'souzokuzei', '生前準備': 'seizen',
+      'デジタル終活': 'digital', '保険・税務': 'hoken', '不動産相続': 'fudousan',
+      '生前贈与': 'zoyo', '法的制度': 'houteki', '信託制度': 'shintaku',
+    };
+    const catSlug = categorySlugMap[topic.category] || 'article';
+    const slugSuffix = extractedSlug || `${catSlug}-${Date.now().toString(36)}`;
 
     // Frontmatterを生成
     const frontmatter = `---
 title: "${topic.title}"
 date: "${dateStr}"
+slug: "${slugSuffix}"
 category: "${topic.category}"
 keywords: [${topic.keywords.map(k => `"${k}"`).join(', ')}]
 description: "${description.substring(0, 120)}"
@@ -465,7 +485,7 @@ description: "${description.substring(0, 120)}"
 `;
 
     const content = frontmatter + articleBody;
-    const filename = `${dateStr}-${topic.title.replace(/[^\w\s]/gi, '').replace(/\s+/g, '-')}.md`;
+    const filename = `${dateStr}-${slugSuffix}.md`;
     const filepath = path.join(process.cwd(), 'articles', filename);
     
     // 記事の品質チェック

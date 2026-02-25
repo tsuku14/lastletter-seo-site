@@ -10,11 +10,11 @@ function generateSitemap() {
     // articlesディレクトリから直接読み込み
     const articlesDir = path.join(process.cwd(), 'articles');
     if (fs.existsSync(articlesDir)) {
-      const files = fs.readdirSync(articlesDir).filter(file => file.endsWith('.md'));
-      
+      const files = fs.readdirSync(articlesDir).filter(file => file.endsWith('.md') || file.endsWith('.mdx'));
+
       articlesData = files.map(file => {
         const content = fs.readFileSync(path.join(articlesDir, file), 'utf-8');
-        const slug = file.replace('.md', '');
+        const slug = file.replace(/\.(md|mdx)$/, '');
         const { data } = matter(content);
         
         return {
