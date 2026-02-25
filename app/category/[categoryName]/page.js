@@ -10,6 +10,9 @@ export async function generateMetadata({ params }) {
   return {
     title: `${categoryName}の記事一覧 | 終活・相続情報センター`,
     description: `「${categoryName}」に関する専門記事の一覧です。終活・相続に関する実用的な情報をお届けします。`,
+    alternates: {
+      canonical: `/category/${params.categoryName}`,
+    },
     openGraph: {
       title: `${categoryName}の記事一覧 | 終活・相続情報センター`,
       description: `「${categoryName}」に関する専門記事の一覧`,

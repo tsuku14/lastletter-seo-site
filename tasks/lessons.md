@@ -63,8 +63,34 @@
 - URL形式: `https://px.a8.net/svt/ejp?a8mat=1ZT775+10WXTU+249K+BWGDT&a8ejpredirect=[二重URLエンコード]`
 - まだ審査中のプログラム: みんなの介護, 終活と相続のまどぐち, 保険見直しラボ, よりそうお葬式, 税理士ドットコム
 
+#### バッチ生成: OpenAI 429 quota exceeded
+- **問題**: 3rd バッチ実行時に全記事が `429 You exceeded your current quota` で失敗→0記事生成
+- **対策**: generate-batch.js にリトライロジック（最大3回、指数バックオフ）は実装済みだが、quota超過はリトライでは解決しない
+- **教訓**: OpenAI API quotaを定期確認。毎日自動生成の量を quota に合わせて調整
+
+#### descriptionにMarkdown見出しが混入
+- **問題**: articleBodyの最初の120文字が `# タイトル ## 見出し` のMarkdown見出しを含むことがある
+- **修正**: `/#{1,6}\s+[^\n]*/g` と `/\*{1,3}([^*]+)\*{1,3}/g` で除去してから120字切り取り
+- **教訓**: フロントマター自動生成時は必ずMarkdown記法を除去してからプレーンテキスト化する
+
+### SEO/機能改善パターン（セッション2）
+
+#### /articles 全記事一覧ページ
+- searchParams を使うと Next.js の Dynamic Rendering になる（静的生成より遅くなる可能性）
+- カテゴリフィルターはURLクエリ `?category=xxx` で実装
+
+#### 読了時間表示
+- `contentHtml.replace(/<[^>]*>/g, '').length / 400` で日本語読了時間を推定（400字/分）
+- `Math.max(1, Math.ceil(...))` で最低1分を保証
+
+#### EmailCapture + /download ページ
+- 終活チェックリストPDF の無料配布でメールリスト収集
+- Brevo API（`/api/subscribe`）でコンタクト追加
+- BREVO_API_KEY 未設定時はデモモードで成功レスポンス返す
+
 ### ユーザー設定が必要なもの（自走できない）
 - `NEXT_PUBLIC_ADSENSE_ID`: AdSense 承認後に Vercel に設定
 - `BREVO_API_KEY` + `BREVO_LIST_ID`: Brevo アカウント作成後に設定
 - カスタムドメイン: Vercel Dashboard から設定
 - A8.net 審査中プログラムの承認確認と URL 更新
+- OpenAI API quota 確認: https://platform.openai.com/account/usage（quota超過時はバッチ生成不可）

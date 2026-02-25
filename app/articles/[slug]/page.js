@@ -59,6 +59,9 @@ export async function generateMetadata({ params }) {
     title: article.title,
     description: article.description,
     keywords: article.keywords,
+    alternates: {
+      canonical: `/articles/${article.slug}`,
+    },
     openGraph: {
       title: article.title,
       description: article.description,
@@ -66,7 +69,7 @@ export async function generateMetadata({ params }) {
       type: 'article',
       images: [
         {
-          url: `${siteUrl}/ogp-default.png`,
+          url: `${siteUrl}/api/og?title=${encodeURIComponent(article.title)}&category=${encodeURIComponent(article.category || '')}`,
           width: 1200,
           height: 630,
           alt: article.title,
@@ -77,7 +80,7 @@ export async function generateMetadata({ params }) {
       card: 'summary_large_image',
       title: article.title,
       description: article.description,
-      images: [`${siteUrl}/ogp-default.png`],
+      images: [`${siteUrl}/api/og?title=${encodeURIComponent(article.title)}&category=${encodeURIComponent(article.category || '')}`],
     },
   };
 }
