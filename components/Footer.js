@@ -9,6 +9,9 @@ export default function Footer() {
             <Link href="/" className="footer-link">
               ホーム
             </Link>
+            <Link href="/articles" className="footer-link">
+              記事一覧
+            </Link>
             <Link href="/download" className="footer-link" style={{ fontWeight: '600', color: '#f59e0b' }}>
               📋 無料チェックリスト
             </Link>
