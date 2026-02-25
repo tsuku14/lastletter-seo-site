@@ -150,7 +150,7 @@ export default async function ArticlePage({ params }) {
     },
     image: {
       '@type': 'ImageObject',
-      url: `${siteUrl}/ogp-default.png`,
+      url: `${siteUrl}/api/og?title=${encodeURIComponent(article.title)}&category=${encodeURIComponent(article.category || '')}`,
       width: 1200,
       height: 630
     }

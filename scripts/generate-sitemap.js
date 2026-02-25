@@ -2,6 +2,32 @@ const fs = require('fs');
 const path = require('path');
 const matter = require('gray-matter');
 
+// カテゴリ名→スラッグ変換（lib/categorySlugMap.js と同期）
+const categorySlugMap = {
+  '相続税': 'inheritance-tax',
+  '相続手続き': 'inheritance-procedures',
+  '信託制度': 'trust-system',
+  '法的制度': 'legal-system',
+  '生前準備': 'lifetime-preparation',
+  '遺言書': 'will',
+  'エンディングノート': 'ending-note',
+  'デジタル終活': 'digital-ending',
+  '保険・税務': 'insurance-tax',
+  '訃報・連絡': 'obituary-notice',
+  '葬儀・お墓': 'funeral-grave',
+  '介護・福祉': 'care-welfare',
+  'その他': 'others',
+  // バッチ生成で使われる可能性があるカテゴリ
+  '地域情報': 'regional',
+  '不動産相続': 'real-estate',
+  '生前贈与': 'lifetime-gift',
+};
+
+function getCategorySlug(categoryName) {
+  if (!categoryName) return 'others';
+  return categorySlugMap[categoryName] || categoryName.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+}
+
 function generateSitemap() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lastletter-seo-site.vercel.app';
   let articlesData = [];
@@ -51,9 +77,10 @@ function generateSitemap() {
         .filter(cat => cat && cat !== 'undefined')
     )];
     categories.forEach(category => {
+      const slug = getCategorySlug(category);
       urls.push(`
   <url>
-    <loc>${siteUrl}/category/${encodeURIComponent(category)}</loc>
+    <loc>${siteUrl}/category/${slug}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>

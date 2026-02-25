@@ -27,6 +27,9 @@ export const metadata = {
     address: false,
     telephone: false,
   },
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     title: '終活・相続情報センター',
     description: '終活・相続・エンディングノートに関する専門情報を提供',
@@ -34,11 +37,20 @@ export const metadata = {
     siteName: '終活・相続情報センター',
     locale: 'ja_JP',
     type: 'website',
+    images: [
+      {
+        url: `/api/og?title=${encodeURIComponent('終活・相続情報センター')}`,
+        width: 1200,
+        height: 630,
+        alt: '終活・相続情報センター',
+      }
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: '終活・相続情報センター',
     description: '終活・相続・エンディングノートに関する専門情報を提供',
+    images: [`/api/og?title=${encodeURIComponent('終活・相続情報センター')}`],
   },
   robots: {
     index: true,
