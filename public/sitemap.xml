@@ -596,8 +596,20 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://lastletter-seo-site.vercel.app/articles/kaigo-hiyo-mitsumori-guide</loc>
+    <lastmod>2026-02-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://lastletter-seo-site.vercel.app/articles/kaigo-hoken-application</loc>
     <lastmod>2025-07-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lastletter-seo-site.vercel.app/articles/kaigo-hoken-service-types</loc>
+    <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -628,6 +640,12 @@
   <url>
     <loc>https://lastletter-seo-site.vercel.app/articles/mochu-hagaki-guide</loc>
     <lastmod>2025-07-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lastletter-seo-site.vercel.app/articles/ninchisho-kaigo-jutaku-guide</loc>
+    <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -716,6 +734,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://lastletter-seo-site.vercel.app/articles/tokubetsu-yogo-rouinhome-guide</loc>
+    <lastmod>2026-02-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://lastletter-seo-site.vercel.app/articles/voluntary-guardianship-contract</loc>
     <lastmod>2025-07-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -724,6 +748,12 @@
   <url>
     <loc>https://lastletter-seo-site.vercel.app/articles/will-and-testament-guide</loc>
     <lastmod>2025-07-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lastletter-seo-site.vercel.app/articles/zaitaku-kaigo-limit-guide</loc>
+    <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
