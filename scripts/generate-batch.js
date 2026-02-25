@@ -504,7 +504,7 @@ description: "${description.substring(0, 120)}"
 // メイン実行関数
 async function generateBatch() {
   const batchSize = parseInt(process.argv[2]) || 10;
-  const startDate = new Date(process.argv[3]) || new Date();
+  const startDate = process.argv[3] ? new Date(process.argv[3]) : new Date();
   
   // OpenAI APIキーの確認
   if (!process.env.OPENAI_API_KEY) {
