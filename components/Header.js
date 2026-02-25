@@ -13,6 +13,9 @@ export default function Header() {
             <Link href="/" className="nav-link">
               ホーム
             </Link>
+            <Link href="/articles" className="nav-link">
+              記事一覧
+            </Link>
             <Link href="/glossary" className="nav-link">
               用語集
             </Link>
@@ -20,7 +23,7 @@ export default function Header() {
               よくある質問
             </Link>
             <Link href="/about" className="nav-link">
-              私たちについて
+              運営者情報
             </Link>
           </nav>
           <SearchBox />
