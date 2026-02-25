@@ -313,7 +313,19 @@ const topics = [
 ];
 
 // 超高品質記事生成プロンプト
-function generateEnhancedPrompt(topic) {
+function generateEnhancedPrompt(topic, relatedArticles = []) {
+  // 内部リンクセクション（関連記事がある場合のみ）
+  const internalLinkSection = relatedArticles.length > 0 ? `
+■ 内部リンクの自然な挿入（SEO重要）
+以下の関連記事へのリンクを、自然な文脈で記事内に2〜3箇所挿入してください。
+Markdownの [リンクテキスト](/articles/スラッグ) 形式を使用してください。
+
+利用可能な関連記事:
+${relatedArticles.map(a => `- [${a.title}](/articles/${a.slug})`).join('\n')}
+
+挿入例: 「相続税の計算方法について詳しくは[相続税の基礎控除をわかりやすく解説](/articles/2025-01-15-souzokuzei-kakaranai)をご参照ください。」
+` : '';
+
   // プロンプトに要約生成の指示を追加
   return `あなたは終活・相続分野の専門家として、以下の条件で高品質な記事を作成してください。
 
@@ -356,6 +368,7 @@ function generateEnhancedPrompt(topic) {
 - ロングテールキーワードを意識した文章
 - 読者の検索意図に完全に応える内容
 - **記事の冒頭で、この記事を読むことで読者が何を得られるかを簡潔にまとめた120文字程度の要約（description）を生成してください。**
+${internalLinkSection}
 
 ■ LAST LETTERサービスとの自然な連携
 - 記事内容に関連する場面で、以下のような自然な紹介を1-2箇所に含める：
@@ -406,12 +419,18 @@ function generateEnhancedPrompt(topic) {
 }
 
 // 記事生成とファイル保存
-async function generateArticle(topic, dateStr, retryCount = 0) {
+async function generateArticle(topic, dateStr, retryCount = 0, existingArticles = []) {
   const maxRetries = 3;
   try {
     console.log(`📝 記事生成開始: ${topic.title}`);
-    
-    const prompt = generateEnhancedPrompt(topic);
+
+    // 同一カテゴリまたはキーワード一致の関連記事を最大5件選択（内部リンク用）
+    const relatedArticles = existingArticles
+      .filter(a => a.category === topic.category ||
+        topic.keywords.some(k => k.length > 2 && a.title.includes(k.split(/[・\s]/)[0])))
+      .slice(0, 5);
+
+    const prompt = generateEnhancedPrompt(topic, relatedArticles);
     
     const completion = await openai.chat.completions.create({
       model: "gpt-4",
@@ -525,18 +544,31 @@ async function generateBatch() {
   console.log(`🎯 品質レベル: 専門家監修相当`);
   console.log(`📚 利用可能トピック数: ${topics.length}件`);
 
-  // 既存記事のタイトルを取得して重複を防ぐ
+  // 既存記事のタイトルを取得して重複を防ぐ + 内部リンク用にスラッグ・カテゴリも収集
   const existingTitles = new Set();
+  const existingArticles = [];  // { slug, title, category } for internal linking
   if (fs.existsSync(articlesDir)) {
     fs.readdirSync(articlesDir).forEach(file => {
       if (file.endsWith('.md')) {
-        // ファイル名からタイトルを推定（完全一致ではなくキーワードマッチ）
         const nameWithoutDate = file.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace('.md', '').replace(/-/g, ' ');
         existingTitles.add(nameWithoutDate.toLowerCase());
+        // フロントマターからタイトル・カテゴリを読み取る（内部リンク用）
+        try {
+          const content = fs.readFileSync(path.join(articlesDir, file), 'utf-8');
+          const titleMatch = content.match(/^title:\s*"([^"]+)"/m);
+          const categoryMatch = content.match(/^category:\s*"([^"]+)"/m);
+          if (titleMatch && categoryMatch) {
+            existingArticles.push({
+              slug: file.replace('.md', ''),
+              title: titleMatch[1],
+              category: categoryMatch[1],
+            });
+          }
+        } catch (e) { /* skip unreadable files */ }
       }
     });
   }
-  console.log(`📂 既存記事数: ${existingTitles.size}件`);
+  console.log(`📂 既存記事数: ${existingTitles.size}件 (内部リンク候補: ${existingArticles.length}件)`);
 
   // 未生成のトピックを優先してランダムに選択
   const shuffled = [...topics].sort(() => Math.random() - 0.5);
@@ -554,7 +586,7 @@ async function generateBatch() {
     currentDate.setDate(currentDate.getDate() + i);
     const dateStr = currentDate.toISOString().split('T')[0];
     
-    const result = await generateArticle(selectedTopics[i], dateStr);
+    const result = await generateArticle(selectedTopics[i], dateStr, 0, existingArticles);
     if (result) {
       results.push(result);
     }
