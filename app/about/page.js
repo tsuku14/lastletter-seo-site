@@ -1,13 +1,36 @@
 export const metadata = {
-  title: '運営者情報 | 終活・相続情報センター',
-  description: '終活・相続情報センターの運営者情報です。サイトの目的・制作方針・お問い合わせ先をご確認いただけます。',
+  title: '運営者情報・編集方針 | 終活・相続情報センター',
+  description: '終活・相続情報センターの運営者情報・編集方針・専門家監修体制をご紹介します。弁護士・税理士・介護専門家の知見を参考に、正確で実用的な情報を提供しています。',
   alternates: { canonical: '/about' },
+};
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lastletter-seo-site.vercel.app';
+
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: '終活・相続情報センター',
+  url: siteUrl,
+  description: '終活・相続・介護・葬儀に関する専門情報を提供するメディアサイト',
+  parentOrganization: {
+    '@type': 'Organization',
+    name: 'LAST LETTER',
+    url: 'https://lastletter.jp',
+  },
+  knowsAbout: [
+    '相続手続き', '相続税', '遺言書', '介護保険', '老人ホーム',
+    '葬儀', '終活', 'エンディングノート', '成年後見制度', '家族信託',
+  ],
 };
 
 export default function AboutPage() {
   return (
     <div className="container" style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem 1rem' }}>
-      <h1>運営者情報</h1>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
+      <h1>運営者情報・編集方針</h1>
 
       <h2>サイト概要</h2>
       <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '2rem' }}>

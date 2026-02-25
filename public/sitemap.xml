@@ -434,6 +434,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://lastletter-seo-site.vercel.app/articles/chiisana-ososhiki-guide</loc>
+    <lastmod>2026-02-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://lastletter-seo-site.vercel.app/articles/death-insurance-tax-exemption-5</loc>
     <lastmod>2025-07-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -670,6 +676,12 @@
   <url>
     <loc>https://lastletter-seo-site.vercel.app/articles/nursing-care-costs-guide</loc>
     <lastmod>2025-07-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lastletter-seo-site.vercel.app/articles/ohaka-erabi-guide</loc>
+    <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
