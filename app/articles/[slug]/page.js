@@ -8,6 +8,7 @@ import AdSenseAd from '../../../components/AdSenseAd';
 import AffiliateCard from '../../../components/AffiliateCard';
 import ArticleCTA from '../../../components/ArticleCTA';
 import AuthorBox from '../../../components/AuthorBox';
+import EmailCapture from '../../../components/EmailCapture';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lastletter-seo-site.vercel.app';
 
@@ -287,6 +288,9 @@ export default async function ArticlePage({ params }) {
 
       {/* LAST LETTER 自社CTA */}
       <ArticleCTA />
+
+      {/* メール登録（終活チェックリスト無料配布） */}
+      <EmailCapture variant="compact" placement="article-footer" />
 
       {/* 関連記事 */}
       {relatedArticles.length > 0 && (

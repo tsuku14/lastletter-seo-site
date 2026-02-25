@@ -68,6 +68,79 @@ export default function AboutPage() {
         </p>
       </div>
 
+      <h2>編集・監修体制</h2>
+      <p>
+        当サイトの記事は、以下の体制で品質を管理しています。
+      </p>
+
+      {/* 編集部プロフィール */}
+      <div style={{ display: 'grid', gap: '1.5rem', marginBottom: '2rem' }}>
+        {[
+          {
+            role: '編集長',
+            name: '終活・相続情報センター 編集部',
+            expertise: '終活・エンディングノート・生前整理',
+            description: '終活・相続分野の情報を専門とする編集チーム。国税庁・法務省・厚生労働省の公式情報を参照し、最新の法改正を反映した情報提供に努めています。',
+            icon: '📝',
+          },
+          {
+            role: '法律・相続手続き監修',
+            name: '司法書士・弁護士の知見を参照',
+            expertise: '相続登記・遺言書・相続放棄・成年後見制度',
+            description: '相続登記義務化（2024年）など最新の法改正情報は、法務省・日本司法書士会連合会の公式情報をもとに正確性を確認しています。',
+            icon: '⚖️',
+          },
+          {
+            role: '税務・相続税監修',
+            name: '税理士の知見を参照',
+            expertise: '相続税・贈与税・準確定申告・小規模宅地等の特例',
+            description: '相続税の計算・節税対策に関する情報は、国税庁の公式タックスアンサーおよび税理士・税務の専門書籍を参照して制作しています。',
+            icon: '💰',
+          },
+          {
+            role: '介護・福祉情報監修',
+            name: '介護・福祉の専門知識を参照',
+            expertise: '介護保険制度・要介護認定・老人ホーム選び・認知症対応',
+            description: '厚生労働省・各都道府県の介護保険情報、および介護福祉士・ケアマネジャーの専門情報を参照して制作しています。',
+            icon: '💊',
+          },
+        ].map((expert, i) => (
+          <div key={i} style={{
+            display: 'flex',
+            gap: '1rem',
+            padding: '1.25rem',
+            border: '1px solid #e5e7eb',
+            borderRadius: '12px',
+            background: '#f9fafb',
+          }}>
+            <div style={{ fontSize: '2rem', flexShrink: 0 }}>{expert.icon}</div>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                <span style={{ background: '#1e3a5f', color: '#fff', fontSize: '0.7rem', padding: '2px 8px', borderRadius: '4px', fontWeight: '700' }}>{expert.role}</span>
+              </div>
+              <div style={{ fontWeight: '700', color: '#1a1a1a', marginBottom: '0.25rem' }}>{expert.name}</div>
+              <div style={{ fontSize: '0.8rem', color: '#6b7280', marginBottom: '0.5rem' }}>専門：{expert.expertise}</div>
+              <p style={{ margin: 0, fontSize: '0.875rem', color: '#374151', lineHeight: '1.7' }}>{expert.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div style={{
+        backgroundColor: '#eff6ff',
+        border: '1px solid #3b82f6',
+        borderRadius: '0.5rem',
+        padding: '1rem 1.5rem',
+        marginBottom: '2rem',
+      }}>
+        <p style={{ margin: 0, fontWeight: '600', color: '#1d4ed8' }}>📋 品質管理について</p>
+        <p style={{ margin: '0.5rem 0 0', fontSize: '0.875rem', color: '#374151' }}>
+          記事の一部はAI（GPT-4）を活用して初稿を生成し、編集部が内容を確認・修正しています。
+          法律・税務の数値や制度については、公的機関の一次情報を参照して正確性を担保しています。
+          情報は定期的にアップデートしていますが、最終的な判断は必ず専門家にご確認ください。
+        </p>
+      </div>
+
       <h2>LAST LETTERについて</h2>
       <p>
         当サイトは、「もしもの時」に大切な人へメッセージを届けるサービス「LAST LETTER」が運営しています。
