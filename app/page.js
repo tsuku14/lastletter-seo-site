@@ -82,6 +82,23 @@ export default function HomePage() {
               🔄 毎日更新
             </div>
           </div>
+          {/* ヒーローCTA */}
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginTop: '2rem' }}>
+            <Link href="/articles" style={{
+              display: 'inline-block', padding: '0.875rem 2rem',
+              background: '#fff', color: '#1e3a5f',
+              borderRadius: '8px', textDecoration: 'none', fontWeight: '700', fontSize: '1rem',
+            }}>
+              📖 記事を読む
+            </Link>
+            <Link href="/download" style={{
+              display: 'inline-block', padding: '0.875rem 2rem',
+              background: 'linear-gradient(135deg, #f59e0b, #d97706)', color: '#1a1a1a',
+              borderRadius: '8px', textDecoration: 'none', fontWeight: '700', fontSize: '1rem',
+            }}>
+              📋 無料チェックリストをもらう
+            </Link>
+          </div>
         </div>
       </section>
 
