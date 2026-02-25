@@ -1,6 +1,7 @@
 export const metadata = {
   title: 'プライバシーポリシー | 終活・相続情報センター',
   description: '終活・相続情報センターの個人情報保護方針です。収集する情報・利用目的・Cookieポリシー・開示請求手続きを説明しています。',
+  alternates: { canonical: '/privacy-policy' },
 };
 
 export default function PrivacyPolicyPage() {

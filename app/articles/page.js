@@ -5,6 +5,7 @@ import { getCategorySlug } from '../../lib/categorySlugMap';
 export const metadata = {
   title: '記事一覧 | 終活・相続情報センター',
   description: '終活・相続・エンディングノートに関する専門記事を120件以上掲載。カテゴリ別に探せます。',
+  alternates: { canonical: '/articles' },
 };
 
 export default function ArticlesPage({ searchParams }) {

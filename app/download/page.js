@@ -4,6 +4,7 @@ import Link from 'next/link';
 export const metadata = {
   title: '終活チェックリスト（PDF）無料ダウンロード | 終活・相続情報センター',
   description: '終活で必要な手続き50項目をまとめた無料チェックリストPDFを配布中。エンディングノート・相続手続き・遺言書の基本をカバーした実用的な一覧表です。',
+  alternates: { canonical: '/download' },
 };
 
 export default function DownloadPage() {

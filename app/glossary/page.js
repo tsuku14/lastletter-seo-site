@@ -5,6 +5,7 @@ export const metadata = {
   title: '終活・相続用語集 | 100語以上の専門用語を解説',
   description: '終活や相続に関する専門用語100語以上をわかりやすく解説。五十音順で簡単に検索できます。',
   keywords: ['終活用語', '相続用語', '専門用語', '用語集', '辞典'],
+  alternates: { canonical: '/glossary' },
 };
 
 const glossaryData = {
@@ -629,12 +630,20 @@ const glossaryData = {
 };
 
 // 構造化データ
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lastletter-seo-site.vercel.app';
+
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "DefinedTermSet",
   "name": "終活・相続用語集",
   "description": "終活や相続に関する専門用語の解説集",
-  "url": "https://lastletter-seo-site.vercel.app/glossary"
+  "url": `${siteUrl}/glossary`,
+  "hasDefinedTerm": Object.values(glossaryData).flat().map(item => ({
+    "@type": "DefinedTerm",
+    "name": item.term,
+    "description": item.description,
+    "inDefinedTermSet": `${siteUrl}/glossary`,
+  })),
 };
 
 export default function GlossaryPage() {

@@ -4,6 +4,7 @@ export const metadata = {
   title: 'よくある質問（FAQ）',
   description: '終活・相続に関するよくある質問と回答をまとめました。疑問や不安を解決します。',
   keywords: ['終活 質問', '相続 FAQ', 'よくある質問', '終活 疑問', '相続 相談'],
+  alternates: { canonical: '/faq' },
 };
 
 const faqCategories = [

@@ -1,6 +1,7 @@
 export const metadata = {
   title: '運営者情報 | 終活・相続情報センター',
   description: '終活・相続情報センターの運営者情報です。サイトの目的・制作方針・お問い合わせ先をご確認いただけます。',
+  alternates: { canonical: '/about' },
 };
 
 export default function AboutPage() {

@@ -1,6 +1,7 @@
 export const metadata = {
   title: '利用規約 | 終活・相続情報センター',
   description: '終活・相続情報センターの利用規約です。本サービスをご利用いただく前に必ずお読みください。',
+  alternates: { canonical: '/terms' },
 };
 
 export default function TermsPage() {

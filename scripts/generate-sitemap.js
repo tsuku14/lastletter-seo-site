@@ -63,6 +63,7 @@ function generateSitemap() {
     // 静的ページのURL追加
     const staticPages = [
       { path: '/articles',        priority: '0.9', changefreq: 'daily'   },
+      { path: '/search',          priority: '0.6', changefreq: 'weekly'  },
       { path: '/about',           priority: '0.6', changefreq: 'monthly' },
       { path: '/faq',             priority: '0.7', changefreq: 'monthly' },
       { path: '/glossary',        priority: '0.7', changefreq: 'monthly' },

@@ -1,6 +1,7 @@
 export const metadata = {
   title: '免責事項 | 終活・相続情報センター',
   description: '終活・相続情報センターの免責事項です。本サイトの情報は一般的な情報提供を目的としており、専門的な法律・税務アドバイスではありません。',
+  alternates: { canonical: '/disclaimer' },
 };
 
 export default function DisclaimerPage() {
