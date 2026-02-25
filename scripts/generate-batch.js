@@ -382,7 +382,7 @@ ${internalLinkSection}
 - 最新情報の確認を促す文言を含む
 
 【出力形式】
-- **重要：必ず最初の1行目に `SLUG: your-english-slug` を出力してください（例: `SLUG: ending-note-basic-guide`）。スラッグは英数字とハイフンのみ使用。**
+- **重要：必ず最初の1行目に SLUG: your-english-slug 形式でURLスラッグを出力してください（例: SLUG: ending-note-basic-guide）。スラッグは英数字とハイフンのみ。**
 - **2行目以降に記事本文を出力。Frontmatterは絶対に含めないでください。**
 - Markdown形式で出力
 - # で始まるメインタイトル
