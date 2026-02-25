@@ -1,5 +1,11 @@
 // カテゴリ別アフィリエイトCTAコンポーネント
-// 各リンクはA8.net・もしもアフィリエイト等に登録後、URLを差し替えてください
+// Amazon A8.net アフィリエイトタグ: a8-affi-321840-22 (a8mat: 1ZT775+10WXTU+249K+BWGDT)
+// 審査中プログラム: みんなの介護(s00000024591001), 終活と相続のまどぐち(s00000025765001),
+//   保険見直しラボ(s00000017791001), よりそうお葬式(s00000016461001), 税理士ドットコム(s00000014783001)
+
+// A8.net Amazon アフィリエイトURL生成ヘルパー
+const amazonA8Link = (keyword) =>
+  `https://px.a8.net/svt/ejp?a8mat=1ZT775+10WXTU+249K+BWGDT&a8ejpredirect=https%3A%2F%2Fwww.amazon.co.jp%2Fs%3Fk%3D${encodeURIComponent(encodeURIComponent(keyword))}%26tag%3Da8-affi-321840-22`;
 
 const affiliateData = {
   '相続手続き': {
@@ -7,18 +13,18 @@ const affiliateData = {
     description: '弁護士・司法書士への無料相談で、複雑な相続手続きをスムーズに解決できます。',
     items: [
       {
-        name: '弁護士ドットコム 無料法律相談',
-        description: '全国の弁護士に今すぐ無料相談',
-        url: 'https://www.bengo4.com/',  // アフィリエイトリンクに差し替え
+        name: '終活と相続のまどぐち 無料相談',
+        description: '相続・終活の専門家が無料でサポート（A8.net提携申請中）',
+        url: 'https://souzoku-madoguchi.com/',  // TODO: 審査承認後、A8.netアフィリエイトURLに更新
         badge: '無料相談',
         color: '#1a56db',
       },
       {
-        name: '相続手続きサポートセンター',
-        description: '司法書士が相続登記・遺産整理をサポート',
-        url: 'https://lastletter-seo-site.vercel.app/about',
-        badge: '専門家対応',
-        color: '#057a55',
+        name: '相続手続き おすすめ書籍（Amazon）',
+        description: 'わかりやすい相続手続きの解説書を確認',
+        url: amazonA8Link('相続手続き 本'),
+        badge: 'Amazon',
+        color: '#FF9900',
       },
     ],
   },
@@ -27,18 +33,18 @@ const affiliateData = {
     description: '相続税は期限（10ヶ月）があります。早めの相談が節税につながります。',
     items: [
       {
-        name: '相続税専門の税理士を無料紹介',
-        description: '相続税申告の実績豊富な税理士を即日紹介',
-        url: 'https://www.zeirishi-hoken.co.jp/',  // アフィリエイトリンクに差し替え
+        name: '税理士ドットコム 相続税申告',
+        description: '相続税申告の実績豊富な税理士を即日紹介（A8.net提携申請中）',
+        url: 'https://www.zeiri4.com/',  // TODO: 審査承認後、A8.netアフィリエイトURLに更新（相続問合せ5,000円）
         badge: '無料紹介',
         color: '#c81e1e',
       },
       {
-        name: '相続税シミュレーター',
-        description: '3分で相続税の目安額を無料試算',
-        url: 'https://lastletter-seo-site.vercel.app/articles/2025-06-26-相続税-計算方法-基礎控除',
-        badge: '無料試算',
-        color: '#1a56db',
+        name: '相続税 解説書籍（Amazon）',
+        description: '相続税の計算・申告をわかりやすく解説',
+        url: amazonA8Link('相続税 申告 本'),
+        badge: 'Amazon',
+        color: '#FF9900',
       },
     ],
   },
@@ -47,11 +53,18 @@ const affiliateData = {
     description: '自筆証書遺言は法務局での保管制度を利用すると安心です。公正証書遺言は公証人が作成を支援します。',
     items: [
       {
-        name: '遺言書作成サービス',
-        description: 'オンラインで遺言書の下書きから公証人手続きまでサポート',
-        url: 'https://www.legal-matters.jp/',  // アフィリエイトリンクに差し替え
-        badge: 'オンライン対応',
+        name: '終活と相続のまどぐち 遺言書相談',
+        description: '遺言書作成から執行まで専門家がサポート（A8.net提携申請中）',
+        url: 'https://souzoku-madoguchi.com/',  // TODO: 審査承認後、A8.netアフィリエイトURLに更新
+        badge: '専門家相談',
         color: '#1a56db',
+      },
+      {
+        name: '遺言書 書き方ガイド（Amazon）',
+        description: '自筆証書・公正証書遺言の書き方を解説',
+        url: amazonA8Link('遺言書 書き方'),
+        badge: 'Amazon',
+        color: '#FF9900',
       },
     ],
   },
@@ -61,17 +74,17 @@ const affiliateData = {
     items: [
       {
         name: 'よりそうお葬式',
-        description: '業界最安水準。全国対応・24時間365日受付',
-        url: 'https://www.yorisou.jp/',  // A8.netアフィリエイトリンクに差し替え
+        description: '業界最安水準。全国対応・24時間365日受付（A8.net提携申請中）',
+        url: 'https://www.yorisou.jp/',  // TODO: 審査承認後、A8.netアフィリエイトURLに更新（資料請求2,000円、確定率95%）
         badge: '最安水準',
         color: '#374151',
       },
       {
-        name: '小さなお葬式',
-        description: '定額・明朗会計の家族葬・直葬プラン',
-        url: 'https://www.osohshiki.jp/',  // アフィリエイトリンクに差し替え
-        badge: '定額プラン',
-        color: '#1a56db',
+        name: '葬儀・お墓 準備ガイド（Amazon）',
+        description: '葬儀の流れ・費用・お墓の選び方を解説',
+        url: amazonA8Link('葬儀 準備 本'),
+        badge: 'Amazon',
+        color: '#FF9900',
       },
     ],
   },
@@ -82,7 +95,7 @@ const affiliateData = {
       {
         name: 'エンディングノート おすすめ書籍',
         description: 'Amazonで人気のエンディングノートを確認',
-        url: 'https://www.amazon.co.jp/s?k=エンディングノート',  // Amazonアソシエイトリンクに差し替え
+        url: 'https://px.a8.net/svt/ejp?a8mat=1ZT775+10WXTU+249K+BWGDT&a8ejpredirect=https%3A%2F%2Fwww.amazon.co.jp%2Fs%3Fk%3D%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%2587%25E3%2582%25A3%25E3%2583%25B3%25E3%2582%25B0%25E3%2583%258E%25E3%2583%25BC%25E3%2583%2588%26tag%3Da8-affi-321840-22',
         badge: 'Amazon',
         color: '#FF9900',
       },
@@ -93,11 +106,18 @@ const affiliateData = {
     description: '死亡保険金の非課税枠（500万円×法定相続人数）を活用した節税策を専門家に相談できます。',
     items: [
       {
-        name: '保険スクエアbang!',
-        description: '生命保険を無料で一括比較・FP相談',
-        url: 'https://www.hokensquare.com/',  // バリューコマースリンクに差し替え
+        name: '保険見直しラボ 無料FP相談',
+        description: '生命保険を無料で見直し・FP相談（A8.net提携申請中）',
+        url: 'https://www.hoken-minaoshi.co.jp/',  // TODO: 審査承認後、A8.netアフィリエイトURLに更新（無料相談10,000円、確定率59%）
         badge: '無料FP相談',
         color: '#057a55',
+      },
+      {
+        name: '相続と生命保険 解説書籍（Amazon）',
+        description: '生命保険を活用した相続対策をわかりやすく解説',
+        url: amazonA8Link('生命保険 相続 節税'),
+        badge: 'Amazon',
+        color: '#FF9900',
       },
     ],
   },
@@ -106,11 +126,18 @@ const affiliateData = {
     description: '費用や立地、ケアの質など、施設選びは専門家のサポートを受けると安心です。',
     items: [
       {
-        name: 'シニアのあんしん相談室',
-        description: '老人ホーム・介護施設を無料で紹介・見学手配',
-        url: 'https://www.anshin-kaigo.com/',  // A8.netアフィリエイトリンクに差し替え
+        name: 'みんなの介護 無料相談',
+        description: '老人ホーム・介護施設を無料で紹介・見学手配（A8.net提携申請中）',
+        url: 'https://www.minkaigo.jp/',  // TODO: 審査承認後、A8.netアフィリエイトURLに更新（資料請求2,300円、確定率83%）
         badge: '無料紹介',
         color: '#c81e1e',
+      },
+      {
+        name: '介護・老人ホーム 選び方ガイド（Amazon）',
+        description: '介護施設の種類・費用・選び方を解説',
+        url: amazonA8Link('老人ホーム 選び方 本'),
+        badge: 'Amazon',
+        color: '#FF9900',
       },
     ],
   },
