@@ -458,8 +458,13 @@ async function generateArticle(topic, dateStr, retryCount = 0, existingArticles 
     // SLUG行を記事本文から除去
     const articleBody = rawResponse.replace(/^SLUG:\s*[^\n]+\n?/m, '').trimStart();
 
-    // 記事の冒頭から要約を抽出（最初の200文字から探すなど、簡易的な方法）
-    const description = articleBody.substring(0, 200).replace(/\n/g, ' ').trim();
+    // 記事の冒頭から要約を抽出（Markdownの見出し・装飾を除去）
+    const description = articleBody
+      .replace(/#{1,6}\s+[^\n]*/g, '')   // # ## ### 見出しを削除
+      .replace(/\*{1,3}([^*]+)\*{1,3}/g, '$1') // **bold** / *italic* を除去
+      .replace(/\n+/g, ' ')               // 改行をスペースに
+      .trim()
+      .substring(0, 120);
 
     // ファイル名生成: AI提供のスラッグ → カテゴリ略称+タイムスタンプのフォールバック
     const categorySlugMap = {
