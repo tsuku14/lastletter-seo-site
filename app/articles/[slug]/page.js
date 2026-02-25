@@ -252,6 +252,13 @@ export default async function ArticlePage({ params }) {
               </Link>
             </div>
           )}
+          {/* 読了時間 (日本語: 400文字/分) */}
+          <div className="article-meta-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 8C1 4.13 4.13 1 8 1s7 3.13 7 7-3.13 7-7 7-7-3.13-7-7zm6-3.5v4l3 1.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span>約{Math.max(1, Math.ceil(article.contentHtml.replace(/<[^>]*>/g, '').length / 400))}分で読めます</span>
+          </div>
         </div>
       </div>
 
