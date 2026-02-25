@@ -7,7 +7,7 @@ Disallow: /node_modules/
 Disallow: /admin/
 
 # Sitemap location
-Sitemap: https://lastletter.jp/sitemap.xml
+Sitemap: https://lastletter-seo-site.vercel.app/sitemap.xml
 
 # Crawl-delay for respectful crawling
 Crawl-delay: 1

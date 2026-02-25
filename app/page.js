@@ -20,6 +20,28 @@ const categoryConfig = {
 // 注目カテゴリ（高単価アフィリエイト優先）
 const featuredCategories = ['介護・福祉', '葬儀・お墓', '相続税', '遺言書', '生前準備', 'エンディングノート'];
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lastletter-seo-site.vercel.app';
+
+// WebSite + SearchAction 構造化データ
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: '終活・相続情報センター',
+  url: siteUrl,
+  description: '終活・相続・エンディングノートに関する専門情報サイト',
+  publisher: {
+    '@type': 'Organization',
+    name: 'LAST LETTER',
+    url: 'https://lastletter.jp',
+    logo: { '@type': 'ImageObject', url: `${siteUrl}/logo.png` }
+  },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: { '@type': 'EntryPoint', urlTemplate: `${siteUrl}/search?q={search_term_string}` },
+    'query-input': 'required name=search_term_string'
+  }
+};
+
 export default function HomePage() {
   const articles = getAllArticles();
   const latestArticles = articles.slice(0, 9);
@@ -36,6 +58,11 @@ export default function HomePage() {
 
   return (
     <div>
+      {/* WebSite 構造化データ */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
       {/* ヒーローセクション */}
       <section className="hero">
         <div className="container">
