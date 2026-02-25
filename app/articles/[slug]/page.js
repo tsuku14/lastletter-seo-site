@@ -22,22 +22,27 @@ async function processArticleData(slug) {
   const processedContent = await remark().use(html).process(article.content);
   const contentHtml = processedContent.toString();
 
-  // 目次生成
+  // 目次生成（日本語見出しに対応: 連番IDを使用）
   const headings = [];
   const headingRegex = /<h([2-3])>(.*?)<\/h[2-3]>/g;
   let match;
+  let headingIndex = 0;
   while ((match = headingRegex.exec(contentHtml)) !== null) {
     const level = parseInt(match[1]);
-    const text = match[2];
-    const id = text.replace(/[^\w\s]/gi, '').replace(/\s+/g, '-').toLowerCase();
-    headings.push({ level, text, id });
+    const text = match[2].replace(/<[^>]*>/g, ''); // HTMLタグを除去
+    // 日本語対応: 英数字があればそれを使い、なければ連番IDにフォールバック
+    const rawId = text.replace(/[^\w\s]/gi, '').replace(/\s+/g, '-').toLowerCase().replace(/^-+|-+$/g, '');
+    const id = rawId.length >= 2 ? rawId : `section-${++headingIndex}`;
+    headings.push({ level, text, id, originalText: match[2] });
   }
 
   // contentHtmlにIDを追加
   let updatedContent = contentHtml;
   headings.forEach(heading => {
-    const regex = new RegExp(`<h${heading.level}>${heading.text}</h${heading.level}>`, 'g');
-    updatedContent = updatedContent.replace(regex, `<h${heading.level} id="${heading.id}">${heading.text}</h${heading.level}>`);
+    // originalTextでマッチ（HTMLタグを含む可能性があるため）
+    const escaped = heading.originalText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`<h${heading.level}>${escaped}</h${heading.level}>`, 'g');
+    updatedContent = updatedContent.replace(regex, `<h${heading.level} id="${heading.id}">${heading.originalText}</h${heading.level}>`);
   });
 
   return {

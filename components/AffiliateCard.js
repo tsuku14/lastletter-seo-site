@@ -122,19 +122,26 @@ const affiliateData = {
     ],
   },
   '介護・福祉': {
-    title: '老人ホーム・介護施設の選び方',
-    description: '費用や立地、ケアの質など、施設選びは専門家のサポートを受けると安心です。',
+    title: '老人ホーム・介護施設の無料相談サービス',
+    description: '「親の介護どうすればいい？」施設の種類・費用・入居条件を無料で専門家に相談できます。早めの情報収集が、後悔しない施設選びの鍵です。',
     items: [
       {
-        name: 'みんなの介護 無料相談',
-        description: '老人ホーム・介護施設を無料で紹介・見学手配（A8.net提携申請中）',
-        url: 'https://www.minkaigo.jp/',  // TODO: 審査承認後、A8.netアフィリエイトURLに更新（資料請求2,300円、確定率83%）
-        badge: '無料紹介',
+        name: 'シニアのあんしん相談室 【入居相談無料】',
+        description: '全国3,500施設以上から最適な老人ホームを無料でご提案。見学から入居まで一貫サポート',
+        url: 'https://www.senshincare.jp/',  // TODO: アフィリエイト承認後URLに更新（成約15,000〜30,000円）
+        badge: '🔥 専門家無料相談',
+        color: '#dc2626',
+      },
+      {
+        name: 'みんなの介護 施設検索・無料相談',
+        description: '介護施設の口コミ・料金・空き状況を比較。全国対応・24時間受付（A8.net提携申請中）',
+        url: 'https://www.minkaigo.jp/',  // TODO: 審査承認後、A8.netアフィリエイトURLに更新（資料請求2,300円）
+        badge: '無料施設紹介',
         color: '#c81e1e',
       },
       {
         name: '介護・老人ホーム 選び方ガイド（Amazon）',
-        description: '介護施設の種類・費用・選び方を解説',
+        description: '介護施設の種類・費用・選び方を徹底解説',
         url: amazonA8Link('老人ホーム 選び方 本'),
         badge: 'Amazon',
         color: '#FF9900',

@@ -166,7 +166,7 @@ export default function HomePage() {
             <p>現在、記事を準備中です。</p>
           )}
           <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-            <Link href="/category/souzoku-tetsuzuki" style={{
+            <Link href="/articles" style={{
               display: 'inline-block',
               background: '#1e3a5f',
               color: '#fff',
@@ -176,7 +176,7 @@ export default function HomePage() {
               fontWeight: '600',
               fontSize: '0.95rem',
             }}>
-              すべての記事を見る →
+              すべての記事を見る（{totalArticles}件） →
             </Link>
           </div>
         </section>

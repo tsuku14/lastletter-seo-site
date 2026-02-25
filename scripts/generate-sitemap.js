@@ -28,6 +28,35 @@ function getCategorySlug(categoryName) {
   return categorySlugMap[categoryName] || categoryName.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
 }
 
+// lib/articles.js と同期: タグからカテゴリを推測（mdxファイル用）
+const tagToCategoryMap = {
+  '介護': '介護・福祉', '介護保険': '介護・福祉', '介護費用': '介護・福祉',
+  '介護施設': '介護・福祉', '老人ホーム': '介護・福祉', '高齢者施設': '介護・福祉',
+  '高齢者': '介護・福祉', '認知症': '介護・福祉',
+  '相続': '相続手続き', '遺産分割': '相続手続き', '遺産分割協議': '相続手続き',
+  '遺産分割協議書': '相続手続き', '遺留分': '相続手続き', '相続放棄': '相続手続き',
+  '相続税': '相続税', '税理士': '相続税', '申告': '相続税', '節税': '相続税',
+  '遺言書': '遺言書', '遺言': '遺言書', '公正証書': '遺言書', '任意後見': '遺言書',
+  '成年後見制度': '法的制度', '成年後見': '法的制度', '死後事務委任契約': '法的制度',
+  '家族信託': '信託制度', '信託': '信託制度',
+  '葬儀': '葬儀・お墓', 'お墓': '葬儀・お墓', '永代供養': '葬儀・お墓', '供養': '葬儀・お墓',
+  '香典返し': '葬儀・お墓', '遺品整理': '葬儀・お墓',
+  'エンディングノート': 'エンディングノート',
+  'デジタル終活': 'デジタル終活', 'デジタル遺品': 'デジタル終活',
+  '保険': '保険・税務', '生命保険': '保険・税務', '死亡保険金': '保険・税務',
+  '年金': '保険・税務', '税金': '保険・税務', '医療費控除': '保険・税務',
+  '生前整理': '生前準備', '終活': '生前準備', '老後': '生前準備',
+  '訃報': '訃報・連絡', 'マナー': '訃報・連絡',
+};
+
+function inferCategoryFromTags(tags) {
+  if (!Array.isArray(tags)) return null;
+  for (const tag of tags) {
+    if (tagToCategoryMap[tag]) return tagToCategoryMap[tag];
+  }
+  return 'その他';
+}
+
 function generateSitemap() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lastletter-seo-site.vercel.app';
   let articlesData = [];
@@ -39,10 +68,15 @@ function generateSitemap() {
       const files = fs.readdirSync(articlesDir).filter(file => file.endsWith('.md') || file.endsWith('.mdx'));
 
       articlesData = files.map(file => {
-        const content = fs.readFileSync(path.join(articlesDir, file), 'utf-8');
+        const content = fs.readFileSync(path.join(articlesDir, file), 'utf-8').trimStart(); // trimStart: 先頭改行でfrontmatter解析失敗を防ぐ
         const slug = file.replace(/\.(md|mdx)$/, '');
         const { data } = matter(content);
-        
+
+        // categoryがない場合はtagsから推測
+        if (!data.category && data.tags) {
+          data.category = inferCategoryFromTags(data.tags);
+        }
+
         return {
           slug,
           frontmatter: data

@@ -131,9 +131,38 @@
 - descriptionが空の記事の本文から説明文を自動生成するユーティリティ
 - `matter.stringify(content, data)` で既存ファイルにfrontmatterを追加する方法
 
+### バグ修正パターン（セッション4）
+
+#### lib/articles.js: tagToCategoryMap が不完全で多くの mdx 記事が「その他」に分類
+- **問題**: mdx ファイルは tags を持ち category はない。tagToCategoryMap が14タグしかなく、「高齢者施設」「老人ホーム」「認知症」「終活」「供養」などが未マッピング → 多数の記事が「その他」カテゴリに
+- **修正**: tagToCategoryMap を14→60+タグに大幅拡張（介護・福祉カテゴリの関連タグを重点追加）
+- **教訓**: tagToCategoryMap は生成される記事のタグパターンに合わせて継続的に更新が必要
+
+#### app/articles/[slug]/page.js: 日本語見出しの TOC ID が空文字になる
+- **問題**: `text.replace(/[^\w\s]/gi, '')` → 日本語文字を全削除 → id が空文字 → `<h2 id="">` → TOCリンクが機能しない
+- **修正**: `const rawId = ...; const id = rawId.length >= 2 ? rawId : \`section-\${++headingIndex}\`` でフォールバック連番IDを使用
+- **教訓**: 日本語コンテンツではIDは `section-1`, `section-2`... の連番にフォールバックするのが確実
+
+#### app/page.js: 「すべての記事を見る」ボタンが誤ったURLを指定
+- **問題**: `href="/category/souzoku-tetsuzuki"` → 相続手続きカテゴリに飛ぶ（全記事一覧ではない）
+- **修正**: `href="/articles"` → 全記事一覧ページへ + 記事数を表示
+
+#### scripts/generate-sitemap.js: mdx 記事のカテゴリが推測されずサイトマップに欠落
+- **問題**: generate-sitemap.js は `frontmatter.category` のみ参照 → tags しか持たない mdx 記事のカテゴリが null → `care-welfare`, `obituary-notice` などがサイトマップに未記載
+- **修正**: lib/articles.js と同じ `inferCategoryFromTags()` 関数を generate-sitemap.js に追加 + `trimStart()` も追加
+- **教訓**: lib/articles.js と generate-sitemap.js は同じロジックを持つ必要がある（DRY原則違反だが、generate-sitemap.js はCommonJSのため共有困難）
+
+### SEO/機能改善パターン（セッション4）
+
+#### 介護・福祉カテゴリの AffiliateCard CTA 強化
+- 「シニアのあんしん相談室」を最上位アイテムとして追加（成約15,000〜30,000円）
+- description に「早めの情報収集が後悔しない施設選びの鍵」という urgency copy を追加
+- アイテム数を2→3に増加（シニアのあんしん相談室 + みんなの介護 + Amazon）
+
 ### ユーザー設定が必要なもの（自走できない）
 - `NEXT_PUBLIC_ADSENSE_ID`: AdSense 承認後に Vercel に設定
 - `BREVO_API_KEY` + `BREVO_LIST_ID`: Brevo アカウント作成後に設定
 - カスタムドメイン: Vercel Dashboard から設定
 - A8.net 審査中プログラムの承認確認と URL 更新
 - OpenAI API quota 確認: https://platform.openai.com/account/usage（quota超過時はバッチ生成不可）
+- シニアのあんしん相談室 アフィリエイト申請: AffiliateCard.js の `senshincare.jp` URLを承認後に更新
