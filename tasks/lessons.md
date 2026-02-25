@@ -88,6 +88,49 @@
 - Brevo API（`/api/subscribe`）でコンタクト追加
 - BREVO_API_KEY 未設定時はデモモードで成功レスポンス返す
 
+### バグ修正パターン（セッション3）
+
+#### lib/articles.js: .mdxファイル先頭改行でfrontmatter解析失敗
+- **問題**: 50件の `.mdx` ファイルが先頭に `\n` があり `gray-matter` が frontmatter を解析できない → title/date/category/description が全て `{}`
+- **修正**: `fs.readFileSync(filePath, 'utf8').trimStart()` を追加（getArticleData + getAllArticles の2箇所）
+- **教訓**: `gray-matter` は frontmatter が **ファイルの先頭** から始まる `---` でないと認識しない。ファイル読み込み時に必ず `trimStart()` を通す
+- **影響**: 修正前は50記事がタイトル・カテゴリなしで表示（SEO上最悪）、修正後に149ページ生成
+
+#### generate-sitemap.js: カテゴリURLの日本語エンコード
+- **問題**: `encodeURIComponent(category)` → `/category/%E7%9B%B8%E7%B6%9A%E7%A8%8E` （実際のページURLと不一致）
+- **修正**: `getCategorySlug()` 関数を組み込み → `/category/inheritance-tax`
+- **教訓**: サイトマップのURL は実際に存在するページのURLと完全一致する必要がある
+
+#### layout.js: 全ページのcanonical URLをrootに固定
+- **問題**: `<link rel="canonical" href={siteUrl} />` が全ページの `<head>` に出力 → 全記事ページのcanonical がトップページを指す（重大SEOバグ）
+- **修正**: layout.js から手動の `<link>` タグを削除し、各ページで `alternates: { canonical: '/path' }` を追加
+- **教訓**: Next.js App Router では canonical は metadata の `alternates.canonical` で設定する。layout の `<head>` にハードコードしない
+
+#### /search ページ: useSearchParams() の prerender エラー
+- **問題**: `useSearchParams()` を使うページを Next.js がプリレンダリングしようとして失敗
+- **修正**: page.js は Server Component にして `<Suspense>` でラップ、クライアントコンポーネントを `SearchContent.js` に分離
+- **教訓**: `useSearchParams()` は必ず `<Suspense>` 内の Client Component で使う
+
+### SEO/機能改善パターン（セッション3）
+
+#### 動的OGP画像生成
+- Next.js 14 の `next/og` (`@vercel/og`) で `/api/og` エンドポイントを作成
+- `?title=...&category=...` クエリパラメータで動的な画像を生成
+- 全記事ページのOGP/Twitter card/JSON-LD imageを動的URLに切り替え
+
+#### 全ページにalternates.canonical追加
+- 全ての静的ページ（about/faq/glossary/download/search/articles/terms/privacy-policy/disclaimer）
+- 記事ページ: `/articles/[slug]`、カテゴリページ: `/category/[categoryName]`
+- Next.js の `metadataBase` と組み合わせることで絶対URLが自動生成される
+
+#### 用語集JSON-LD強化
+- `DefinedTermSet.hasDefinedTerm` に全100語を追加
+- GoogleはDefinedTermのrich snippet対応を強化中
+
+#### scripts/fix-descriptions.js
+- descriptionが空の記事の本文から説明文を自動生成するユーティリティ
+- `matter.stringify(content, data)` で既存ファイルにfrontmatterを追加する方法
+
 ### ユーザー設定が必要なもの（自走できない）
 - `NEXT_PUBLIC_ADSENSE_ID`: AdSense 承認後に Vercel に設定
 - `BREVO_API_KEY` + `BREVO_LIST_ID`: Brevo アカウント作成後に設定
