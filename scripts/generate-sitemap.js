@@ -60,12 +60,32 @@ function generateSitemap() {
   </url>`);
     });
 
+    // 静的ページのURL追加
+    const staticPages = [
+      { path: '/about',           priority: '0.6', changefreq: 'monthly' },
+      { path: '/faq',             priority: '0.7', changefreq: 'monthly' },
+      { path: '/glossary',        priority: '0.7', changefreq: 'monthly' },
+      { path: '/download',        priority: '0.8', changefreq: 'monthly' },
+      { path: '/privacy-policy',  priority: '0.4', changefreq: 'yearly'  },
+      { path: '/terms',           priority: '0.4', changefreq: 'yearly'  },
+      { path: '/disclaimer',      priority: '0.4', changefreq: 'yearly'  },
+    ];
+    staticPages.forEach(page => {
+      urls.push(`
+  <url>
+    <loc>${siteUrl}${page.path}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>${page.changefreq}</changefreq>
+    <priority>${page.priority}</priority>
+  </url>`);
+    });
+
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>${siteUrl}</loc>
     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   ${urls.join('')}
