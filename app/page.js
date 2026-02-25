@@ -84,19 +84,27 @@ export default function HomePage() {
           </div>
           {/* ヒーローCTA */}
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginTop: '2rem' }}>
+            <Link href="/kaigo-shisetsu" style={{
+              display: 'inline-block', padding: '0.875rem 2rem',
+              background: '#ef4444', color: '#fff',
+              borderRadius: '8px', textDecoration: 'none', fontWeight: '800', fontSize: '1rem',
+            }}>
+              🏥 介護施設を無料相談
+            </Link>
+            <Link href="/sozoku-zei" style={{
+              display: 'inline-block', padding: '0.875rem 2rem',
+              background: '#fbbf24', color: '#1a1a1a',
+              borderRadius: '8px', textDecoration: 'none', fontWeight: '800', fontSize: '1rem',
+            }}>
+              💰 相続税を無料相談
+            </Link>
             <Link href="/articles" style={{
               display: 'inline-block', padding: '0.875rem 2rem',
-              background: '#fff', color: '#1e3a5f',
-              borderRadius: '8px', textDecoration: 'none', fontWeight: '700', fontSize: '1rem',
+              background: 'rgba(255,255,255,0.15)', color: '#fff',
+              border: '1px solid rgba(255,255,255,0.5)',
+              borderRadius: '8px', textDecoration: 'none', fontWeight: '600', fontSize: '0.95rem',
             }}>
               📖 記事を読む
-            </Link>
-            <Link href="/download" style={{
-              display: 'inline-block', padding: '0.875rem 2rem',
-              background: 'linear-gradient(135deg, #f59e0b, #d97706)', color: '#1a1a1a',
-              borderRadius: '8px', textDecoration: 'none', fontWeight: '700', fontSize: '1rem',
-            }}>
-              📋 無料チェックリストをもらう
             </Link>
           </div>
         </div>

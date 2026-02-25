@@ -123,15 +123,17 @@ function generateSitemap() {
 
     // 静的ページのURL追加
     const staticPages = [
-      { path: '/articles',        priority: '0.9', changefreq: 'daily'   },
-      { path: '/search',          priority: '0.6', changefreq: 'weekly'  },
-      { path: '/about',           priority: '0.6', changefreq: 'monthly' },
-      { path: '/faq',             priority: '0.7', changefreq: 'monthly' },
-      { path: '/glossary',        priority: '0.7', changefreq: 'monthly' },
-      { path: '/download',        priority: '0.8', changefreq: 'monthly' },
-      { path: '/privacy-policy',  priority: '0.4', changefreq: 'yearly'  },
-      { path: '/terms',           priority: '0.4', changefreq: 'yearly'  },
-      { path: '/disclaimer',      priority: '0.4', changefreq: 'yearly'  },
+      { path: '/articles',         priority: '0.9', changefreq: 'daily'   },
+      { path: '/kaigo-shisetsu',   priority: '0.9', changefreq: 'weekly'  }, // 高単価アフィリエイトLP
+      { path: '/sozoku-zei',       priority: '0.9', changefreq: 'weekly'  }, // 相続税LP
+      { path: '/search',           priority: '0.6', changefreq: 'weekly'  },
+      { path: '/about',            priority: '0.6', changefreq: 'monthly' },
+      { path: '/faq',              priority: '0.7', changefreq: 'monthly' },
+      { path: '/glossary',         priority: '0.7', changefreq: 'monthly' },
+      { path: '/download',         priority: '0.8', changefreq: 'monthly' },
+      { path: '/privacy-policy',   priority: '0.4', changefreq: 'yearly'  },
+      { path: '/terms',            priority: '0.4', changefreq: 'yearly'  },
+      { path: '/disclaimer',       priority: '0.4', changefreq: 'yearly'  },
     ];
     staticPages.forEach(page => {
       urls.push(`

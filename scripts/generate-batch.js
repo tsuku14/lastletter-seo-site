@@ -520,13 +520,16 @@ description: "${description.substring(0, 120)}"
     console.error(`❌ 記事生成エラー: ${topic.title}`, error.message);
     
     // APIエラーの種類を判別
-    if (error.response?.status === 429) {
-      console.log(`⚠️  APIレート制限に達しました。待機してリトライします...`);
-      const waitTime = Math.min(30000, 5000 * (retryCount + 1));
-      await new Promise(resolve => setTimeout(resolve, waitTime));
-      
+    if (error.response?.status === 429 || (error.message && error.message.includes('quota'))) {
       if (retryCount < maxRetries) {
+        console.log(`⚠️  APIレート制限に達しました。待機してリトライします...`);
+        const waitTime = Math.min(30000, 5000 * (retryCount + 1));
+        await new Promise(resolve => setTimeout(resolve, waitTime));
         return generateArticle(topic, dateStr, retryCount + 1);
+      } else {
+        // リトライ上限後もquota超過 → exit code 2 (GitHub Actionsが60分待機して再試行)
+        console.error(`🚫 QUOTA_EXCEEDED: OpenAI APIクォータを超過しました。`);
+        process.exit(2);
       }
     } else if (error.response?.status === 401) {
       console.error(`🔐 認証エラー: OpenAI APIキーが無効または設定されていません`);

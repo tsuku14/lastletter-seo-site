@@ -10,21 +10,16 @@ export default function Header() {
             終活・相続情報センター
           </Link>
           <nav className="nav">
-            <Link href="/" className="nav-link">
-              ホーム
+            <Link href="/" className="nav-link">ホーム</Link>
+            <Link href="/articles" className="nav-link">記事一覧</Link>
+            <Link href="/kaigo-shisetsu" className="nav-link" style={{ color: '#dc2626', fontWeight: '700' }}>
+              🏥 介護施設相談
             </Link>
-            <Link href="/articles" className="nav-link">
-              記事一覧
+            <Link href="/sozoku-zei" className="nav-link" style={{ color: '#1d4ed8', fontWeight: '700' }}>
+              💰 相続税相談
             </Link>
-            <Link href="/glossary" className="nav-link">
-              用語集
-            </Link>
-            <Link href="/faq" className="nav-link">
-              よくある質問
-            </Link>
-            <Link href="/about" className="nav-link">
-              運営者情報
-            </Link>
+            <Link href="/faq" className="nav-link">FAQ</Link>
+            <Link href="/about" className="nav-link">運営情報</Link>
           </nav>
           <SearchBox />
         </div>

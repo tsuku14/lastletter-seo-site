@@ -1,17 +1,23 @@
-name: 自動記事生成（1日2回）
+name: 週末バッチ生成（土日 自動20記事）
 
 on:
   schedule:
-    - cron: '0 15 * * *'   # 日本時間 0:00（UTC 15:00）
-    - cron: '0 3 * * *'    # 日本時間 12:00（UTC 3:00）
+    - cron: '0 23 * * 5'   # 土曜 8:00 JST（UTC 金曜23:00）
+    - cron: '0 23 * * 6'   # 日曜 8:00 JST（UTC 土曜23:00）
   workflow_dispatch:
+    inputs:
+      article_count:
+        description: '生成する記事数'
+        required: false
+        default: '20'
+        type: string
 
 jobs:
-  generate:
+  weekly-batch:
     runs-on: ubuntu-latest
-    timeout-minutes: 120  # quota待機60分 + 生成60分
+    timeout-minutes: 150  # quota待機60分 + 生成90分
     concurrency:
-      group: article-generation
+      group: batch-generation
       cancel-in-progress: false
 
     steps:
@@ -38,26 +44,27 @@ jobs:
             exit 1
           fi
 
-      - name: 記事生成（10記事・quota対応リトライ付き）
-        id: generate
+      - name: 週末バッチ生成（quota対応リトライ付き）
+        id: batch_generate
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          set -e
+          ARTICLE_COUNT=${{ github.event.inputs.article_count || '20' }}
+          echo "📝 生成する記事数: $ARTICLE_COUNT"
 
-          node scripts/generate-batch.js 10
+          node scripts/generate-batch.js $ARTICLE_COUNT
           EXITCODE=$?
 
           if [ $EXITCODE -eq 2 ]; then
             echo "⏳ APIクォータ超過。60分待機後にリトライします..."
             sleep 3600
-            node scripts/generate-batch.js 10
+            node scripts/generate-batch.js $ARTICLE_COUNT
           elif [ $EXITCODE -ne 0 ]; then
-            echo "記事生成に失敗しました。30秒後にリトライします..."
+            echo "バッチ生成に失敗しました。30秒後にリトライします..."
             sleep 30
-            node scripts/generate-batch.js 10
+            node scripts/generate-batch.js $ARTICLE_COUNT
           fi
-        timeout-minutes: 110
+        timeout-minutes: 140
 
       - name: サイトマップ生成
         if: success()
@@ -80,7 +87,8 @@ jobs:
           git add -A
 
           if ! git diff --quiet || ! git diff --staged --quiet; then
-            git commit -m "🤖 自動生成: $(date +'%Y-%m-%d %H:%M JST' -d '+9 hours')"
+            ARTICLE_COUNT=${{ github.event.inputs.article_count || '20' }}
+            git commit -m "🚀 週末バッチ: ${ARTICLE_COUNT}記事を追加 ($(date +'%Y-%m-%d' -d '+9 hours'))"
           else
             echo "変更がないためコミットをスキップします"
           fi
@@ -96,12 +104,13 @@ jobs:
       - name: 実行サマリー
         if: always()
         run: |
-          echo "## 🤖 自動記事生成 結果" >> $GITHUB_STEP_SUMMARY
+          echo "## 🚀 週末バッチ生成 結果" >> $GITHUB_STEP_SUMMARY
           echo "- 実行日時: $(date +'%Y-%m-%d %H:%M JST' -d '+9 hours')" >> $GITHUB_STEP_SUMMARY
+          echo "- 記事数: ${{ github.event.inputs.article_count || '20' }}記事" >> $GITHUB_STEP_SUMMARY
           echo "- ステータス: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
 
       - name: ワークフロー失敗時の通知
         if: failure()
         run: |
-          echo "::error::記事生成ワークフローが失敗しました"
-          echo "失敗したステップ: ${{ steps.generate.outcome }}"
+          echo "::error::週末バッチ生成ワークフローが失敗しました"
+          echo "失敗したステップ: ${{ steps.batch_generate.outcome }}"
