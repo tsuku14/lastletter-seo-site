@@ -83,31 +83,66 @@ export default function HomePage() {
             </div>
           </div>
           {/* ヒーローCTA */}
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginTop: '2rem' }}>
+          <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap', marginTop: '2rem' }}>
             <Link href="/kaigo-shisetsu" style={{
-              display: 'inline-block', padding: '0.875rem 2rem',
+              display: 'inline-block', padding: '0.875rem 1.5rem',
               background: '#ef4444', color: '#fff',
-              borderRadius: '8px', textDecoration: 'none', fontWeight: '800', fontSize: '1rem',
+              borderRadius: '8px', textDecoration: 'none', fontWeight: '800', fontSize: '0.95rem',
             }}>
               🏥 介護施設を無料相談
             </Link>
             <Link href="/sozoku-zei" style={{
-              display: 'inline-block', padding: '0.875rem 2rem',
+              display: 'inline-block', padding: '0.875rem 1.5rem',
               background: '#fbbf24', color: '#1a1a1a',
-              borderRadius: '8px', textDecoration: 'none', fontWeight: '800', fontSize: '1rem',
+              borderRadius: '8px', textDecoration: 'none', fontWeight: '800', fontSize: '0.95rem',
             }}>
               💰 相続税を無料相談
             </Link>
-            <Link href="/articles" style={{
-              display: 'inline-block', padding: '0.875rem 2rem',
-              background: 'rgba(255,255,255,0.15)', color: '#fff',
-              border: '1px solid rgba(255,255,255,0.5)',
-              borderRadius: '8px', textDecoration: 'none', fontWeight: '600', fontSize: '0.95rem',
+            <Link href="/yuigonsho" style={{
+              display: 'inline-block', padding: '0.875rem 1.5rem',
+              background: '#065f46', color: '#fff',
+              borderRadius: '8px', textDecoration: 'none', fontWeight: '800', fontSize: '0.95rem',
             }}>
-              📖 記事を読む
+              ✍️ 遺言書を相談
+            </Link>
+            <Link href="/sogi" style={{
+              display: 'inline-block', padding: '0.875rem 1.5rem',
+              background: '#374151', color: '#fff',
+              borderRadius: '8px', textDecoration: 'none', fontWeight: '800', fontSize: '0.95rem',
+            }}>
+              ⛩️ 葬儀・お墓を相談
             </Link>
           </div>
+          <p style={{ fontSize: '0.72rem', opacity: 0.7, marginTop: '0.75rem', color: '#fff' }}>
+            ※各サービスは広告（PR）を含みます
+          </p>
         </div>
+      </section>
+
+      {/* 注目の専門家相談バナー */}
+      <section style={{ marginTop: '3rem', padding: '2rem', background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '16px' }}>
+        <h2 style={{ fontSize: '1.25rem', fontWeight: '800', color: '#1e3a5f', marginBottom: '1.5rem', textAlign: 'center' }}>
+          専門家に無料で相談できます
+        </h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '1rem' }}>
+          {[
+            { href: '/kaigo-shisetsu', label: '🏥 老人ホーム・介護施設探し', sub: '無料で施設を比較・紹介', color: '#dc2626', bg: '#fef2f2' },
+            { href: '/sozoku-zei', label: '💰 相続税の節税・申告', sub: '税理士を無料で紹介', color: '#1d4ed8', bg: '#eff6ff' },
+            { href: '/yuigonsho', label: '✍️ 遺言書の作成・保管', sub: '弁護士・司法書士に相談', color: '#065f46', bg: '#ecfdf5' },
+            { href: '/sogi', label: '⛩️ 葬儀・お墓の事前準備', sub: '費用比較・資料請求無料', color: '#374151', bg: '#f9fafb' },
+          ].map((item, i) => (
+            <Link key={i} href={item.href} style={{
+              display: 'block', background: item.bg,
+              border: `1px solid ${item.color}33`,
+              borderLeft: `4px solid ${item.color}`, borderRadius: '10px',
+              padding: '1rem', textDecoration: 'none',
+            }}>
+              <p style={{ fontWeight: '700', color: item.color, margin: '0 0 0.25rem', fontSize: '0.9rem' }}>{item.label}</p>
+              <p style={{ color: '#6b7280', margin: 0, fontSize: '0.78rem' }}>{item.sub}</p>
+            </Link>
+          ))}
+        </div>
+        <p style={{ fontSize: '0.7rem', color: '#9ca3af', textAlign: 'center', marginTop: '1rem' }}>PR・広告</p>
       </section>
 
       <div className="container">

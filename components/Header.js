@@ -18,6 +18,12 @@ export default function Header() {
             <Link href="/sozoku-zei" className="nav-link" style={{ color: '#1d4ed8', fontWeight: '700' }}>
               💰 相続税相談
             </Link>
+            <Link href="/yuigonsho" className="nav-link" style={{ color: '#065f46', fontWeight: '700' }}>
+              ✍️ 遺言書相談
+            </Link>
+            <Link href="/sogi" className="nav-link" style={{ color: '#374151', fontWeight: '700' }}>
+              ⛩️ 葬儀・お墓
+            </Link>
             <Link href="/faq" className="nav-link">FAQ</Link>
             <Link href="/about" className="nav-link">運営情報</Link>
           </nav>

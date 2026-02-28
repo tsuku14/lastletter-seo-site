@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getAllArticles, getAllCategories } from '../../../lib/articles';
 import { getCategoryName, getCategorySlug } from '../../../lib/categorySlugMap';
+import AffiliateCard from '../../../components/AffiliateCard';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lastletter-seo-site.vercel.app';
 
@@ -85,6 +86,11 @@ export default function CategoryPage({ params }) {
           このカテゴリの記事はまだありません。
         </p>
       )}
+
+      {/* カテゴリ別アフィリエイトCTA */}
+      <div style={{ marginTop: '2.5rem' }}>
+        <AffiliateCard category={categoryName} />
+      </div>
 
       {/* 他のカテゴリへのリンク */}
       <section style={{ marginTop: '5rem' }}>
