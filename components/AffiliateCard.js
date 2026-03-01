@@ -181,22 +181,29 @@ export default function AffiliateCard({ category }) {
 
   return (
     <aside style={{
-      background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)',
-      border: '1px solid #bae6fd',
-      borderRadius: '12px',
-      padding: '1.5rem',
+      background: 'linear-gradient(135deg, #1e3a5f 0%, #0f2744 100%)',
+      borderRadius: '16px',
+      padding: '1.75rem',
       margin: '2rem 0',
     }}>
-      <p style={{ fontSize: '0.7rem', color: '#6b7280', marginBottom: '0.5rem', fontWeight: '600' }}>
-        PR・広告
-      </p>
-      <h3 style={{ fontSize: '1.05rem', fontWeight: '700', color: '#1e3a5f', marginBottom: '0.5rem' }}>
-        {data.title}
-      </h3>
-      <p style={{ fontSize: '0.9rem', color: '#374151', marginBottom: '1rem', lineHeight: '1.6' }}>
+      {/* ヘッダー */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
+        <h3 style={{ fontSize: '1.1rem', fontWeight: '800', color: '#ffffff', lineHeight: '1.4', flex: 1 }}>
+          {data.title}
+        </h3>
+        <span style={{
+          fontSize: '0.65rem', color: 'rgba(255,255,255,0.5)',
+          fontWeight: '600', marginLeft: '0.75rem', whiteSpace: 'nowrap',
+          background: 'rgba(255,255,255,0.1)', padding: '2px 8px', borderRadius: '20px',
+        }}>
+          PR・広告
+        </span>
+      </div>
+      <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.8)', marginBottom: '1.25rem', lineHeight: '1.65' }}>
         {data.description}
       </p>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+      {/* CTAリスト */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
         {data.items.map((item, index) => (
           <a
             key={index}
@@ -208,35 +215,43 @@ export default function AffiliateCard({ category }) {
               alignItems: 'center',
               justifyContent: 'space-between',
               background: '#ffffff',
-              border: `1px solid ${item.color}22`,
-              borderLeft: `4px solid ${item.color}`,
-              borderRadius: '8px',
-              padding: '0.75rem 1rem',
+              borderRadius: '10px',
+              padding: '0.875rem 1.125rem',
               textDecoration: 'none',
-              transition: 'box-shadow 0.2s',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+              transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+              borderLeft: `4px solid ${item.color}`,
             }}
           >
-            <div>
-              <span style={{
-                display: 'inline-block',
-                background: item.color,
-                color: '#fff',
-                fontSize: '0.65rem',
-                fontWeight: '700',
-                padding: '2px 8px',
-                borderRadius: '4px',
-                marginBottom: '4px',
-              }}>
-                {item.badge}
-              </span>
-              <p style={{ fontSize: '0.9rem', fontWeight: '600', color: '#1a1a1a', margin: 0 }}>
-                {item.name}
-              </p>
-              <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.2rem', flexWrap: 'wrap' }}>
+                <span style={{
+                  display: 'inline-block',
+                  background: item.color,
+                  color: '#fff',
+                  fontSize: '0.68rem',
+                  fontWeight: '800',
+                  padding: '2px 9px',
+                  borderRadius: '20px',
+                  letterSpacing: '0.03em',
+                }}>
+                  {item.badge}
+                </span>
+                <p style={{ fontSize: '0.92rem', fontWeight: '700', color: '#1a1a1a', margin: 0 }}>
+                  {item.name}
+                </p>
+              </div>
+              <p style={{ fontSize: '0.78rem', color: '#6b7280', margin: 0, lineHeight: '1.5' }}>
                 {item.description}
               </p>
             </div>
-            <span style={{ color: item.color, fontSize: '1.2rem', marginLeft: '0.5rem' }}>→</span>
+            <span style={{
+              color: item.color,
+              fontSize: '1.3rem',
+              marginLeft: '0.75rem',
+              fontWeight: '700',
+              flexShrink: 0,
+            }}>›</span>
           </a>
         ))}
       </div>
