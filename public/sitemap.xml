@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://lastletter-seo-site.vercel.app</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -243,7 +243,7 @@
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/articles/2025-07-03-訃報連絡の文例</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -716,6 +716,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://lastletter-seo-site.vercel.app/articles/ohitorisama-shukatsu-guide</loc>
+    <lastmod>2026-03-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lastletter-seo-site.vercel.app/articles/oya-nakunatta-24jikan</loc>
+    <lastmod>2026-03-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://lastletter-seo-site.vercel.app/articles/pension-guide</loc>
     <lastmod>2025-07-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -784,6 +796,12 @@
   <url>
     <loc>https://lastletter-seo-site.vercel.app/articles/social-media-after-death-guide</loc>
     <lastmod>2025-07-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lastletter-seo-site.vercel.app/articles/sozoku-bengoshi-soudan-guide</loc>
+    <lastmod>2026-03-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -867,163 +885,169 @@
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/category/lifetime-preparation</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/category/inheritance-tax</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/category/inheritance-procedures</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/category/funeral-grave</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/category/ending-note</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/category/will</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/category/regional</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/category/others</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/category/insurance-tax</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/category/trust-system</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/category/legal-system</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/category/digital-ending</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/category/care-welfare</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/category/obituary-notice</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/articles</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/kaigo-shisetsu</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/sozoku-zei</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/yuigonsho</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/sogi</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://lastletter-seo-site.vercel.app/hoken</loc>
+    <lastmod>2026-03-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://lastletter-seo-site.vercel.app/search</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/about</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/faq</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/glossary</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/download</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/privacy-policy</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/terms</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://lastletter-seo-site.vercel.app/disclaimer</loc>
-    <lastmod>2026-02-28</lastmod>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
