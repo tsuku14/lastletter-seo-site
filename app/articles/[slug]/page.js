@@ -7,7 +7,7 @@ import { getCategorySlug } from '../../../lib/categorySlugMap';
 import AdSenseAd from '../../../components/AdSenseAd';
 import AffiliateCard from '../../../components/AffiliateCard';
 import ArticleCTA from '../../../components/ArticleCTA';
-import AuthorBox from '../../../components/AuthorBox';
+import AuthorBox, { supervisorPerson } from '../../../components/AuthorBox';
 import EmailCapture from '../../../components/EmailCapture';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lastletter-seo-site.vercel.app';
@@ -120,6 +120,38 @@ export default async function ArticlePage({ params }) {
     .sort((a, b) => b._score - a._score)
     .slice(0, 4);
 
+  // HowToスキーマ：手順系記事に条件付きで追加
+  const howToKeywords = ['手続き', 'ステップ', '方法', 'やり方', 'チェックリスト', '手順', 'のやり方', 'するには'];
+  const isHowTo = article.title ? howToKeywords.some(k => article.title.includes(k)) : false;
+  let howToLd = null;
+  if (isHowTo) {
+    // H3見出しをHowToの各ステップとして抽出
+    const h3Regex = /<h3[^>]*>(.*?)<\/h3>/g;
+    const steps = [];
+    let h3Match;
+    while ((h3Match = h3Regex.exec(article.contentHtml)) !== null) {
+      const stepText = h3Match[1].replace(/<[^>]*>/g, '').trim();
+      // FAQ系・Q&A形式のステップは除外
+      if (stepText && !stepText.match(/^Q\d+:/)) {
+        steps.push(stepText);
+      }
+    }
+    if (steps.length >= 3) {
+      howToLd = {
+        '@context': 'https://schema.org',
+        '@type': 'HowTo',
+        name: article.title,
+        description: article.description,
+        step: steps.map((text, i) => ({
+          '@type': 'HowToStep',
+          position: i + 1,
+          name: text,
+          text: text,
+        })),
+      };
+    }
+  }
+
   // JSON-LD構造化データ
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -127,9 +159,10 @@ export default async function ArticlePage({ params }) {
     headline: article.title,
     keywords: Array.isArray(article.keywords) ? article.keywords.join(', ') : '',
     datePublished: article.date,
-    dateModified: article.date,
+    dateModified: article.modified || article.date,
     description: article.description,
     author: [
+      supervisorPerson,
       {
         '@type': 'Organization',
         name: '終活・相続情報センター 編集部',
@@ -222,6 +255,12 @@ export default async function ArticlePage({ params }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+        />
+      )}
+      {howToLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(howToLd) }}
         />
       )}
 

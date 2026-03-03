@@ -25,6 +25,23 @@ User-agent: Slurp
 Allow: /
 Crawl-delay: 1
 
+# AI検索エンジンのクローラーを明示的に許可（GEO対策）
+# これらの設定がないとPerplexity・ChatGPT・Geminiの検索結果に出現しにくくなる
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Googlebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
 # Block bad bots that consume resources
 User-agent: AhrefsBot
 Disallow: /
