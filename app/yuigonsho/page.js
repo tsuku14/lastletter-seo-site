@@ -129,7 +129,7 @@ export default function YuigonshoPage() {
               ✍️ 【無料】弁護士に遺言書を相談 →
             </a>
             <a
-              href="https://www.amazon.co.jp/s?k=%E9%81%BA%E8%A8%80%E6%9B%B8+%E4%BD%9C%E6%88%90&tag=lastletter-22"
+              href={`https://www.amazon.co.jp/s?k=${encodeURIComponent('遺言書 作成')}&tag=dream32045hot-22`}
               target="_blank"
               rel="noopener noreferrer nofollow"
               style={{

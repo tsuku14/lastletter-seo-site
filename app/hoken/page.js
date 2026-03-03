@@ -87,8 +87,8 @@ const structuredData = {
   })),
 };
 
-// A8.net Amazon アフィリエイトリンク
-const amazonInsuranceUrl = `https://px.a8.net/svt/ejp?a8mat=1ZT775+10WXTU+249K+BWGDT&a8ejpredirect=https%3A%2F%2Fwww.amazon.co.jp%2Fs%3Fk%3D${encodeURIComponent(encodeURIComponent('生命保険 相続 節税'))}%26tag%3Da8-affi-321840-22`;
+// Amazon アソシエイト直リンク
+const amazonInsuranceUrl = `https://www.amazon.co.jp/s?k=${encodeURIComponent('生命保険 相続 節税')}&tag=dream32045hot-22`;
 
 export default function HokenPage() {
   const allArticles = getAllArticles();

@@ -1,11 +1,11 @@
 // カテゴリ別アフィリエイトCTAコンポーネント
-// Amazon A8.net アフィリエイトタグ: a8-affi-321840-22 (a8mat: 1ZT775+10WXTU+249K+BWGDT)
+// Amazon アソシエイト StoreID: dream32045hot-22
 // 審査中プログラム: みんなの介護(s00000024591001), 終活と相続のまどぐち(s00000025765001),
 //   保険見直しラボ(s00000017791001), よりそうお葬式(s00000016461001), 税理士ドットコム(s00000014783001)
 
-// A8.net Amazon アフィリエイトURL生成ヘルパー
-const amazonA8Link = (keyword) =>
-  `https://px.a8.net/svt/ejp?a8mat=1ZT775+10WXTU+249K+BWGDT&a8ejpredirect=https%3A%2F%2Fwww.amazon.co.jp%2Fs%3Fk%3D${encodeURIComponent(encodeURIComponent(keyword))}%26tag%3Da8-affi-321840-22`;
+// Amazon アソシエイト 直リンク生成ヘルパー
+const amazonLink = (keyword) =>
+  `https://www.amazon.co.jp/s?k=${encodeURIComponent(keyword)}&tag=dream32045hot-22`;
 
 const affiliateData = {
   '相続手続き': {
@@ -22,7 +22,7 @@ const affiliateData = {
       {
         name: '相続手続き おすすめ書籍（Amazon）',
         description: 'わかりやすい相続手続きの解説書を確認',
-        url: amazonA8Link('相続手続き 本'),
+        url: amazonLink('相続手続き 本'),
         badge: 'Amazon',
         color: '#FF9900',
       },
@@ -42,7 +42,7 @@ const affiliateData = {
       {
         name: '相続税 解説書籍（Amazon）',
         description: '相続税の計算・申告をわかりやすく解説',
-        url: amazonA8Link('相続税 申告 本'),
+        url: amazonLink('相続税 申告 本'),
         badge: 'Amazon',
         color: '#FF9900',
       },
@@ -62,7 +62,7 @@ const affiliateData = {
       {
         name: '遺言書 書き方ガイド（Amazon）',
         description: '自筆証書・公正証書遺言の書き方を解説',
-        url: amazonA8Link('遺言書 書き方'),
+        url: amazonLink('遺言書 書き方'),
         badge: 'Amazon',
         color: '#FF9900',
       },
@@ -82,7 +82,7 @@ const affiliateData = {
       {
         name: '葬儀・お墓 準備ガイド（Amazon）',
         description: '葬儀の流れ・費用・お墓の選び方を解説',
-        url: amazonA8Link('葬儀 準備 本'),
+        url: amazonLink('葬儀 準備 本'),
         badge: 'Amazon',
         color: '#FF9900',
       },
@@ -95,7 +95,7 @@ const affiliateData = {
       {
         name: 'エンディングノート おすすめ書籍',
         description: 'Amazonで人気のエンディングノートを確認',
-        url: 'https://px.a8.net/svt/ejp?a8mat=1ZT775+10WXTU+249K+BWGDT&a8ejpredirect=https%3A%2F%2Fwww.amazon.co.jp%2Fs%3Fk%3D%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%2587%25E3%2582%25A3%25E3%2583%25B3%25E3%2582%25B0%25E3%2583%258E%25E3%2583%25BC%25E3%2583%2588%26tag%3Da8-affi-321840-22',
+        url: `https://www.amazon.co.jp/s?k=${encodeURIComponent('エンディングノート')}&tag=dream32045hot-22`,
         badge: 'Amazon',
         color: '#FF9900',
       },
@@ -115,7 +115,7 @@ const affiliateData = {
       {
         name: '相続と生命保険 解説書籍（Amazon）',
         description: '生命保険を活用した相続対策をわかりやすく解説',
-        url: amazonA8Link('生命保険 相続 節税'),
+        url: amazonLink('生命保険 相続 節税'),
         badge: 'Amazon',
         color: '#FF9900',
       },
@@ -142,7 +142,7 @@ const affiliateData = {
       {
         name: '介護・老人ホーム 選び方ガイド（Amazon）',
         description: '介護施設の種類・費用・選び方を徹底解説',
-        url: amazonA8Link('老人ホーム 選び方 本'),
+        url: amazonLink('老人ホーム 選び方 本'),
         badge: 'Amazon',
         color: '#FF9900',
       },

@@ -135,7 +135,7 @@ export default function SogiPage() {
               ⛩️ 【無料】葬儀の資料請求・相談 →
             </a>
             <a
-              href="https://www.amazon.co.jp/s?k=%E8%91%AC%E5%84%80+%E6%89%8B%E9%85%8D%E3%82%8A&tag=lastletter-22"
+              href={`https://www.amazon.co.jp/s?k=${encodeURIComponent('葬儀 手配り')}&tag=dream32045hot-22`}
               target="_blank"
               rel="noopener noreferrer nofollow"
               style={{
