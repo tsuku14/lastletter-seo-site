@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import CtaLink from '../../components/CtaLink';
 import { getAllArticles } from '../../lib/articles';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lastletter-seo-site.vercel.app';
@@ -128,10 +129,11 @@ export default function KaigoShisetsuPage() {
           </p>
           {/* CTA ボタン群 */}
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a
+            <CtaLink
               href="https://www.senshincare.jp/"
-              target="_blank"
-              rel="noopener noreferrer nofollow"
+              serviceName="シニアのあんしん相談室"
+              lpName="kaigo-shisetsu"
+              position="cta"
               style={{
                 display: 'inline-block',
                 background: '#fbbf24',
@@ -145,11 +147,12 @@ export default function KaigoShisetsuPage() {
               }}
             >
               🏥 【無料】施設を相談して探す →
-            </a>
-            <a
+            </CtaLink>
+            <CtaLink
               href="https://www.minkaigo.jp/"
-              target="_blank"
-              rel="noopener noreferrer nofollow"
+              serviceName="みんなの介護"
+              lpName="kaigo-shisetsu"
+              position="cta"
               style={{
                 display: 'inline-block',
                 background: 'rgba(255,255,255,0.15)',
@@ -163,7 +166,7 @@ export default function KaigoShisetsuPage() {
               }}
             >
               口コミ・料金を比較する
-            </a>
+            </CtaLink>
           </div>
           <p style={{ fontSize: '0.75rem', opacity: 0.7, marginTop: '1rem' }}>
             ※相談・見学手配・紹介サービスはすべて無料です（PR・広告）
@@ -248,10 +251,11 @@ export default function KaigoShisetsuPage() {
             無料でご提案。見学の手配まで一貫してサポートします。
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a
+            <CtaLink
               href="https://www.senshincare.jp/"
-              target="_blank"
-              rel="noopener noreferrer nofollow"
+              serviceName="シニアのあんしん相談室"
+              lpName="kaigo-shisetsu"
+              position="cta"
               style={{
                 display: 'inline-block',
                 background: '#ef4444',
@@ -264,11 +268,12 @@ export default function KaigoShisetsuPage() {
               }}
             >
               🏥 シニアのあんしん相談室（無料）
-            </a>
-            <a
+            </CtaLink>
+            <CtaLink
               href="https://www.minkaigo.jp/"
-              target="_blank"
-              rel="noopener noreferrer nofollow"
+              serviceName="みんなの介護"
+              lpName="kaigo-shisetsu"
+              position="cta"
               style={{
                 display: 'inline-block',
                 background: '#fff',
@@ -281,7 +286,7 @@ export default function KaigoShisetsuPage() {
               }}
             >
               みんなの介護で比較する
-            </a>
+            </CtaLink>
           </div>
           <p style={{ fontSize: '0.72rem', opacity: 0.6, marginTop: '1rem' }}>PR・広告 | 相談・紹介・見学手配はすべて無料</p>
         </section>
@@ -393,10 +398,11 @@ export default function KaigoShisetsuPage() {
             施設選びに迷ったら、まずはプロに相談するのが近道です。<br />
             電話・オンラインで気軽にご相談いただけます。
           </p>
-          <a
+          <CtaLink
             href="https://www.senshincare.jp/"
-            target="_blank"
-            rel="noopener noreferrer nofollow"
+            serviceName="シニアのあんしん相談室"
+            lpName="kaigo-shisetsu"
+            position="cta"
             style={{
               display: 'inline-block',
               background: '#fff',
@@ -409,7 +415,7 @@ export default function KaigoShisetsuPage() {
             }}
           >
             🏥 無料で老人ホームを探す →
-          </a>
+          </CtaLink>
           <p style={{ fontSize: '0.72rem', opacity: 0.6, marginTop: '1rem' }}>PR・広告 | 相談無料・24時間受付</p>
         </section>
 

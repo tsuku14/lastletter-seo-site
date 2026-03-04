@@ -8,6 +8,11 @@ on:
         required: false
         default: '30'
         type: string
+      category:
+        description: 'カテゴリフィルター（例: 介護・福祉、相続税、デジタル終活）。空欄で全カテゴリ'
+        required: false
+        default: ''
+        type: string
 
 jobs:
   batch-generate:
@@ -48,12 +53,19 @@ jobs:
         run: |
           set -e
           ARTICLE_COUNT=${{ github.event.inputs.article_count || '30' }}
+          CATEGORY="${{ github.event.inputs.category }}"
           echo "生成する記事数: $ARTICLE_COUNT"
-          
-          node scripts/generate-batch.js $ARTICLE_COUNT || {
+          if [ -n "$CATEGORY" ]; then
+            echo "カテゴリフィルター: $CATEGORY"
+            CATEGORY_ARG="--category=$CATEGORY"
+          else
+            CATEGORY_ARG=""
+          fi
+
+          node scripts/generate-batch.js $ARTICLE_COUNT $CATEGORY_ARG || {
             echo "バッチ生成に失敗しました。リトライします..."
             sleep 30
-            node scripts/generate-batch.js $ARTICLE_COUNT
+            node scripts/generate-batch.js $ARTICLE_COUNT $CATEGORY_ARG
           }
       
       - name: サイトマップ生成
@@ -81,7 +93,9 @@ jobs:
           # 変更がある場合のみコミット
           if ! git diff --quiet || ! git diff --staged --quiet; then
             ARTICLE_COUNT=${{ github.event.inputs.article_count || '30' }}
-            git commit -m "🚀 バッチ生成: ${ARTICLE_COUNT}記事を追加"
+            CATEGORY="${{ github.event.inputs.category }}"
+            CATEGORY_LABEL="${CATEGORY:+ ($CATEGORY)}"
+            git commit -m "🚀 バッチ生成: ${ARTICLE_COUNT}記事を追加${CATEGORY_LABEL}"
           else
             echo "変更がないためコミットをスキップします"
           fi

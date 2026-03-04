@@ -1,3 +1,4 @@
+'use client';
 // カテゴリ別アフィリエイトCTAコンポーネント
 // Amazon アソシエイト StoreID: dream32045hot-22
 // 審査中プログラム: みんなの介護(s00000024591001), 終活と相続のまどぐち(s00000025765001),
@@ -161,6 +162,26 @@ const affiliateData = {
       },
     ],
   },
+  '不動産相続': {
+    title: '相続した不動産の売却・活用を専門家に相談',
+    description: '相続登記の義務化（2024年〜）で手続きが急増。売却・賃貸・そのまま維持の最適解を無料で査定・相談できます。',
+    items: [
+      {
+        name: 'イエウール 不動産一括査定（相続特化）',
+        description: '全国1,900社以上に一括査定依頼。相続不動産の最高額での売却をサポート',
+        url: 'https://ieul.jp/',  // TODO: A8.net承認後にアフィリエイトURLに更新（査定1件2,000〜5,000円）
+        badge: '無料一括査定',
+        color: '#d97706',
+      },
+      {
+        name: '相続不動産・空き家 解説書籍（Amazon）',
+        description: '相続した実家・空き家の売却・活用・相続放棄を解説',
+        url: amazonLink('相続 不動産 売却 本'),
+        badge: 'Amazon',
+        color: '#FF9900',
+      },
+    ],
+  },
   'default': {
     title: '終活・相続のご相談はお気軽に',
     description: '専門家への相談で、不安を解消しましょう。',
@@ -210,6 +231,15 @@ export default function AffiliateCard({ category }) {
             href={item.url}
             target="_blank"
             rel="noopener noreferrer nofollow"
+            onClick={() => {
+              window.gtag?.('event', 'affiliate_click', {
+                event_category: 'affiliate',
+                event_label: item.name,
+                affiliate_category: category,
+                affiliate_service: item.name,
+                value: 1,
+              });
+            }}
             style={{
               display: 'flex',
               alignItems: 'center',

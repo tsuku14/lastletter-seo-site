@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import CtaLink from '../../components/CtaLink';
 import { getAllArticles } from '../../lib/articles';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lastletter-seo-site.vercel.app';
@@ -84,10 +85,11 @@ export default function SozokuZeiPage() {
             相続税に強い税理士に無料で相談できます。
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a
+            <CtaLink
               href="https://www.zeiri4.com/"
-              target="_blank"
-              rel="noopener noreferrer nofollow"
+              serviceName="税理士ドットコム 相続税申告"
+              lpName="sozoku-zei"
+              position="cta"
               style={{
                 display: 'inline-block',
                 background: '#fbbf24',
@@ -101,7 +103,7 @@ export default function SozokuZeiPage() {
               }}
             >
               💰 【無料】相続税専門の税理士を探す →
-            </a>
+            </CtaLink>
           </div>
           <p style={{ fontSize: '0.75rem', opacity: 0.7, marginTop: '1rem' }}>
             ※税理士紹介は無料（PR・広告）
@@ -188,10 +190,11 @@ export default function SozokuZeiPage() {
             控除の活用・財産評価・申告書作成まで一括サポート。<br />
             相続税に強い税理士を無料で紹介しています。
           </p>
-          <a
+          <CtaLink
             href="https://www.zeiri4.com/"
-            target="_blank"
-            rel="noopener noreferrer nofollow"
+            serviceName="税理士ドットコム 相続税申告"
+            lpName="sozoku-zei"
+            position="cta"
             style={{
               display: 'inline-block',
               background: '#fbbf24',
@@ -204,7 +207,7 @@ export default function SozokuZeiPage() {
             }}
           >
             💰 相続税専門の税理士を無料で探す →
-          </a>
+          </CtaLink>
           <p style={{ fontSize: '0.72rem', opacity: 0.6, marginTop: '1rem' }}>PR・広告 | 無料相談・全国対応</p>
         </section>
 

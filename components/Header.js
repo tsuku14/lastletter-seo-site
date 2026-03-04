@@ -27,6 +27,9 @@ export default function Header() {
             <Link href="/hoken" className="nav-link" style={{ color: '#0e7490', fontWeight: '700' }}>
               🛡️ 保険・税務
             </Link>
+            <Link href="/fudosan-souzoku" className="nav-link" style={{ color: '#92400e', fontWeight: '700' }}>
+              🏠 不動産相続
+            </Link>
             <Link href="/faq" className="nav-link">FAQ</Link>
             <Link href="/about" className="nav-link">運営情報</Link>
           </nav>

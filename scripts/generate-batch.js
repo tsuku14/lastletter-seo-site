@@ -710,6 +710,9 @@ description: "${description.substring(0, 120)}"
 async function generateBatch() {
   const batchSize = parseInt(process.argv[2]) || 10;
   const startDate = process.argv[3] ? new Date(process.argv[3]) : new Date();
+  // カテゴリフィルター: --category=介護・福祉 形式で指定可能
+  const categoryArg = process.argv.find(a => a.startsWith('--category='));
+  const categoryFilter = categoryArg ? categoryArg.split('=').slice(1).join('=') : null;
   
   // OpenAI APIキーの確認
   if (!process.env.OPENAI_API_KEY) {
@@ -728,7 +731,9 @@ async function generateBatch() {
   console.log(`📊 生成数: ${batchSize}記事`);
   console.log(`📅 開始日: ${startDate.toISOString().split('T')[0]}`);
   console.log(`🎯 品質レベル: 専門家監修相当`);
-  console.log(`📚 利用可能トピック数: ${topics.length}件`);
+  if (categoryFilter) console.log(`🔍 カテゴリフィルター: ${categoryFilter}`);
+  const filteredTopics = categoryFilter ? topics.filter(t => t.category === categoryFilter) : topics;
+  console.log(`📚 利用可能トピック数: ${filteredTopics.length}件${categoryFilter ? ` (${categoryFilter}のみ)` : ''}`);
 
   // 既存記事のタイトルを取得して重複を防ぐ + 内部リンク用にスラッグ・カテゴリも収集
   const existingTitles = new Set();
@@ -757,7 +762,7 @@ async function generateBatch() {
   console.log(`📂 既存記事数: ${existingTitles.size}件 (内部リンク候補: ${existingArticles.length}件)`);
 
   // 未生成のトピックを優先してランダムに選択
-  const shuffled = [...topics].sort(() => Math.random() - 0.5);
+  const shuffled = [...filteredTopics].sort(() => Math.random() - 0.5);
   const ungenerated = shuffled.filter(t => {
     const titleKey = t.title.replace(/[^\w\s]/gi, '').replace(/\s+/g, ' ').toLowerCase();
     return ![...existingTitles].some(existing => existing.includes(titleKey.substring(0, 15)));

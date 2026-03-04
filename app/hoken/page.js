@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import CtaLink from '../../components/CtaLink';
 import { getAllArticles } from '../../lib/articles';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lastletter-seo-site.vercel.app';
@@ -123,10 +124,11 @@ export default function HokenPage() {
             相続税対策・受取人設定・見直しのポイントを専門家が解説
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a
+            <CtaLink
               href="https://www.hoken-minaoshi.co.jp/"
-              target="_blank"
-              rel="noopener noreferrer nofollow"
+              serviceName="保険見直しラボ"
+              lpName="hoken"
+              position="cta"
               style={{
                 display: 'inline-block',
                 background: '#fbbf24',
@@ -140,7 +142,7 @@ export default function HokenPage() {
               }}
             >
               🛡️ 【無料】FP相談で保険を見直す →
-            </a>
+            </CtaLink>
             <a
               href={amazonInsuranceUrl}
               target="_blank"
@@ -240,10 +242,11 @@ export default function HokenPage() {
             相続税対策・受取人設定・老後の保障設計をトータルサポート。
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a
+            <CtaLink
               href="https://www.hoken-minaoshi.co.jp/"
-              target="_blank"
-              rel="noopener noreferrer nofollow"
+              serviceName="保険見直しラボ"
+              lpName="hoken"
+              position="cta"
               style={{
                 display: 'inline-block',
                 background: '#fbbf24',
@@ -256,11 +259,12 @@ export default function HokenPage() {
               }}
             >
               🛡️ 保険見直しラボ（無料FP相談）
-            </a>
-            <a
+            </CtaLink>
+            <CtaLink
               href="https://www.bengo4.com/"
-              target="_blank"
-              rel="noopener noreferrer nofollow"
+              serviceName="弁護士ドットコム"
+              lpName="hoken"
+              position="cta"
               style={{
                 display: 'inline-block',
                 background: '#fff',
@@ -273,7 +277,7 @@ export default function HokenPage() {
               }}
             >
               相続・保険の法律相談
-            </a>
+            </CtaLink>
           </div>
           <p style={{ fontSize: '0.72rem', opacity: 0.6, marginTop: '1rem' }}>PR・広告 | 初回相談無料</p>
         </section>
@@ -413,10 +417,11 @@ export default function HokenPage() {
             健康なうちの早期加入が節税効果を最大化します。<br />
             FPへの無料相談でシミュレーションを確認しましょう。
           </p>
-          <a
+          <CtaLink
             href="https://www.hoken-minaoshi.co.jp/"
-            target="_blank"
-            rel="noopener noreferrer nofollow"
+            serviceName="保険見直しラボ"
+            lpName="hoken"
+            position="cta"
             style={{
               display: 'inline-block',
               background: '#fff',
@@ -429,7 +434,7 @@ export default function HokenPage() {
             }}
           >
             🛡️ 無料FP相談で保険を見直す →
-          </a>
+          </CtaLink>
           <p style={{ fontSize: '0.72rem', opacity: 0.6, marginTop: '1rem' }}>PR・広告 | 初回相談無料</p>
         </section>
 

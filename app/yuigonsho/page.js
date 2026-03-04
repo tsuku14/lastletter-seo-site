@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import CtaLink from '../../components/CtaLink';
 import { getAllArticles } from '../../lib/articles';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lastletter-seo-site.vercel.app';
@@ -110,10 +111,11 @@ export default function YuigonshoPage() {
             弁護士・司法書士への無料相談で家族トラブルを未然に防ぐ
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a
+            <CtaLink
               href="https://www.bengo4.com/inheritance/"
-              target="_blank"
-              rel="noopener noreferrer nofollow"
+              serviceName="弁護士ドットコム 遺言書相談"
+              lpName="yuigonsho"
+              position="cta"
               style={{
                 display: 'inline-block',
                 background: '#fbbf24',
@@ -127,7 +129,7 @@ export default function YuigonshoPage() {
               }}
             >
               ✍️ 【無料】弁護士に遺言書を相談 →
-            </a>
+            </CtaLink>
             <a
               href={`https://www.amazon.co.jp/s?k=${encodeURIComponent('遺言書 作成')}&tag=dream32045hot-22`}
               target="_blank"
@@ -230,10 +232,11 @@ export default function YuigonshoPage() {
             公正証書遺言の手続きまでサポートします。
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a
+            <CtaLink
               href="https://www.bengo4.com/inheritance/"
-              target="_blank"
-              rel="noopener noreferrer nofollow"
+              serviceName="弁護士ドットコム 遺言書相談"
+              lpName="yuigonsho"
+              position="cta"
               style={{
                 display: 'inline-block',
                 background: '#fbbf24',
@@ -246,11 +249,12 @@ export default function YuigonshoPage() {
               }}
             >
               ✍️ 弁護士ドットコム（無料相談）
-            </a>
-            <a
+            </CtaLink>
+            <CtaLink
               href="https://www.zeiri4.com/"
-              target="_blank"
-              rel="noopener noreferrer nofollow"
+              serviceName="税理士ドットコム 相続相談"
+              lpName="yuigonsho"
+              position="cta"
               style={{
                 display: 'inline-block',
                 background: '#fff',
@@ -263,7 +267,7 @@ export default function YuigonshoPage() {
               }}
             >
               司法書士に相談する
-            </a>
+            </CtaLink>
           </div>
           <p style={{ fontSize: '0.72rem', opacity: 0.6, marginTop: '1rem' }}>PR・広告 | 初回相談無料</p>
         </section>
@@ -374,10 +378,11 @@ export default function YuigonshoPage() {
             相続は突然やってきます。元気なうちに準備することが<br />
             家族への最大の贈り物です。
           </p>
-          <a
+          <CtaLink
             href="https://www.bengo4.com/inheritance/"
-            target="_blank"
-            rel="noopener noreferrer nofollow"
+            serviceName="弁護士ドットコム 遺言書相談"
+            lpName="yuigonsho"
+            position="cta"
             style={{
               display: 'inline-block',
               background: '#fff',
@@ -390,7 +395,7 @@ export default function YuigonshoPage() {
             }}
           >
             ✍️ 無料で遺言書を相談する →
-          </a>
+          </CtaLink>
           <p style={{ fontSize: '0.72rem', opacity: 0.6, marginTop: '1rem' }}>PR・広告 | 初回相談無料</p>
         </section>
 

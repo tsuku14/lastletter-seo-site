@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import CtaLink from '../../components/CtaLink';
 import { getAllArticles } from '../../lib/articles';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lastletter-seo-site.vercel.app';
@@ -116,10 +117,11 @@ export default function SogiPage() {
             無料資料請求で葬儀社を比べ、納得の選択を
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a
+            <CtaLink
               href="https://www.yorisou.jp/"
-              target="_blank"
-              rel="noopener noreferrer nofollow"
+              serviceName="よりそうお葬式"
+              lpName="sogi"
+              position="cta"
               style={{
                 display: 'inline-block',
                 background: '#fbbf24',
@@ -133,7 +135,7 @@ export default function SogiPage() {
               }}
             >
               ⛩️ 【無料】葬儀の資料請求・相談 →
-            </a>
+            </CtaLink>
             <a
               href={`https://www.amazon.co.jp/s?k=${encodeURIComponent('葬儀 手配り')}&tag=dream32045hot-22`}
               target="_blank"
@@ -236,10 +238,11 @@ export default function SogiPage() {
             じっくり選んで後悔のない葬儀を準備できます。
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a
+            <CtaLink
               href="https://www.yorisou.jp/"
-              target="_blank"
-              rel="noopener noreferrer nofollow"
+              serviceName="よりそうお葬式"
+              lpName="sogi"
+              position="cta"
               style={{
                 display: 'inline-block',
                 background: '#ef4444',
@@ -252,11 +255,12 @@ export default function SogiPage() {
               }}
             >
               ⛩️ よりそうお葬式（資料請求）
-            </a>
-            <a
+            </CtaLink>
+            <CtaLink
               href="https://www.yorisou.jp/"
-              target="_blank"
-              rel="noopener noreferrer nofollow"
+              serviceName="よりそうお葬式"
+              lpName="sogi"
+              position="cta"
               style={{
                 display: 'inline-block',
                 background: '#fff',
@@ -269,7 +273,7 @@ export default function SogiPage() {
               }}
             >
               費用・プランを比較する
-            </a>
+            </CtaLink>
           </div>
           <p style={{ fontSize: '0.72rem', opacity: 0.6, marginTop: '1rem' }}>PR・広告 | 資料請求・相談は無料</p>
         </section>
@@ -382,10 +386,11 @@ export default function SogiPage() {
             急いでいないからこそ、納得のいく葬儀社選びができます。<br />
             無料の資料請求・相談でまずは情報収集から。
           </p>
-          <a
+          <CtaLink
             href="https://www.yorisou.jp/"
-            target="_blank"
-            rel="noopener noreferrer nofollow"
+            serviceName="よりそうお葬式"
+            lpName="sogi"
+            position="cta"
             style={{
               display: 'inline-block',
               background: '#fff',
@@ -398,7 +403,7 @@ export default function SogiPage() {
             }}
           >
             ⛩️ 無料で葬儀を相談・比較する →
-          </a>
+          </CtaLink>
           <p style={{ fontSize: '0.72rem', opacity: 0.6, marginTop: '1rem' }}>PR・広告 | 資料請求・相談無料</p>
         </section>
 
