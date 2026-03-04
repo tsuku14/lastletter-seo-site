@@ -182,6 +182,66 @@ const affiliateData = {
       },
     ],
   },
+  '信託制度': {
+    title: '家族信託・成年後見は今すぐ準備を',
+    description: '認知症になると銀行口座が凍結されます。家族信託の専門家（司法書士・弁護士）に相談して、財産管理の準備を早めに整えましょう。',
+    items: [
+      {
+        name: '弁護士ドットコム 家族信託・後見相談',
+        description: '家族信託・任意後見の法律相談を無料で。実績ある専門家を検索',
+        url: 'https://www.bengo4.com/',
+        badge: '無料法律相談',
+        color: '#1a56db',
+      },
+      {
+        name: '家族信託・民事信託 解説書籍（Amazon）',
+        description: '家族信託の仕組み・手続き・費用をわかりやすく解説',
+        url: amazonLink('家族信託 手続き 本'),
+        badge: 'Amazon',
+        color: '#FF9900',
+      },
+    ],
+  },
+  '家族信託': {
+    title: '家族信託・成年後見は今すぐ準備を',
+    description: '認知症になると銀行口座が凍結されます。家族信託の専門家（司法書士・弁護士）に相談して、財産管理の準備を早めに整えましょう。',
+    items: [
+      {
+        name: '弁護士ドットコム 家族信託・後見相談',
+        description: '家族信託・任意後見の法律相談を無料で。実績ある専門家を検索',
+        url: 'https://www.bengo4.com/',
+        badge: '無料法律相談',
+        color: '#1a56db',
+      },
+      {
+        name: '家族信託・民事信託 解説書籍（Amazon）',
+        description: '家族信託の仕組み・手続き・費用をわかりやすく解説',
+        url: amazonLink('家族信託 手続き 本'),
+        badge: 'Amazon',
+        color: '#FF9900',
+      },
+    ],
+  },
+  '法的制度': {
+    title: '任意後見・死後事務委任は専門家へ',
+    description: '成年後見制度・任意後見・死後事務委任契約は、認知症や死亡後の備え。弁護士・司法書士への早めの相談で安心を手に入れましょう。',
+    items: [
+      {
+        name: '弁護士ドットコム 後見・法的手続き相談',
+        description: '任意後見・成年後見・死後事務委任の法律相談を無料で',
+        url: 'https://www.bengo4.com/',
+        badge: '無料相談',
+        color: '#1a56db',
+      },
+      {
+        name: '成年後見・任意後見 解説書籍（Amazon）',
+        description: '後見制度の種類・手続き・費用を専門家が解説',
+        url: amazonLink('成年後見 任意後見 本'),
+        badge: 'Amazon',
+        color: '#FF9900',
+      },
+    ],
+  },
   'default': {
     title: '終活・相続のご相談はお気軽に',
     description: '専門家への相談で、不安を解消しましょう。',

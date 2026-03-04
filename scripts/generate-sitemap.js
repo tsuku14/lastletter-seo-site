@@ -130,6 +130,7 @@ function generateSitemap() {
       { path: '/sogi',             priority: '0.9', changefreq: 'weekly'  }, // 葬儀・お墓LP
       { path: '/hoken',            priority: '0.8', changefreq: 'weekly'  }, // 保険・税務LP
       { path: '/fudosan-souzoku', priority: '0.9', changefreq: 'weekly'  }, // 不動産相続LP
+      { path: '/kazoku-shintaku', priority: '0.9', changefreq: 'weekly'  }, // 家族信託LP
       { path: '/search',           priority: '0.6', changefreq: 'weekly'  },
       { path: '/about',            priority: '0.6', changefreq: 'monthly' },
       { path: '/faq',              priority: '0.7', changefreq: 'monthly' },

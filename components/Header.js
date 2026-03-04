@@ -30,6 +30,9 @@ export default function Header() {
             <Link href="/fudosan-souzoku" className="nav-link" style={{ color: '#92400e', fontWeight: '700' }}>
               🏠 不動産相続
             </Link>
+            <Link href="/kazoku-shintaku" className="nav-link" style={{ color: '#1e3a5f', fontWeight: '700' }}>
+              🏦 家族信託
+            </Link>
             <Link href="/faq" className="nav-link">FAQ</Link>
             <Link href="/about" className="nav-link">運営情報</Link>
           </nav>
