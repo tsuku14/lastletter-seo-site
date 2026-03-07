@@ -146,8 +146,8 @@ export default async function FudosanSouzokuPage() {
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <CtaLink
-              href="https://ieul.jp/"
-              serviceName="イエウール 不動産一括査定"
+              href="https://px.a8.net/svt/ejp?a8mat=4AZ8K7+CVSS42+5Q8Q+5YZ75"
+              serviceName="不動産SHOPナカジツ 無料査定"
               lpName="fudosan-souzoku"
               position="hero"
               style={{
@@ -276,8 +276,8 @@ export default async function FudosanSouzokuPage() {
           </h3>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <CtaLink
-              href="https://ieul.jp/"
-              serviceName="イエウール 不動産一括査定"
+              href="https://px.a8.net/svt/ejp?a8mat=4AZ8K7+CVSS42+5Q8Q+5YZ75"
+              serviceName="不動産SHOPナカジツ 無料査定"
               lpName="fudosan-souzoku"
               position="middle"
               style={{
@@ -410,8 +410,8 @@ export default async function FudosanSouzokuPage() {
             1分で完了。全国1,900社以上から査定結果を比較。
           </p>
           <CtaLink
-            href="https://ieul.jp/"
-            serviceName="イエウール 不動産一括査定"
+            href="https://px.a8.net/svt/ejp?a8mat=4AZ8K7+CVSS42+5Q8Q+5YZ75"
+            serviceName="不動産SHOPナカジツ 無料査定"
             lpName="fudosan-souzoku"
             position="bottom"
             style={{
